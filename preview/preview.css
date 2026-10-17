@@ -1,0 +1,116 @@
+* {
+  box-sizing: border-box;
+}
+body {
+  margin: 0;
+  background: #1e1f22;
+  font-family: "Segoe UI", sans-serif;
+}
+.preview-shell {
+  --background-primary: #313338;
+  --background-secondary: #2b2d31;
+  --background-tertiary: #1e1f22;
+  --text-normal: #f2f3f5;
+  --text-muted: #b5bac1;
+  --brand-500: #5865f2;
+  --background-modifier-accent: rgba(255, 255, 255, 0.13);
+  --font-primary: "Segoe UI", sans-serif;
+  --scrollbar-auto-thumb: #1a1b1e;
+  --scrollbar-auto-track: #2b2d31;
+  --text-danger: #f58a8c;
+  min-height: 100vh;
+  background: var(--background-primary);
+  color: var(--text-normal);
+  color-scheme: dark;
+}
+.preview-shell.light {
+  --background-primary: #ffffff;
+  --background-secondary: #f2f3f5;
+  --background-tertiary: #e3e5e8;
+  --text-normal: #2e3338;
+  --text-muted: #4e5058;
+  --background-modifier-accent: rgba(0, 0, 0, 0.2);
+  --scrollbar-auto-thumb: #a6a7ab;
+  --scrollbar-auto-track: #f2f3f5;
+  --text-danger: #b4232c;
+  color-scheme: light;
+}
+.preview-tools {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px 20px;
+  align-items: center;
+  padding: 16px 28px;
+  background: var(--background-tertiary);
+  font-size: 13px;
+}
+.preview-tools span {
+  color: var(--text-muted);
+}
+.preview-tools label {
+  cursor: pointer;
+}
+.preview-tools button {
+  font: inherit;
+  cursor: pointer;
+  padding: 5px 10px;
+  background: var(--background-secondary);
+  border: 1px solid var(--background-modifier-accent);
+  border-radius: 5px;
+  color: inherit;
+}
+.preview-shell main {
+  max-width: 1100px;
+  padding: 36px 28px;
+  margin: auto;
+}
+.preview-discord-modal {
+  min-height: 0;
+  height: calc(100dvh - 32px);
+  margin: 16px auto;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  border-radius: 12px;
+}
+.preview-discord-modal .preview-tools {
+  flex: none;
+}
+.preview-discord-modal .preview-scrollport {
+  overflow-y: auto;
+  min-height: 0;
+  scrollbar-gutter: stable;
+}
+.preview-discord-modal .preview-clipped-content {
+  overflow: hidden;
+  padding: 24px;
+}
+.preview-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  padding: 8px 14px;
+  font: 600 13px var(--font-primary);
+  color: #fff;
+  border: 0;
+  border-radius: 6px;
+  background: #5865f2;
+  cursor: pointer;
+}
+.preview-button-secondary {
+  background: var(--background-tertiary);
+  color: var(--text-normal);
+}
+.preview-button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+@media (max-width: 600px) {
+  .preview-shell main {
+    padding: 24px 16px;
+  }
+  .preview-tools {
+    padding: 12px 16px;
+  }
+}

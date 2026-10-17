@@ -1,0 +1,42 @@
+# Linux VM only. Never point these bind volumes at personal folders.
+# Start with: docker compose -f compose.yml -f deploy/production.yml --profile production up -d
+services:
+  db:
+    # An ext4 mount contains lost+found; initdb needs an empty subdirectory.
+    environment:
+      PGDATA: /var/lib/postgresql/data/pgdata
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -h 127.0.0.1 -U postgres -d profile"]
+    tmpfs: !override
+      - /tmp:size=64m,mode=1777
+      - /var/run/postgresql:size=8m,uid=70,gid=70,mode=3775
+    logging: !override { driver: journald, options: { tag: "profile-studio-{{.Name}}" } }
+  api:
+    logging: !override { driver: journald, options: { tag: "profile-studio-{{.Name}}" } }
+  bot:
+    logging: !override { driver: journald, options: { tag: "profile-studio-{{.Name}}" } }
+  worker:
+    logging: !override { driver: journald, options: { tag: "profile-studio-{{.Name}}" } }
+  worker-egress:
+    logging: !override { driver: journald, options: { tag: "profile-studio-{{.Name}}" } }
+  migrate:
+    logging: !override { driver: journald, options: { tag: "profile-studio-{{.Name}}" } }
+  proxy:
+    logging: !override { driver: journald, options: { tag: "profile-studio-{{.Name}}" } }
+  launch-check:
+    logging: !override { driver: journald, options: { tag: "profile-studio-{{.Name}}" } }
+volumes:
+  postgres:
+    driver_opts: { type: none, o: bind, device: /srv/profile-studio/storage/postgres }
+  media_input:
+    driver_opts: { type: none, o: bind, device: /srv/profile-studio/storage/input }
+  media_staging:
+    driver_opts: { type: none, o: bind, device: /srv/profile-studio/storage/staging }
+  media_final:
+    driver_opts: { type: none, o: bind, device: /srv/profile-studio/storage/final }
+  security_journal:
+    driver_opts: { type: none, o: bind, device: /srv/profile-studio/storage/journal }
+  caddy_data:
+    driver_opts: { type: none, o: bind, device: /srv/profile-studio/storage/caddy-data }
+  caddy_config:
+    driver_opts: { type: none, o: bind, device: /srv/profile-studio/storage/caddy-config }

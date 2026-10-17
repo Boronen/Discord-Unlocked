@@ -1,0 +1,8 @@
+[Unit]
+Description=Check Profile Studio and cloud recovery health every five minutes
+[Timer]
+OnBootSec=5min
+OnUnitActiveSec=5min
+AccuracySec=15s
+[Install]
+WantedBy=timers.target

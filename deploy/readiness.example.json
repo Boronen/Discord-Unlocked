@@ -1,0 +1,19 @@
+{
+  "operatorContact": "",
+  "verifiedAt": "",
+  "betaStage": 5,
+  "tokenRotated": false,
+  "legacyPlaintextRemoved": false,
+  "accountsMfa": false,
+  "operatorMonitoringConfigured": false,
+  "operatorContactPublished": false,
+  "offsiteBackupVerified": false,
+  "currentJournalReplicated": false,
+  "restoreDrillPassed": false,
+  "diskQuotasVerified": false,
+  "workerIsolationVerified": false,
+  "twoAccountWindowsTestPassed": false,
+  "loadTestPassed": false,
+  "freeTierOnly": false,
+  "githubProtectionsVerified": false
+}

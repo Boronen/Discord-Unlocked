@@ -1,0 +1,16 @@
+{
+  "profile": "product-admin",
+  "sourceRoots": ["packages/plugin"],
+  "locale": "en-US",
+  "canonicalMap": "UX-CONTRACT.md",
+  "requiredCapabilities": ["Select/Listbox", "Form", "Toast", "CRUD"],
+  "ownership": { "Select/Listbox": "native" },
+  "requiredCommands": ["typecheck", "test", "build", "preview"],
+  "commands": {
+    "typecheck": "npm run typecheck",
+    "test": "npm test",
+    "build": "npm run build",
+    "preview": "npm run preview:build"
+  },
+  "evidence": { "crudFullFlow": "tests/service.test.ts", "failurePaths": "tests/api-media.test.ts" }
+}

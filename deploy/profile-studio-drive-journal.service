@@ -1,0 +1,23 @@
+[Unit]
+Description=Replicate encrypted Profile Studio recovery journal to Drive
+Requires=docker.service
+Wants=network-online.target
+After=docker.service network-online.target
+
+[Service]
+Type=oneshot
+User=root
+WorkingDirectory=@APP@
+EnvironmentFile=/etc/profile-studio-backup/backup.env
+ExecStart=/usr/local/bin/node scripts/drive-backup.mjs journal
+UMask=0077
+NoNewPrivileges=true
+PrivateTmp=true
+PrivateDevices=true
+ProtectSystem=strict
+ProtectHome=read-only
+ReadWritePaths=@APP@/backups /etc/profile-studio-backup
+RestrictAddressFamilies=AF_UNIX AF_INET AF_INET6
+MemoryMax=256M
+TasksMax=48
+TimeoutStartSec=5min

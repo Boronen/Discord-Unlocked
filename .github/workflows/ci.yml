@@ -1,0 +1,30 @@
+name: Verify
+on: [push, pull_request, workflow_dispatch]
+permissions: { contents: read }
+concurrency:
+  group: verify-${{ github.ref }}
+  cancel-in-progress: true
+jobs:
+  verify:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with: { fetch-depth: 0, persist-credentials: false }
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with: { node-version: "24", cache: npm }
+      - run: npm ci --ignore-scripts
+      - run: npm run security:scan
+      - run: npm run typecheck
+      - run: npm test
+        env: { TEST_FFMPEG: /usr/bin/ffmpeg, TEST_FFPROBE: /usr/bin/ffprobe }
+      - run: npm run build && npm run preview:build
+      - run: npm audit --omit=dev --audit-level=high
+      - run: docker build --target app -t profile-studio:ci .
+      - run: node scripts/security-scan.mjs --image profile-studio:ci
+      - run: npm run release
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: reviewed-source-candidate
+          path: dist/release/*
+          retention-days: 7

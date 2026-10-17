@@ -1,0 +1,12 @@
+[Unit]
+Description=Replicate current Profile Studio erasure fences
+Requires=docker.service
+After=docker.service network-online.target
+[Service]
+Type=oneshot
+User=profile-operator
+WorkingDirectory=/srv/profile-studio/app
+EnvironmentFile=/srv/profile-studio/app/secrets/backup.env
+ExecStart=/usr/bin/node scripts/journal-backup.mjs
+UMask=0077
+TimeoutStartSec=2min

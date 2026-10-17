@@ -1,0 +1,14 @@
+REVOKE CREATE ON SCHEMA public FROM PUBLIC;
+REVOKE ALL ON ALL TABLES IN SCHEMA public FROM PUBLIC;
+REVOKE ALL ON ALL FUNCTIONS IN SCHEMA public FROM PUBLIC;
+GRANT USAGE ON SCHEMA public TO profile_api,profile_bot,profile_worker;
+GRANT SELECT,INSERT,UPDATE,DELETE ON users,media,revisions,revision_assets,catalog,pairings,sessions,audit,outbox,upload_events,admin_confirmations,worker_results,erasures TO profile_api;
+GRANT SELECT,INSERT,UPDATE,DELETE ON file_deletions TO profile_api;
+GRANT SELECT,INSERT,UPDATE,DELETE ON moderation_messages TO profile_api,profile_bot;
+GRANT SELECT,INSERT,UPDATE,DELETE ON users,media,revisions,revision_assets,catalog,pairings,audit,outbox,upload_events,admin_confirmations TO profile_bot;
+GRANT SELECT ON erasures TO profile_bot;
+GRANT SELECT,INSERT,UPDATE,DELETE ON studio_presets,studio_preset_assets,studio_library,studio_automation,studio_media_meta,studio_shares,studio_share_variants,studio_imports,media_derivations,studio_badges,studio_badge_assignments TO profile_api,profile_bot;
+REVOKE ALL ON ALL TABLES IN SCHEMA public FROM profile_worker;
+GRANT EXECUTE ON FUNCTION claim_media_job(),report_media_job(uuid,uuid,jsonb) TO profile_worker;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE EXECUTE ON FUNCTIONS FROM PUBLIC;
+ALTER DEFAULT PRIVILEGES IN SCHEMA public REVOKE ALL ON TABLES FROM PUBLIC;

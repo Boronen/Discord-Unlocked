@@ -1,0 +1,12 @@
+[Unit]
+Description=Profile Studio privacy and availability checks
+Requires=docker.service
+After=docker.service network-online.target
+[Service]
+Type=oneshot
+User=profile-operator
+WorkingDirectory=/srv/profile-studio/app
+EnvironmentFile=/srv/profile-studio/app/secrets/backup.env
+ExecStart=/usr/bin/node scripts/monitor.mjs
+UMask=0077
+TimeoutStartSec=1min

@@ -1,0 +1,9 @@
+# Repair the existing candidate image without reinstalling or recompiling it.
+ARG BASE_IMAGE
+FROM ${BASE_IMAGE}
+USER root
+RUN chmod -R u=rwX,go=rX /app
+COPY image-runtime-check.mjs /app/deploy/image-runtime-check.mjs
+RUN chmod 0444 /app/deploy/image-runtime-check.mjs
+USER node
+RUN node deploy/image-runtime-check.mjs

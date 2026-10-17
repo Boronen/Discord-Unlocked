@@ -1,0 +1,187 @@
+name: profile-studio
+x-app: &app
+  image: profile-studio:local
+  build: { context: ., target: app }
+  init: true
+  restart: unless-stopped
+  security_opt: [no-new-privileges:true]
+  cap_drop: [ALL]
+  read_only: true
+  tmpfs: ["/tmp:size=128m,mode=1777"]
+  mem_limit: 384m
+  cpus: 1.0
+  pids_limit: 64
+  logging: &logging
+    driver: json-file
+    options: { max-size: 5m, max-file: "3" }
+services:
+  db:
+    image: postgres:17-alpine
+    user: postgres
+    cap_drop: [ALL]
+    read_only: true
+    tmpfs: ["/tmp:size=64m,mode=1777", "/var/run/postgresql:size=8m,mode=1777"]
+    env_file: ./secrets/db.env
+    command:
+      [
+        postgres,
+        -c,
+        max_connections=40,
+        -c,
+        shared_buffers=64MB,
+        -c,
+        log_statement=none,
+        -c,
+        log_min_error_statement=panic,
+        -c,
+        temp_file_limit=65536,
+        -c,
+        max_wal_size=256MB,
+      ]
+    volumes: [postgres:/var/lib/postgresql/data]
+    networks: { database: { ipv4_address: 172.30.0.2 } }
+    healthcheck:
+      test: [CMD-SHELL, "pg_isready -U postgres -d profile"]
+      interval: 5s
+      timeout: 3s
+      retries: 15
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    cpus: 1.0
+    pids_limit: 128
+    logging: *logging
+    restart: unless-stopped
+  migrate:
+    <<: *app
+    env_file: ./secrets/migrate.env
+    command: [node, dist/server/migrate.js]
+    networks: { database: { ipv4_address: 172.30.0.10 } }
+    restart: "no"
+    depends_on: { db: { condition: service_healthy } }
+  api:
+    <<: *app
+    env_file: ./secrets/api.env
+    environment:
+      HOST: 0.0.0.0
+      TRUST_PROXY: 172.30.1.4
+      MEDIA_ROOT: /data/media
+      SECURITY_JOURNAL: /data/security/events.jsonl
+    command: [node, dist/server/main.js]
+    volumes:
+      - media_input:/data/media/quarantine
+      - media_staging:/data/media/staging
+      - media_final:/data/media/processed
+      - security_journal:/data/security
+    networks:
+      database: { ipv4_address: 172.30.0.3 }
+      edge: { ipv4_address: 172.30.1.2 }
+    ports: ["127.0.0.1:3100:3100"]
+    depends_on: { migrate: { condition: service_completed_successfully } }
+    healthcheck:
+      test:
+        [
+          CMD,
+          node,
+          -e,
+          "fetch('http://127.0.0.1:3100/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))",
+        ]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+  worker-egress:
+    image: profile-studio-netguard:local
+    build: { context: ., target: netguard }
+    networks: { database: { ipv4_address: 172.30.0.5 } }
+    cap_drop: [ALL]
+    cap_add: [NET_ADMIN]
+    security_opt: [no-new-privileges:true]
+    read_only: true
+    sysctls: { net.ipv6.conf.all.disable_ipv6: "1" }
+    mem_limit: 48m
+    pids_limit: 32
+    cpus: 0.25
+    logging: *logging
+    healthcheck:
+      test: [CMD, iptables, -C, OUTPUT, -p, tcp, -d, 172.30.0.2, --dport, "5432", -j, ACCEPT]
+      interval: 10s
+      timeout: 3s
+      retries: 3
+    restart: unless-stopped
+  worker:
+    <<: *app
+    env_file: ./secrets/worker.env
+    command: [node, dist/server/worker.js]
+    network_mode: service:worker-egress
+    environment:
+      MEDIA_ROOT: /data/media
+      FFMPEG_PATH: /usr/bin/ffmpeg
+      FFPROBE_PATH: /usr/bin/ffprobe
+      VIPS_DISC_THRESHOLD: 256m
+    volumes:
+      - media_input:/data/media/quarantine:ro
+      - media_staging:/data/media/staging
+    mem_limit: 768m
+    pids_limit: 64
+    depends_on:
+      migrate: { condition: service_completed_successfully }
+      worker-egress: { condition: service_healthy }
+  bot:
+    <<: *app
+    env_file: ./secrets/bot.env
+    environment: { MEDIA_ROOT: /data/media, SECURITY_JOURNAL: /data/security/events.jsonl }
+    command: [node, dist/bot/main.js]
+    volumes:
+      - media_input:/data/media/quarantine
+      - media_staging:/data/media/staging:ro
+      - media_final:/data/media/processed:ro
+      - security_journal:/data/security
+    networks:
+      database: { ipv4_address: 172.30.0.6 }
+      edge: { ipv4_address: 172.30.1.3 }
+    mem_limit: 256m
+    depends_on: { migrate: { condition: service_completed_successfully } }
+  proxy:
+    image: profile-studio-proxy:local
+    build: { context: ., target: proxy }
+    profiles: [production]
+    environment: { CADDY_DOMAIN: "${CADDY_DOMAIN:-localhost}" }
+    ports: ["80:80", "443:443"]
+    volumes:
+      - ./deploy/Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    networks: { edge: { ipv4_address: 172.30.1.4 } }
+    security_opt: [no-new-privileges:true]
+    cap_drop: [ALL]
+    cap_add: [NET_BIND_SERVICE]
+    read_only: true
+    tmpfs: ["/tmp:size=16m,mode=1777"]
+    mem_limit: 128m
+    pids_limit: 64
+    cpus: 0.5
+    logging: *logging
+    depends_on:
+      api: { condition: service_healthy }
+      launch-check: { condition: service_completed_successfully }
+    restart: unless-stopped
+  launch-check:
+    <<: *app
+    profiles: [production]
+    command: [node, deploy/launch-check.mjs]
+    network_mode: none
+    restart: "no"
+    volumes: [./secrets/readiness.json:/run/secrets/readiness.json:ro]
+networks:
+  database:
+    internal: true
+    ipam: { config: [{ subnet: 172.30.0.0/24 }] }
+  edge:
+    ipam: { config: [{ subnet: 172.30.1.0/24 }] }
+volumes:
+  postgres:
+  media_input:
+  media_staging:
+  media_final:
+  security_journal:
+  caddy_data:
+  caddy_config:

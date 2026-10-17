@@ -1,0 +1,13 @@
+{
+  admin off
+  log default {
+    output discard
+  }
+}
+{$CADDY_DOMAIN} {
+    request_body {
+        max_size 16MB
+    }
+    reverse_proxy api:3100
+    header X-Content-Type-Options nosniff
+}

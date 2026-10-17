@@ -1,0 +1,57 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Profile Studio · Native avatar fit check</title>
+    <script type="module">
+      import "../packages/plugin/styles.css";
+    </script>
+    <style>
+      body {
+        background: #313338;
+        color: #f2f3f5;
+        font:
+          14px/1.5 "Segoe UI",
+          sans-serif;
+        margin: 32px;
+      }
+      main {
+        display: flex;
+        gap: 32px;
+        align-items: center;
+      }
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        object-fit: fill;
+      }
+      figure {
+        margin: 0;
+        display: grid;
+        gap: 12px;
+      }
+    </style>
+  </head>
+  <body>
+    <h1>Native avatar fit</h1>
+    <p>Non-square sources keep circular details round inside Discord's 40px avatar area.</p>
+    <main>
+      <figure>
+        <img
+          alt="Portrait source"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='240' viewBox='0 0 120 240'%3E%3Cpath fill='%235865f2' d='M0 0h120v240H0z'/%3E%3Ccircle fill='white' cx='60' cy='120' r='40'/%3E%3C/svg%3E#ps-user=portrait"
+        />
+        <figcaption>120 × 240 source</figcaption>
+      </figure>
+      <figure>
+        <img
+          alt="Landscape source"
+          src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='240' height='120' viewBox='0 0 240 120'%3E%3Cpath fill='%233ba55d' d='M0 0h240v120H0z'/%3E%3Ccircle fill='white' cx='120' cy='60' r='40'/%3E%3C/svg%3E#ps-user=landscape"
+        />
+        <figcaption>240 × 120 source</figcaption>
+      </figure>
+    </main>
+  </body>
+</html>

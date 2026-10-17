@@ -1,0 +1,8 @@
+[Unit]
+Description=Daily encrypted Profile Studio backup
+[Timer]
+OnCalendar=*-*-* 03:00:00
+Persistent=true
+RandomizedDelaySec=10min
+[Install]
+WantedBy=timers.target
