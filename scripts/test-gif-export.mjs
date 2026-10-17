@@ -7,6 +7,10 @@ import sharp from "sharp";
 
 const executable = process.argv[2];
 if (!executable) throw new Error("Pass an explicit Electron executable path.");
+const assessmentIndex = process.argv.indexOf("--assessment-run");
+const assessmentRun = assessmentIndex < 0 ? null : process.argv[assessmentIndex + 1];
+if (assessmentIndex >= 0 && !/^[1-9]$/.test(assessmentRun ?? ""))
+  throw new Error("Assessment run must be 1–9.");
 const directory = resolve("diagnostics/gif-export-smoke");
 await mkdir(directory, { recursive: true });
 const browser = await build({
@@ -33,6 +37,10 @@ const directory = ${JSON.stringify(directory)};
 const script = ${JSON.stringify(browser.outputFiles[0].text)};
 app.setPath('userData', path.join(directory,'user-data'));
 app.on('window-all-closed', () => {});
+const assessmentRun=${JSON.stringify(assessmentRun)};
+const measurementStart=performance.now(),cpuStart=process.cpuUsage();
+let peakWorkingSetKb=0;
+const measurementTimer=assessmentRun?setInterval(()=>{peakWorkingSetKb=Math.max(peakWorkingSetKb,app.getAppMetrics().reduce((sum,m)=>sum+m.memory.workingSetSize,0));},100):null;
 const deadline=setTimeout(() => {console.error('GIF smoke timed out');app.exit(1);},90000);
 app.whenReady().then(async () => {
   const make = (color) => { const data=new Uint8Array(100*100*4);for(let i=0;i<data.length;i+=4)data.set(color,i);return data; };
@@ -88,7 +96,16 @@ app.whenReady().then(async () => {
   assert.equal(await beginProfileGif(event,450,300),null);
   fixture.destroy();
   console.log('PASS: active rendering cancellation cleans up without overwriting a file; native save-dialog cancellation.');
-}).then(()=>{clearTimeout(deadline);app.exit(0)},error=>{clearTimeout(deadline);console.error(error);app.exit(1)});
+}).then(async()=>{
+  clearTimeout(deadline);
+  if(measurementTimer){
+    clearInterval(measurementTimer);
+    const cpu=process.cpuUsage(cpuStart);
+    await fs.mkdir(path.resolve('diagnostics/refactor-stage0'),{recursive:true});
+    await fs.writeFile(path.resolve('diagnostics/refactor-stage0/export-'+assessmentRun+'.json'),JSON.stringify({at:new Date().toISOString(),kind:'Entire isolated native GIF correctness suite: normal and tall cards, cancellation; includes initialization',wallMs:performance.now()-measurementStart,mainProcessCpuMs:(cpu.user+cpu.system)/1000,peakSumWorkingSetKb:peakWorkingSetKb,artifacts:await Promise.all(['animated-card.gif','tall-card.gif'].map(async name=>({name,bytes:(await fs.stat(path.join(directory,name))).size})))},null,2)+'\\n');
+  }
+  app.exit(0)
+},error=>{clearTimeout(deadline);if(measurementTimer)clearInterval(measurementTimer);console.error(error);app.exit(1)});
 `,
   },
   bundle: true,
