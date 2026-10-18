@@ -4,7 +4,7 @@ Prepared on 18 October 2026. **Draft: not approved for deployment.** This supple
 
 ## Confirmed deployment facts
 
-The operator supplied the public identity **Boronen games**, country **Hungary**, and contact **alisioboronen@gmail.com**. The operator confirmed they act as a private individual, the host is physically in Hungary, and only they administer the Windows computer and isolated Linux VM. The VM is exposed through Tailscale Funnel. Encrypted backups are copied to private Google Drive. The beta admission policy is 18+; the operator controls invitations and beta-role assignment. The software does not automatically verify age or collect birth dates for this policy. These are operator statements; external provider locations and contractual terms have not been verified for the actual accounts.
+The operator explicitly supplied **Kovács Kevin** as their name for publication as controller/operator, country **Hungary**, and contact **alisioboronen@gmail.com**. **Boronen games** is the project name. The operator confirmed they act as a private individual, the host is physically in Hungary, and only they administer the Windows computer and isolated Linux VM. The VM is exposed through Tailscale Funnel. Encrypted backups are copied to private Google Drive. The beta admission policy is 18+; the operator controls invitations and beta-role assignment. The software does not automatically verify age or collect birth dates for this policy. These are operator statements; external provider locations and contractual terms have not been verified for the actual accounts.
 
 The application stores Discord account identifiers, sessions, chosen profile content, normalized uploads, presets, private collections, moderation records and the other data listed in the canonical notice. Approved content is visible to paired beta members. Moderators and the operator have the access described there. Current listening activity is read locally; no listening history is stored by the Profile Studio API. Retention, encrypted backup expiry and deletion behavior remain exactly as documented in the canonical notice, rather than a second schedule here.
 
@@ -39,7 +39,7 @@ Operational review: confirm the mailbox is monitored, assign a responsible perso
 
 ## Decisions required before approval
 
-1. Confirm that the public operator identity identifies the responsible natural/legal controller and complete any required controller contact details.
+1. Controller name and contact are supplied for publication: Kovács Kevin, Hungary, alisioboronen@gmail.com. Review whether any further controller contact details are required for the actual deployment; none have been invented or inferred.
 2. Approve a basis for each purpose, with the necessary terms, consent workflow or balancing record. The operator selected an adults-only beta; document how invitation/role assignment enforces that policy without unnecessary identity documents.
 3. Verify actual provider terms, roles, processing regions and transfer arrangements for the accounts used.
 4. Approve and rehearse the request, identity-verification and complaint process.

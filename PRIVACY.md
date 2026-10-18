@@ -1,6 +1,6 @@
 # Profile Studio beta privacy notice
 
-**Operator: Boronen games · Hungary · alisioboronen@gmail.com.** These publication details were supplied by the operator, who confirmed they run the service as a private individual. The beta admission policy is 18+ and is managed through invitations and beta-role assignment; the application does not automatically verify age. This document describes implemented defaults, not a completed deployment/legal assessment. The legal basis, provider processing locations/transfer arrangements and rights/complaints process still need completion before public release. The deployed public notice explicitly reports incomplete configuration until its operator fields are supplied and validated.
+**Controller/operator: Kovács Kevin · Hungary · alisioboronen@gmail.com.** Boronen games is the project name. These publication details were supplied by the operator, who confirmed they run the service as a private individual. The beta admission policy is 18+ and is managed through invitations and beta-role assignment; the application does not automatically verify age. This document describes implemented defaults, not a completed deployment/legal assessment. The legal basis, provider processing locations/transfer arrangements and rights/complaints process still need completion before public release. The deployed public notice explicitly reports incomplete configuration until its operator fields are supplied and validated.
 
 ## Data and purpose
 
