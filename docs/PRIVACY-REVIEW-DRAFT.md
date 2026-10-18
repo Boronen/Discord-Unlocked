@@ -39,6 +39,31 @@ Operational review: the individual operator has accepted responsibility for mail
 
 ## Decisions required before approval
 
+### Public provider terms checked on 18 October 2026
+
+The following findings narrow the remaining review; they do not certify the deployment:
+
+- **Tailscale contract:** the published [DPA, opening provisions](https://tailscale.com/dpa) says it is incorporated into the applicable agreement. The [Terms of Service](https://tailscale.com/terms) expressly address free customers. This supports reviewing the DPA for the confirmed Personal account rather than assuming a paid plan or separately signed document is always necessary. Confirm the account's actual applicable agreement and processing scope. The privacy policy separately covers Tailscale's controller activities.
+- **Funnel transport:** [Tailscale's technical documentation](https://tailscale.com/docs/features/tailscale-funnel) states that relay servers forward encrypted traffic, with TLS termination on the device serving the resource. This describes payload transport; it does not eliminate account, connection or operational metadata processing, establish processing regions or replace the contract assessment.
+- **Google personal Drive:** Google's [privacy policy](https://policies.google.com/privacy?hl=en) describes worldwide servers and possible processing outside the user's country. Its [transfer notice](https://policies.google.com/privacy/frameworks?hl=en) describes DPF certification and contractual transfer mechanisms. Neither page establishes an EU-only storage choice or a Workspace processing agreement for this personal account. The actual applicable provider relationship and transfer scope remain to be recorded. Encryption and independent key custody reduce exposure; they do not make all backup metadata anonymous.
+- **Plan suitability:** [Tailscale's pricing explanation](https://tailscale.com/pricing) describes Personal as non-commercial. Before operating on behalf of a future company or changing the service into a commercial activity, reassess plan eligibility. The planned Boronen Games name alone does not establish a company, commercial operation or a need to upgrade now. No plan change is authorized by this review.
+
+Do not copy a provider's own legal basis into this operator's purpose-specific legal-basis field. Keep the provider-role assessment separate from the bases for running the community.
+
+### Operational request rehearsal
+
+The operator has accepted the mailbox, verification and response commitments above. Complete the following in a test environment using synthetic records before marking the workflow rehearsed:
+
+1. Record receipt time, requested action, a private request reference and response deadline. Keep records outside Git, public issues and release artifacts; define their access and retention before storing real requests.
+2. Prefer the existing authenticated export/deletion controls. For an expired session, establish control of the same Discord account using a proportionate recovery check; never request a Discord password, session token or an unrelated identity document by default. Do not disclose another account's records.
+3. Exercise export/deletion after beta-role removal and guild departure. Verify the requester can still use a valid session's data-subject routes; membership checks must not silently block those rights controls.
+4. For deletion, check immediate access removal, queued active-storage cleanup, private moderation-message cleanup and recovery fences. Distinguish the application cleanup target, backup expiry and the response deadline. Do not claim to erase copies downloaded by viewers.
+5. Send a written completion or reasoned response through the verified channel. Explain any permitted extension within the initial month. Provide the complaint route where applicable; archive only the minimal request evidence under the approved retention policy. See [EDPB request-handling guidance](https://www.edpb.europa.eu/sme/be-compliant/respect-individuals-rights_en).
+
+No real request has been simulated or sent by this documentation change. The account-recovery check, request-record retention and end-to-end rehearsal remain open.
+
+### Remaining owner decisions
+
 1. Controller name and contact are supplied for publication: Kovács Kevin, Hungary, boronengames.support@gmail.com. Review whether any further controller contact details are required for the actual deployment; none have been invented or inferred.
 2. Approve a basis for each purpose, with the necessary terms, consent workflow or balancing record. The operator selected an adults-only beta; document how invitation/role assignment enforces that policy without unnecessary identity documents.
 3. Verify actual provider terms, roles, processing regions and transfer arrangements for the accounts used.
