@@ -2,7 +2,7 @@
 
 ## Reporting
 
-**Operator security/privacy contact: Kovács Kevin — alisioboronen@gmail.com (Hungary).** Project: Boronen games. These public details were supplied by the operator. Send sensitive reports privately to this address. GitHub private vulnerability reporting must also be enabled and verified before public release; its availability is not implied by this document. The remaining deployment and privacy acceptance gates still apply.
+**Operator security/privacy contact: Kovács Kevin — alisioboronen@gmail.com (Hungary).** Project: **Discord Unlocked**. **Boronen Games** is the planned company/brand name; the current operator remains the individual named above. These public details were supplied by the operator. Send sensitive reports privately to this address. GitHub private vulnerability reporting must also be enabled and verified before public release; its availability is not implied by this document. The remaining deployment and privacy acceptance gates still apply.
 
 Use the repository's **Security → Report a vulnerability** option after publication, or the operator's listed private contact. Do not open a public issue with tokens, private uploads, Discord identifiers, network addresses or full diagnostics. Include the affected version, impact and a minimal reproduction with synthetic data. Do not retrieve other users' data or run availability tests against a shared deployment without permission.
 

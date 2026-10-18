@@ -4,7 +4,7 @@ if (!/^\/(?:[a-zA-Z0-9_-]+\/)*$/.test(base))
   throw new Error("DOCS_BASE must be a slash-delimited site path.");
 
 export default {
-  title: "Profile Studio",
+  title: "Discord Unlocked",
   description: "User and operator documentation for the self-hosted Windows Vencord userplugin.",
   lang: "en-US",
   base,
@@ -43,7 +43,7 @@ export default {
     ],
     sidebar: [
       {
-        text: "Use Profile Studio",
+        text: "Use Discord Unlocked",
         items: [
           { text: "Install on Windows", link: "/INSTALL-WINDOWS" },
           { text: "Get started and troubleshoot", link: "/USER-GUIDE" },
@@ -59,6 +59,7 @@ export default {
           { text: "Encrypted Drive backups", link: "/DRIVE-BACKUPS" },
           { text: "Discord alerts", link: "/DISCORD-ALERTS" },
           { text: "Acceptance and release", link: "/ACCEPTANCE" },
+          { text: "GitHub publication", link: "/GITHUB-RELEASE" },
           { text: "Security policy", link: "/SECURITY" },
           { text: "Privacy review draft", link: "/PRIVACY-REVIEW-DRAFT" },
         ],

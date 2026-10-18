@@ -21,7 +21,8 @@ The public `GET /v1/privacy/notice` returns generic handling defaults plus deplo
 
 The operator supplied these publication facts for the intended community:
 
-- Responsible public identity: **Boronen games**.
+- Responsible individual/controller: **Kovács Kevin**.
+- Project: **Discord Unlocked**; planned company/brand: **Boronen Games**. No registered-company operator is claimed.
 - Country: **Hungary**.
 - Privacy/security contact: **alisioboronen@gmail.com**.
 - Source repository: [Boronen/Discord-Unlocked](https://github.com/Boronen/Discord-Unlocked).

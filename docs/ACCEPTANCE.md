@@ -24,6 +24,8 @@ Exercise owner publication: prepare, confirm via the bot, publish once; replay a
 
 ## Deployment and release gates
 
+Use the [GitHub publication checklist](GITHUB-RELEASE.md) for repository protections, the initial-push decision, required CI checks and artifact review. It does not replace the deployment and real-client checks below.
+
 Validate fixed-address proxy header handling and decoder firewall after every host/network change. Check container memory/PID/CPU/read-only/non-root settings, bounded mounted filesystems and time-bounded logs. Fill a disposable test filesystem to prove uploads pause; never fill the live host or mutate approved media as a denial probe. Kill a decoder in the test deployment and verify leases/retries/cleanup. Test disk/backups/erasure-backlog alerts.
 
 Run authenticated traffic representing 5, then 20, then 50 real viewers and their media/palette requests, on the actual free host/Funnel. Measure latency, errors, memory, disk growth, transfer and recovery time. Include concurrent upload/moderation and a service outage. Stop expansion if any quota, availability, backup capacity or 24-hour erasure deadline is at risk. Free hosting is not an uptime guarantee; do not auto-upgrade.

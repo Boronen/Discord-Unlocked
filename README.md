@@ -1,10 +1,12 @@
-# Profile Studio
+# Discord Unlocked
 
-A Windows Discord / Vencord userplugin for shared animated avatars, decorations, banners, profile effects, favorite songs and music-card styling. Profiles are immutable, moderated revisions. Music Presence remains a separate application; this plugin styles its existing Discord activity.
+Discord Unlocked is a Windows Discord / Vencord userplugin for shared animated avatars, decorations, banners, profile effects, favorite songs and music-card styling. Profiles are immutable, moderated revisions. Music Presence remains a separate application; this plugin styles its existing Discord activity.
 
 **Release status: closed beta preparation.** One community, a dedicated beta role and at most 50 enrolled accounts. Viewing profiles and uploaded media requires pairing and current community access. This does not change a Discord Nitro subscription or purchase. Authorized viewers can save what they see.
 
 The repository contains an API, PostgreSQL migrations, a restricted offline decoder, a Discord upload/moderation bot and the Vencord editor. No cloud account, paid plan, GitHub publication or public endpoint is created by these scripts. Public launch is blocked by `secrets/readiness.json` until its checks are verified. Start with [the operations guide](docs/OPERATIONS.md), [security policy](SECURITY.md), [privacy notice](PRIVACY.md) and [acceptance checks](docs/ACCEPTANCE.md).
+
+The planned company/brand name is **Boronen Games**. The current operator is an individual; no incorporated company is claimed. Existing releases call the profile editor/plugin **Profile Studio**. Those plugin identifiers, service names, paths and saved settings stay compatible; this documentation naming change does not rename them.
 
 ## Documentation
 
