@@ -1,3 +1,4 @@
+/// <reference types="vite/client" />
 import React from "react";
 import { studioFixture } from "./studio-fixture";
 import { createRoot } from "react-dom/client";
@@ -236,7 +237,7 @@ function Preview() {
                   }
                 : undefined
             }
-            account={{ id: userId, name: "boronen" }}
+            account={{ id: userId, name: "Example member" }}
             importCatalog={async () => previewCatalog}
             diagnostics={() => "Browser editor preview. Discord patches are not active here."}
           />
@@ -245,4 +246,6 @@ function Preview() {
     </div>
   );
 }
-createRoot(document.getElementById("root")!).render(<Preview />);
+const root = createRoot(document.getElementById("root")!);
+root.render(<Preview />);
+import.meta.hot?.dispose(() => root.unmount());

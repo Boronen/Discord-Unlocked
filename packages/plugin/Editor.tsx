@@ -92,7 +92,11 @@ export function Editor(props: EditorProps) {
         )}
       </header>
       <div ref={errorRef} tabIndex={-1}>
-        {error && <Notice error>{error}</Notice>}
+        {error && (
+          <Notice error focus>
+            {error}
+          </Notice>
+        )}
       </div>
       <div className="ps-status">
         {message && <Notice>{message}</Notice>}

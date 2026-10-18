@@ -1,3 +1,5 @@
+import { StudioState } from "../studio-state.js";
+import { StudioSearch } from "../studio-controls.js";
 import { React } from "@webpack/common";
 import { DEFAULT_CONFIG } from "../model.js";
 import { StudioField as Field, StudioAction as Action, StudioChoice as Choice } from "../studio-controls.js";
@@ -29,6 +31,18 @@ export function LibraryPanel(props: Props) {
         .filter(Boolean),
     ),
   ];
+  const matchingAssets = props.state.assets.filter((asset) => {
+    const meta = props.workspace.mediaMetadata[asset.id];
+    return (
+      (folder === "all" || meta?.folder === folder) &&
+      `${meta?.label ?? ""} ${meta?.tags.join(" ") ?? ""} ${asset.slot}`
+        .toLowerCase()
+        .includes(query.toLowerCase())
+    );
+  });
+  const pageCount = Math.max(1, Math.ceil(matchingAssets.length / 8));
+  const currentPage = Math.min(mediaPage, pageCount - 1);
+  React.useEffect(() => setMediaPage((page) => Math.min(page, pageCount - 1)), [pageCount]);
   return (
     <section>
       <h3>Personal collections</h3>
@@ -127,7 +141,9 @@ export function LibraryPanel(props: Props) {
         </Action>
       </div>
       {!ids.length && (
-        <p className="ps-help">This collection is empty. Add an appearance to find it here next time.</p>
+        <StudioState title="No appearances in this collection">
+          Add a catalog item to keep it here for next time.
+        </StudioState>
       )}
       <div className="ps-library-items">
         {ids.map((id) => {
@@ -162,50 +178,57 @@ export function LibraryPanel(props: Props) {
       </div>
       <h3>Uploaded media</h3>
       <Field id="ps-media-query" label="Search media labels and tags">
-        <div className="ps-search">
-          <input id="ps-media-query" type="search" value={query} onChange={(e) => setQuery(e.target.value)} />
-          <Action variant="secondary" disabled={!query} onClick={() => setQuery("")}>
-            Clear
-          </Action>
-        </div>
+        <StudioSearch
+          id="ps-media-query"
+          label="media search"
+          value={query}
+          onChange={(value) => {
+            setQuery(value);
+            setMediaPage(0);
+          }}
+        />
       </Field>
       <Field id="ps-media-folder" label="Folder">
         <Choice
           id="ps-media-folder"
           value={folder}
-          onChange={setFolder}
+          onChange={(value) => {
+            setFolder(value);
+            setMediaPage(0);
+          }}
           options={[{ value: "all", label: "All folders" }, ...folders.map((v) => ({ value: v, label: v }))]}
         />
       </Field>
-      {props.state.assets
-        .filter((a) => {
-          const meta = props.workspace.mediaMetadata[a.id];
-          return (
-            (folder === "all" || meta?.folder === folder) &&
-            `${meta?.label ?? ""} ${meta?.tags.join(" ") ?? ""} ${a.slot}`
-              .toLowerCase()
-              .includes(query.toLowerCase())
-          );
-        })
-        .slice(mediaPage * 8, mediaPage * 8 + 8)
-        .map((asset) => (
-          <MediaRow
-            key={asset.id}
-            asset={asset}
-            metadata={props.workspace.mediaMetadata[asset.id]}
-            usage={props.workspace.usage[asset.id] ?? []}
-            props={props}
-          />
-        ))}
+      <p className="ps-help" role="status">
+        {matchingAssets.length} {matchingAssets.length === 1 ? "file" : "files"}
+      </p>
+      {!matchingAssets.length && (
+        <StudioState title={props.state.assets.length ? "No matching media" : "No uploads yet"}>
+          {props.state.assets.length
+            ? "Try another search or folder, or clear the search."
+            : "Use /profile upload in your community server, then refresh uploads and status."}
+        </StudioState>
+      )}
+      {matchingAssets.slice(currentPage * 8, currentPage * 8 + 8).map((asset) => (
+        <MediaRow
+          key={asset.id}
+          asset={asset}
+          metadata={props.workspace.mediaMetadata[asset.id]}
+          usage={props.workspace.usage[asset.id] ?? []}
+          props={props}
+        />
+      ))}
       <div className="ps-actions">
-        <Action variant="secondary" disabled={!mediaPage} onClick={() => setMediaPage((v) => v - 1)}>
+        <Action variant="secondary" disabled={!currentPage} onClick={() => setMediaPage(currentPage - 1)}>
           Previous media
         </Action>
-        <span>Media page {mediaPage + 1}</span>
+        <span>
+          Media page {currentPage + 1} of {pageCount}
+        </span>
         <Action
           variant="secondary"
-          disabled={(mediaPage + 1) * 8 >= props.state.assets.length}
-          onClick={() => setMediaPage((v) => v + 1)}
+          disabled={currentPage + 1 >= pageCount}
+          onClick={() => setMediaPage(currentPage + 1)}
         >
           Next media
         </Action>

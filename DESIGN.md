@@ -27,6 +27,10 @@ Discord is canonical: `--background-primary`, `--background-secondary`, `--backg
 
 Inherit Discord's font; 14px body, 12px help, 20px section heading. Left aligned editor with a 280px pinned live preview on wide screens; a compact pinned preview band below 560px container width. Spacing rhythm 8/12/16/24px. Profile radius 12px; controls use Discord primitives. Editor status and errors have reserved room. No decorative application gradients; user-selected gradients are an explicit profile/music effect.
 
+Preset controls, feedback, section navigation and the active form occupy the left column; the preview begins alongside the preset controls. Shared `StudioTabs` uses quiet text tabs and an inset brand underline, with horizontal scrolling on narrow columns. Workspace tabs activate on click or Enter/Space; arrow keys move focus without starting panel requests. Picker tabs activate immediately. Compact preview controls use two equal grid columns with one gap calculation, leaving room for the profile itself.
+
+`StudioSearch`, `StudioState` and `Notice` own search clearing, loading/empty/retry feedback and committed error focus. Use existing surface/text/stroke tokens, sentence case and native controls; no new icon/font dependency or application animation is introduced. The live profile, tint, layer order and exported card retain their existing design.
+
 ## Motion and layers
 
 Only profile and music effects animate. All decorative layers ignore pointer input. Reduced motion uses static media thumbnails and pauses CSS motion. Background layer 0, native and Studio content 1, isolated decorative scene 2, local sound controls 3; never escape the owning card's stacking context. The profile effect paints over the banner, music presence and appended favorite-song panels in both preview and native profiles. Front/back layer ordering applies inside the decorative scene. Effect artwork never captures clicks or keyboard focus; editable handles are confined to the editing preview. Discord manages modal and tooltip layers.

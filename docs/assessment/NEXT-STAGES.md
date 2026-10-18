@@ -36,6 +36,8 @@ Use Discord theme/font tokens with a restrained Linear-inspired information hier
 
 Estimate: 1.5–3 hours; 180k–450k uncached input, 15k–35k output; gross input 4m–11m. Gate: true Windows Discord acceptance plus fixture checks, not a browser screenshot alone.
 
+Stage 3 was authorized on 18 October 2026. The local implementation is described in [Editor consistency](../EDITOR-CONSISTENCY.md). Native Discord acceptance remains an explicit handoff gate when only the synthetic browser/Electron surface is available; no production deployment is implied.
+
 ## Documentation and privacy package
 
 One English Markdown source with separately built stable VitePress site and search. Cover user installation, feature walkthroughs, API contracts, Docker/VM/network/config, operations, moderation/media/automation/export, privacy/retention, backups/restore/incidents, development, licences and sources. Add automated route/contract coverage, operator-filled public privacy notice and contributor/Supporter guidance. No payment or scoring integration.
@@ -54,4 +56,4 @@ Estimate: 1–2 hours of agent work plus build, operator and real-client test ti
 
 Uncached input = input minus cached input. Cached input is a subset of input; reasoning output is a subset of output. Report each separately, not as extra totals. Ranges are independent planning estimates and should not be added as a purchased allowance. Actual usage, effort, cache ratio and elapsed/tool times are retained in ignored private reports. Active inference time and account credits are unavailable unless the host exposes them. A partial final-turn log must be labelled partial.
 
-After Stage 2 validation and the local candidate checkpoint, the next approval is **Stage 3 only**. Documentation and release estimates remain provisional; real Discord acceptance and production deployment require their own recorded checks.
+Stage 3 local implementation is authorized. Record its live Discord acceptance before treating it as a completed release gate. The documentation/privacy package and production release still need their own authorization and checks.

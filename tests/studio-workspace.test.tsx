@@ -78,7 +78,7 @@ function setup() {
 }
 test("editing a panel saves only encrypted-recovery input after idle; undo restores text", async () => {
   const c = setup();
-  fireEvent.click(await screen.findByRole("button", { name: "Panels", exact: true }));
+  fireEvent.click(await screen.findByRole("tab", { name: "Panels", exact: true }));
   fireEvent.change(screen.getByLabelText("Panel type"), { target: { value: "text" } });
   fireEvent.click(screen.getByRole("button", { name: "Add panel" }));
   fireEvent.change(screen.getByLabelText("Panel text"), { target: { value: "A private draft" } });
@@ -118,7 +118,7 @@ test("a closed saved-preset dialog preserves the current edit", async () => {
 });
 test("music priority is saved as a moderated preference without publishing live listening data", async () => {
   const c = setup();
-  fireEvent.click(await screen.findByRole("button", { name: "Music", exact: true }));
+  fireEvent.click(await screen.findByRole("tab", { name: "Music", exact: true }));
   fireEvent.change(screen.getByLabelText("Music priority"), { target: { value: "activity" } });
   fireEvent.click(screen.getByRole("button", { name: "Save preset", exact: true }));
   await screen.findByText("Preset draft saved. Your approved appearance has not changed.");

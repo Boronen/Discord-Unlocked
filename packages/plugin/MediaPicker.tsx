@@ -1,3 +1,4 @@
+import { StudioSearch, StudioTabs } from "./studio-controls.js";
 import { usePrivateMedia } from "./usePrivateMedia.js";
 import { React } from "@webpack/common";
 import { Button } from "@components/Button";
@@ -209,63 +210,32 @@ export function MediaPicker({
         <section className="ps-picker-browse" aria-label="Available appearances">
           <div className="ps-picker-filters">
             {tintKey && (
-              <div className="ps-picker-tabs" role="tablist" aria-label="Appearance options">
-                {(["appearance", "tint"] as const).map((value) => (
-                  <button
-                    key={value}
-                    id={`${tabId}-${value}-tab`}
-                    type="button"
-                    role="tab"
-                    aria-selected={tab === value}
-                    aria-controls={`${tabId}-panel`}
-                    tabIndex={tab === value ? 0 : -1}
-                    onClick={() => setTab(value)}
-                    onKeyDown={(event) => {
-                      if (!["ArrowLeft", "ArrowRight", "Home", "End"].includes(event.key)) return;
-                      event.preventDefault();
-                      const next =
-                        event.key === "Home"
-                          ? "appearance"
-                          : event.key === "End"
-                            ? "tint"
-                            : value === "tint"
-                              ? "appearance"
-                              : "tint";
-                      setTab(next);
-                      document.getElementById(`${tabId}-${next}-tab`)?.focus();
-                    }}
-                  >
-                    {value === "appearance" ? "Appearances" : "Tint"}
-                  </button>
-                ))}
-              </div>
+              <StudioTabs
+                id={tabId}
+                label="Appearance options"
+                className="ps-picker-tabs"
+                value={tab}
+                onChange={(value) => setTab(value as "appearance" | "tint")}
+                automatic
+                options={[
+                  { value: "appearance", label: "Appearances" },
+                  { value: "tint", label: "Tint" },
+                ]}
+              />
             )}
             {tab === "appearance" && (
               <>
                 <div className="ps-picker-search">
                   <label htmlFor="ps-picker-search">Search appearances</label>
-                  <div className="ps-search">
-                    <input
-                      id="ps-picker-search"
-                      type="search"
-                      value={search}
-                      onChange={(event) => {
-                        setSearch(event.target.value);
-                        setPageIndex(0);
-                      }}
-                    />
-                    <Button
-                      variant="secondary"
-                      onClick={() => {
-                        setSearch("");
-                        setPageIndex(0);
-                        dialog.current?.querySelector<HTMLInputElement>("input")?.focus();
-                      }}
-                      disabled={!search}
-                    >
-                      Clear
-                    </Button>
-                  </div>
+                  <StudioSearch
+                    id="ps-picker-search"
+                    label="appearance search"
+                    value={search}
+                    onChange={(value) => {
+                      setSearch(value);
+                      setPageIndex(0);
+                    }}
+                  />
                   <label htmlFor="ps-picker-source">Source</label>
                   <select
                     id="ps-picker-source"

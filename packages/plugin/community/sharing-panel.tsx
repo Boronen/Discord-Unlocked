@@ -1,3 +1,5 @@
+import { usePanelQuery } from "../usePanelQuery.js";
+import { StudioState } from "../studio-state.js";
 import { usePrivateMedia } from "../usePrivateMedia.js";
 import { React } from "@webpack/common";
 import { type MediaAsset } from "../model.js";
@@ -7,8 +9,7 @@ import { ProfilePreview } from "../visuals.js";
 import type { CommunityProps as Props } from "./types.js";
 
 export function SharingPanel(props: Props) {
-  const [shares, setShares] = React.useState<StyleShare[]>([]),
-    [selected, setSelected] = React.useState<StyleShare | null>(null),
+  const [selected, setSelected] = React.useState<StyleShare | null>(null),
     [assets, setAssets] = React.useState<MediaAsset[]>([]),
     [variant, setVariant] = React.useState("");
   const [title, setTitle] = React.useState(props.preset.name),
@@ -17,13 +18,8 @@ export function SharingPanel(props: Props) {
     [consent, setConsent] = React.useState(false),
     [keep, setKeep] = React.useState({ avatar: true, songs: true, panels: true });
   const request = React.useRef<{ key: string; id: string } | null>(null);
-  async function refresh() {
-    const result = await props.api.request<{ items: StyleShare[] }>("/v2/styles");
-    setShares(result.items);
-  }
-  React.useEffect(() => {
-    void props.onRun(refresh);
-  }, [props.api]);
+  const { data, loading, error, refresh } = usePanelQuery<{ items: StyleShare[] }>(props.api, "/v2/styles");
+  const shares = data?.items ?? [];
   const { urls } = usePrivateMedia(
     props.api,
     assets.map((a) => [a.id, props.reduced && a.previewUrl ? a.previewUrl : a.url]),
@@ -36,10 +32,24 @@ export function SharingPanel(props: Props) {
         Shared styles are visible only to paired community members. Imports create your own draft and require
         review.
       </p>
-      <Action variant="secondary" onClick={() => void props.onRun(refresh)}>
+      <Action variant="secondary" busy={loading} onClick={() => void refresh()}>
         Refresh styles
       </Action>
-      {!shares.length && <p>No approved shared styles yet.</p>}
+      {error && (
+        <StudioState title="Styles could not be refreshed" error retry={() => void refresh()} busy={loading}>
+          {error}
+        </StudioState>
+      )}
+      {loading && (
+        <p className="ps-help" role="status">
+          {data ? "Refreshing styles…" : "Loading community styles…"}
+        </p>
+      )}
+      {data && !shares.length && (
+        <StudioState title="No approved shared styles yet">
+          Publish an approved preset for sharing to add a style to this gallery.
+        </StudioState>
+      )}
       <div className="ps-share-list">
         {shares.map((s) => (
           <button

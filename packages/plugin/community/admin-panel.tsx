@@ -1,3 +1,6 @@
+import { usePanelQuery } from "../usePanelQuery.js";
+import { StudioState } from "../studio-state.js";
+import { StudioSearch } from "../studio-controls.js";
 import { React } from "@webpack/common";
 import type { StudioBadge } from "../studio-model.js";
 import { StudioField as Field, StudioAction as Action, StudioChoice as Choice } from "../studio-controls.js";
@@ -6,8 +9,7 @@ import { artworkPalette } from "../palette.js";
 import type { CommunityProps as Props } from "./types.js";
 
 export function AdminPanel(props: Props) {
-  const [badges, setBadges] = React.useState<StudioBadge[]>([]),
-    [name, setName] = React.useState(""),
+  const [name, setName] = React.useState(""),
     [icon, setIcon] = React.useState("star"),
     [description, setDescription] = React.useState(""),
     [badge, setBadge] = React.useState(""),
@@ -26,13 +28,14 @@ export function AdminPanel(props: Props) {
     },
     [],
   );
+  const { data, loading, error, refresh, updateData } = usePanelQuery<{ items: StudioBadge[] }>(
+    props.api,
+    "/v2/admin/badges",
+  );
+  const badges = data?.items ?? [];
   React.useEffect(() => {
-    void props.onRun(async () => {
-      const result = await props.api.request<{ items: StudioBadge[] }>("/v2/admin/badges");
-      setBadges(result.items);
-      setBadge(result.items[0]?.id ?? "");
-    });
-  }, [props.api]);
+    setBadge((previous) => (badges.some((b) => b.id === previous) ? previous : (badges[0]?.id ?? "")));
+  }, [data]);
   const item = props.items.find((i) => i.id === itemId);
   React.useEffect(() => {
     setTags(item?.metadata?.tags.join(", ") ?? "");
@@ -74,6 +77,21 @@ export function AdminPanel(props: Props) {
   return (
     <section>
       <h3>Studio badges</h3>
+      {error && (
+        <StudioState title="Badges could not be refreshed" error retry={() => void refresh()} busy={loading}>
+          {error}
+        </StudioState>
+      )}
+      {loading && (
+        <p className="ps-help" role="status">
+          Loading Studio badges…
+        </p>
+      )}
+      {data && !badges.length && (
+        <StudioState title="No Studio badges yet">
+          Create a community badge below. Badges do not change account permissions.
+        </StudioState>
+      )}
       <p className="ps-help">
         Community labels only. They do not represent Discord verification or grant permissions.
       </p>
@@ -105,7 +123,9 @@ export function AdminPanel(props: Props) {
               icon,
               description,
             });
-            setBadges([...badges, { id: result.id, name, icon, description, enabled: true }]);
+            updateData((previous) => ({
+              items: [...(previous?.items ?? []), { id: result.id, name, icon, description, enabled: true }],
+            }));
             setBadge(result.id);
             setName("");
           })
@@ -152,17 +172,7 @@ export function AdminPanel(props: Props) {
       </div>
       <h3>Catalog labels</h3>
       <Field id="ps-admin-catalog-query" label="Find catalog item">
-        <div className="ps-search">
-          <input
-            id="ps-admin-catalog-query"
-            type="search"
-            value={query}
-            onChange={(e) => setQuery(e.target.value)}
-          />
-          <Action variant="secondary" disabled={!query} onClick={() => setQuery("")}>
-            Clear
-          </Action>
-        </div>
+        <StudioSearch id="ps-admin-catalog-query" label="catalog search" value={query} onChange={setQuery} />
       </Field>
       <Field id="ps-admin-item" label="Catalog item">
         <Choice

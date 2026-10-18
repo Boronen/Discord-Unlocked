@@ -79,7 +79,6 @@ export function useEditorController({
     } catch (reason) {
       if (alive.current) {
         setError(reason instanceof Error ? reason.message : "The action failed.");
-        setTimeout(() => errorRef.current?.focus(), 0);
       }
     } finally {
       operation.current = false;

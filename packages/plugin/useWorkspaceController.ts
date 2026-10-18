@@ -99,7 +99,6 @@ export function useWorkspaceController({
     } catch (reason) {
       if (alive.current) {
         setError(reason instanceof Error ? reason.message : "The action failed.");
-        root.current?.querySelector<HTMLElement>('[role="alert"]')?.focus();
       }
     } finally {
       operation.current = false;

@@ -104,7 +104,7 @@ test("search, empty state, clear and cancel preserve current draft", () => {
   const { onUse, onClose } = setup();
   fireEvent.change(screen.getByRole("searchbox"), { target: { value: "no matching product" } });
   expect(screen.getByText(/No matching appearances/)).toBeTruthy();
-  fireEvent.click(screen.getByRole("button", { name: "Clear" }));
+  fireEvent.click(screen.getByRole("button", { name: "Clear appearance search" }));
   expect(screen.getByRole("button", { name: /Night Flight.*Discord Shop/ })).toBeTruthy();
   fireEvent.click(screen.getByRole("button", { name: "Cancel" }));
   expect(onUse).not.toHaveBeenCalled();

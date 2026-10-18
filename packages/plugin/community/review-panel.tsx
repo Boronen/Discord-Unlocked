@@ -1,3 +1,5 @@
+import { usePanelQuery } from "../usePanelQuery.js";
+import { StudioState } from "../studio-state.js";
 import { usePrivateMedia } from "../usePrivateMedia.js";
 import { React } from "@webpack/common";
 import { DEFAULT_CONFIG, type MediaAsset, type ProfileRevision } from "../model.js";
@@ -8,11 +10,7 @@ import type { CommunityProps as Props } from "./types.js";
 import { StudioDialog } from "../studio-dialogs.js";
 
 export function ReviewPanel(props: Props) {
-  const [queue, setQueue] = React.useState<{ profiles: ProfileRevision[]; shares: StyleShare[] }>({
-      profiles: [],
-      shares: [],
-    }),
-    [review, setReview] = React.useState<{
+  const [review, setReview] = React.useState<{
       revision: ProfileRevision;
       baseline: ProfileRevision | null;
       assets: MediaAsset[];
@@ -23,10 +21,12 @@ export function ReviewPanel(props: Props) {
     [full, setFull] = React.useState(false),
     [phase, setPhase] = React.useState<"" | "intro" | "idle" | "hover">(""),
     [replay, setReplay] = React.useState(0);
-  const refresh = async () => setQueue(await props.api.request("/v2/moderation/queue"));
-  React.useEffect(() => {
-    void props.onRun(refresh);
-  }, [props.api]);
+  const {
+    data: queue,
+    loading,
+    error,
+    refresh,
+  } = usePanelQuery<{ profiles: ProfileRevision[]; shares: StyleShare[] }>(props.api, "/v2/moderation/queue");
   const [assets, setAssets] = React.useState<MediaAsset[]>([]);
   const { urls } = usePrivateMedia(
     props.api,
@@ -52,11 +52,30 @@ export function ReviewPanel(props: Props) {
   return (
     <section>
       <h3>Moderation queue</h3>
-      <Action variant="secondary" onClick={() => void props.onRun(refresh)}>
+      <Action variant="secondary" busy={loading} onClick={() => void refresh()}>
         Refresh queue
       </Action>
-      {!queue.profiles.length && !queue.shares.length && <p>No pending submissions.</p>}
-      {queue.profiles.map((r) => (
+      {error && (
+        <StudioState
+          title="Review queue could not be refreshed"
+          error
+          retry={() => void refresh()}
+          busy={loading}
+        >
+          {error}
+        </StudioState>
+      )}
+      {loading && (
+        <p className="ps-help" role="status">
+          {queue ? "Refreshing review queue…" : "Loading review queue…"}
+        </p>
+      )}
+      {queue && !queue.profiles.length && !queue.shares.length && (
+        <StudioState title="No pending submissions">
+          New profile and shared-style submissions will appear here.
+        </StudioState>
+      )}
+      {(queue?.profiles ?? []).map((r) => (
         <Action
           key={r.id}
           variant="secondary"
@@ -72,7 +91,7 @@ export function ReviewPanel(props: Props) {
           Review profile · {r.userId} · {r.id.slice(0, 8)}
         </Action>
       ))}
-      {queue.shares.map((s) => (
+      {(queue?.shares ?? []).map((s) => (
         <Action
           key={s.id}
           variant="secondary"
