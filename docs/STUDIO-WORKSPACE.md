@@ -52,6 +52,8 @@ Keep Discord and the preview visible during GIF recording. Cancel export, hiding
 
 ## Current music priority
 
+With an album-artwork background enabled, the resolved cover also supplies the profile palette, including Studio panel/badge surfaces and Discord's nested theme/button colors. Current-music priority additionally controls whether the live track replaces favorites. If artwork is unavailable, saved colors remain the fallback. Disabling artwork colors restores the saved appearance; uploaded artwork and explicitly chosen effect/decorative tints are not recolored automatically.
+
 In **Music → Music priority**, select **Current Discord music first**, then save and submit the preset. After approval, the current Discord music activity replaces favorites in Studio music blocks and its cover supplies the profile colors/artwork. When activity stops, saved favorites return. The album-background controls retain opacity/blur control; missing artwork preserves configured colors. Native Discord music is hidden while the Studio block shows the same current track and restored when it no longer replaces it. No music stream or listening history is stored, and audio never starts from this setting or hover.
 
 The preference is disabled until the API advertises `musicPriority`. Upgrade the server before distributing the matching Windows client. Existing profiles without the field retain their previous behavior until an explicit priority choice is saved.

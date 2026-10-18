@@ -47,3 +47,26 @@ test("applies approved colors to a mounted profile and restores only owned prope
   expect(root.style.getPropertyValue("--profile-gradient-secondary-color")).toBe("");
   expect(root.style.padding).toBe("12px");
 });
+
+test("artwork colors replace inner Discord theme owners and restore them on track change/unmount", () => {
+  const root = document.createElement("div"),
+    inner = root.appendChild(document.createElement("div"));
+  inner.style.setProperty("--profile-gradient-primary-color", "#ff0000", "important");
+  inner.style.setProperty("--profile-gradient-button-color", "#aa0000");
+  inner.style.setProperty("padding", "6px");
+  const unrelated = root.appendChild(document.createElement("span"));
+  unrelated.style.color = "red";
+  const outside = document.createElement("div");
+  outside.style.setProperty("--profile-gradient-primary-color", "#ff0000");
+  const restore = applyProfileColors(root, ["#102040", "#8844ee"]);
+  expect(inner.style.getPropertyValue("--profile-gradient-primary-color")).toBe("#102040");
+  expect(inner.style.getPropertyValue("--profile-gradient-button-color")).not.toBe("#aa0000");
+  expect(outside.style.getPropertyValue("--profile-gradient-primary-color")).toBe("#ff0000");
+  expect(unrelated.style.color).toBe("red");
+  restore();
+  expect(inner.style.getPropertyValue("--profile-gradient-primary-color")).toBe("#ff0000");
+  expect(inner.style.getPropertyPriority("--profile-gradient-primary-color")).toBe("important");
+  expect(inner.style.getPropertyValue("--profile-gradient-button-color")).toBe("#aa0000");
+  expect(inner.style.padding).toBe("6px");
+  expect(inner.style.getPropertyValue("--profile-body-background-color")).toBe("");
+});

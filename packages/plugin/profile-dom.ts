@@ -30,13 +30,30 @@ export function profileRoot(anchor: Element) {
 
 /** Override only approved color fields and restore precisely what we changed. */
 export function applyProfileColors(root: HTMLElement, colors: [string, string]) {
+  const readable = profileReadability(colors);
   const values: Record<string, string> = {
     "--profile-gradient-primary-color": colors[0],
     "--profile-gradient-secondary-color": colors[1],
     "--profile-gradient-modal-background-color": colors[1],
-    "background-image": `linear-gradient(135deg, ${colors[0]}, ${colors[1]})`,
+    "--profile-gradient-button-color": readable["--ps-profile-surface"],
+    "--profile-gradient-overlay-color": readable["--ps-profile-surface"],
+    "--profile-body-background-color": readable["--ps-profile-surface"],
   };
-  return applyProperties(root, values);
+  const restore = [
+    applyProperties(root, {
+      ...values,
+      "background-image": `linear-gradient(135deg, ${colors[0]}, ${colors[1]})`,
+    }),
+  ];
+  // Discord puts theme variables on inner wrappers too. A parent override cannot
+  // beat a child's own variables; touch only explicit theme owners in this card.
+  for (const element of root.querySelectorAll<HTMLElement>(
+    '[style*="--profile-gradient-"],[style*="--profile-body-background-color"]',
+  ))
+    restore.push(applyProperties(element, values));
+  return () => {
+    for (const undo of restore.reverse()) undo();
+  };
 }
 
 export function applyProfileReadability(root: HTMLElement, colors?: [string, string] | null) {

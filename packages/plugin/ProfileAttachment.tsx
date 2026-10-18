@@ -146,10 +146,10 @@ export function ProfileAttachment({ userId }: { userId: string }) {
     (!!scene?.albumBackground.enabled || !!profile?.config.musicPriority) && active && settings.store.effects,
     loadAlbumArtwork,
   );
-  const musicPalette = useArtworkPalette(album.url, !!profile?.config.musicPriority);
+  const adaptiveColors = !!profile?.config.musicPriority || !!scene?.albumBackground.enabled;
+  const musicPalette = useArtworkPalette(album.url, adaptiveColors);
   const profileColors =
-    priorityColors(musicPalette, !!profile?.config.musicPriority && override.background !== false) ??
-    scene?.colors;
+    priorityColors(musicPalette, adaptiveColors && override.background !== false) ?? scene?.colors;
   const liveArt = useAlbumArtwork(
     profile?.config.musicPriority ? activityCover : undefined,
     undefined,

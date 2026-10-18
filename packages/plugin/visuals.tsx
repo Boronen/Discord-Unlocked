@@ -191,9 +191,11 @@ export function ProfilePreview({
     (!!(scene?.albumBackground ?? config.albumBackground)?.enabled || !!config.musicPriority) && !albumUrl,
     artworkLoader,
   );
-  const palette = useArtworkPalette(albumUrl ?? backgroundArt.url, !!config.musicPriority);
+  const adaptiveColors =
+    !!config.musicPriority || !!(scene?.albumBackground ?? config.albumBackground)?.enabled;
+  const palette = useArtworkPalette(albumUrl ?? backgroundArt.url, adaptiveColors);
   const selectedColors =
-    priorityColors(palette, !!config.musicPriority) ??
+    priorityColors(palette, adaptiveColors) ??
     (scene ? scene.colors : config.colors) ??
     account.original?.colors;
   const liveArt = useAlbumArtwork(
