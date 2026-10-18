@@ -18,6 +18,12 @@ jobs:
       - run: npm run typecheck
       - run: npm run docs:check
       - run: npm run lint && npm run format:domain && npm run format:editor && npm run format:resources && npm run format:ui && npm run format:docs
+      - name: Install media test codecs
+        run: |
+          sudo apt-get update
+          sudo apt-get install --yes --no-install-recommends ffmpeg
+          /usr/bin/ffmpeg -version
+          /usr/bin/ffprobe -version
       - run: npm test
         env: { TEST_FFMPEG: /usr/bin/ffmpeg, TEST_FFPROBE: /usr/bin/ffprobe }
       - run: npm run build && npm run preview:build
