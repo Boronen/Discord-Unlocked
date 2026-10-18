@@ -13,6 +13,8 @@ node --test tests/windows-package.test.mjs
 
 Distribute `dist/windows/ProfileStudio-Windows.zip` and its SHA-256 checksum. Participants extract it and run `Install.cmd` normally after fully quitting Discord Stable. They need no development runtime. Follow `deploy/windows-client/README.txt` for the English end-user instructions.
 
+For an operator's local installation test, extract that exact, checksum-verified ZIP into a **fresh directory** and run its setup. The packager writes the ZIP; it does not refresh a previously extracted `dist/windows/ProfileStudio-Windows/` directory. Verify the extracted manifest's build ID and the installed runtime hashes against the current ZIP, rather than an old build log or folder.
+
 The package includes only the four desktop runtime assets and their notices/maps, the setup scripts, documentation, GPL license and corresponding Vencord-plus-plugin source archive. Packaging checks the pinned commit, a clean upstream checkout, plugin synchronization, a disabled upstream updater, archive round-trip integrity, forbidden paths, token patterns and local env/key secret matches. Source and outer ZIP are scanned separately. These checks do not replace a full repository/history/container audit before a GitHub release.
 
 Setup uses the official upstream development-install environment variables. It downloads the official installer v1.4.2 from its fixed versioned GitHub URL and checks its publisher SHA-256 before execution. The binary is not redistributed inside this package. Checksums detect corruption; they do not authenticate an untrusted sender. Obtain the package and checksum from a trusted operator.
