@@ -1,6 +1,6 @@
 import { z } from "zod";
-import type { ProfileConfig, CatalogItem } from "../plugin/model.js";
-import { songLink, providerArtwork } from "../plugin/music-links.js";
+import type { ProfileConfig, CatalogItem } from "./domain/model.js";
+import { songLink, providerArtwork } from "./domain/music-links.js";
 const songUrl = z
   .string()
   .max(1000)

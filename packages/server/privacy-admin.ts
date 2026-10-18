@@ -1,7 +1,7 @@
 import { runtime } from "./runtime.js";
 import { snowflake } from "../shared/schema.js";
 import { readFile } from "node:fs/promises";
-import { accountZip } from "../plugin/export-zip.js";
+import { accountZip } from "../shared/domain/export-zip.js";
 const [action, id, verification] = process.argv.slice(2);
 if (!["export", "delete"].includes(action ?? "") || verification !== "--identity-verified")
   throw new Error(

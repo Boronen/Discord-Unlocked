@@ -6,7 +6,7 @@ import { promisify } from "node:util";
 import sharp from "sharp";
 import { invariant } from "./errors.js";
 import type { ProfileService } from "./service.js";
-import type { MediaSlot } from "../plugin/model.js";
+import type { MediaSlot } from "../shared/domain/model.js";
 import { MAX_UPLOAD_BYTES } from "../shared/schema.js";
 const run = promisify(execFile);
 sharp.concurrency(1);

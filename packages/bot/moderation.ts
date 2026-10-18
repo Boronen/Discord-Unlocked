@@ -1,10 +1,10 @@
 import { ActionRowBuilder, AttachmentBuilder, ButtonBuilder, ButtonStyle, EmbedBuilder } from "discord.js";
 import { readFile } from "node:fs/promises";
-import { assetIds } from "../plugin/model.js";
+import { assetIds } from "../shared/domain/model.js";
 import type { ProfileService } from "../server/service.js";
 import type { FileStore } from "../server/media.js";
 import { invariant } from "../server/errors.js";
-import { configDiff } from "../plugin/studio-model.js";
+import { configDiff } from "../shared/domain/studio-model.js";
 export async function moderationMessage(service: ProfileService, files: FileStore, revisionId: string) {
   const [row] = await service.db.query("SELECT * FROM revisions WHERE id=$1", [revisionId]);
   invariant(row, 404, "NOT_FOUND", "Revision not found.");

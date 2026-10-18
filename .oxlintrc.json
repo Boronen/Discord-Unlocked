@@ -1,0 +1,47 @@
+{
+  "$schema": "./node_modules/oxlint/configuration_schema.json",
+  "categories": {
+    "correctness": "off"
+  },
+  "plugins": ["typescript", "react"],
+  "rules": {
+    "no-debugger": "error",
+    "no-unreachable": "error"
+  },
+  "ignorePatterns": ["**/third-party/**"],
+  "overrides": [
+    {
+      "files": ["packages/server/**/*.ts", "packages/bot/**/*.ts", "packages/shared/**/*.ts"],
+      "rules": {
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "regex": "(^|/)plugin(/|$)",
+                "message": "Import contracts from shared/domain, never plugin implementation."
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "files": ["packages/shared/domain/**/*.ts"],
+      "rules": {
+        "no-duplicate-imports": "error",
+        "no-restricted-imports": [
+          "error",
+          {
+            "patterns": [
+              {
+                "regex": "^[^.]|(^|/)[.][.](/|$)",
+                "message": "Shared domain modules may import only sibling pure domain modules."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

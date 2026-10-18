@@ -1,9 +1,10 @@
 import { execFileSync } from "node:child_process";
-import { readFile, readdir, lstat, mkdir, writeFile } from "node:fs/promises";
+import { readFile, readdir, mkdir, writeFile } from "node:fs/promises";
 import { createHash } from "node:crypto";
 import { join } from "node:path";
 import { zipSync, unzipSync } from "fflate";
 import { scanZip } from "./security-scan.mjs";
+import { pluginSource } from "./plugin-source.mjs";
 
 const vendor = ".vendor/Vencord";
 const pin = JSON.parse(await readFile("vencord-version.json", "utf8")).commit;
@@ -22,20 +23,12 @@ for (const name of await readdir("secrets").catch(() => [])) {
       if (/^[A-Z_]*(?:TOKEN|PASSWORD|SECRET|PRIVATE_KEY)=/.test(line))
         known.push(line.slice(line.indexOf("=") + 1).trim());
 }
-async function sourceFiles(directory, prefix, result) {
-  for (const entry of await readdir(directory)) {
-    const path = join(directory, entry),
-      info = await lstat(path);
-    if (info.isSymbolicLink()) throw new Error("Source links are not supported.");
-    if (info.isDirectory()) await sourceFiles(path, `${prefix}/${entry}`, result);
-    else result[`${prefix}/${entry}`] = new Uint8Array(await readFile(path));
-  }
-}
 const source = unzipSync(
   execFileSync("git", ["-C", vendor, "archive", "--format=zip", "HEAD"], { maxBuffer: 64 * 1024 * 1024 }),
 );
 const plugin = {};
-await sourceFiles("packages/plugin", "src/userplugins/profileStudio", plugin);
+for (const [path, bytes] of Object.entries(await pluginSource()))
+  plugin[`src/userplugins/profileStudio/${path}`] = bytes;
 for (const [name, data] of Object.entries(plugin)) {
   const vendored = await readFile(join(vendor, name));
   if (!Buffer.from(data).equals(vendored)) throw new Error("Plugin source and built checkout differ.");

@@ -5,9 +5,9 @@ import { invariant, AppError } from "./errors.js";
 import { displayMediaError } from "./media-errors.js";
 import { SecurityJournal, type TombstoneKind } from "./journal.js";
 import { profileConfigSchema, catalogSchema } from "../shared/schema.js";
-import { isBasicTint } from "../plugin/tint.js";
+import { isBasicTint } from "../shared/domain/tint.js";
 import { parseStoredProfile } from "../shared/studio-schema.js";
-import { tintEntries } from "../plugin/studio-model.js";
+import { tintEntries } from "../shared/domain/studio-model.js";
 import {
   DEFAULT_CONFIG,
   assetIds,
@@ -17,7 +17,7 @@ import {
   type EditorState,
   type ProfileRevision,
   type CatalogItem,
-} from "../plugin/model.js";
+} from "../shared/domain/model.js";
 export const hash = (value: string) => createHash("sha256").update(value).digest("hex");
 const iso = (value: Date | string) => new Date(value).toISOString();
 export class ProfileService {

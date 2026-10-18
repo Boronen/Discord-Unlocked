@@ -1,4 +1,4 @@
-import { songLink, providerArtwork, type FavoriteSong } from "../plugin/music-links.js";
+import { songLink, providerArtwork, type FavoriteSong } from "../shared/domain/music-links.js";
 import { invariant } from "./errors.js";
 const cache = new Map<string, { expires: number; value: FavoriteSong }>();
 export async function resolveSong(value: string): Promise<FavoriteSong> {

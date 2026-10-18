@@ -1,5 +1,6 @@
-import { cp, mkdir, access } from "node:fs/promises";
-import { resolve, join } from "node:path";
+import { mkdir, access, writeFile } from "node:fs/promises";
+import { resolve, join, dirname } from "node:path";
+import { pluginSource } from "./plugin-source.mjs";
 import { fileURLToPath } from "node:url";
 import { spawn, execFile } from "node:child_process";
 import { promisify } from "node:util";
@@ -20,9 +21,11 @@ const actual = (
 if (actual !== pin)
   throw new Error(`Unsupported Vencord version: ${actual}. Check out ${pin} before building.`);
 await mkdir(join(target, "src", "userplugins", "profileStudio"), { recursive: true });
-await cp(join(root, "packages", "plugin"), join(target, "src", "userplugins", "profileStudio"), {
-  recursive: true,
-});
+for (const [path, bytes] of Object.entries(await pluginSource(root))) {
+  const destination = join(target, "src", "userplugins", "profileStudio", path);
+  await mkdir(dirname(destination), { recursive: true });
+  await writeFile(destination, bytes);
+}
 console.log(`ProfileStudio synchronized: ${target}`);
 const mode = process.argv[2] ?? "sync";
 if (mode === "check")

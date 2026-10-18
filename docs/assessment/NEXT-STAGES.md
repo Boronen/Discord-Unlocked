@@ -1,6 +1,6 @@
 # Proposed refactor budgets — approval required
 
-No stage below has started. These are reviewable work packages, not promises of new product features. Approve one package at a time; update the estimate from observed usage at the next checkpoint. Do not infer approval of all later stages from approval of Stage 0.
+Stage 1A was authorized on 18 October 2026. Its implementation is described in [Shared domain boundary](../DOMAIN-BOUNDARY.md); validation evidence is retained privately. Later packages remain proposed work. Approve one package at a time; update the estimate at each checkpoint. Approval of Stage 1A does not authorize every later stage.
 
 ## Recommended first package: 1A, shared domain boundary
 

@@ -6,7 +6,7 @@ import type { Database } from "./db.js";
 import { ProfileService, hash } from "./service.js";
 import { FileStore } from "./media.js";
 import { invariant } from "./errors.js";
-import { DEFAULT_CONFIG, assetIds, type ProfileConfig } from "../plugin/model.js";
+import { DEFAULT_CONFIG, assetIds, type ProfileConfig } from "../shared/domain/model.js";
 import {
   normalizeStudio,
   legacyConfig,
@@ -15,7 +15,7 @@ import {
   type Preset,
   type StyleShare,
   type AutomationRule,
-} from "../plugin/studio-model.js";
+} from "../shared/domain/studio-model.js";
 import {
   profileV2Schema,
   librarySchema,
@@ -23,7 +23,7 @@ import {
   metadataSchema,
   catalogMetadataSchema,
 } from "../shared/studio-schema.js";
-import { TINT_PALETTE, isBasicTint } from "../plugin/tint.js";
+import { TINT_PALETTE, isBasicTint } from "../shared/domain/tint.js";
 
 export class StudioService {
   constructor(

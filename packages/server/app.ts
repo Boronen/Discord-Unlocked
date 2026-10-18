@@ -12,7 +12,7 @@ import { resolveSong } from "./music.js";
 import { AccountLimits } from "./limits.js";
 import { StudioService } from "./studio.js";
 import { studioRoutes } from "./studio-routes.js";
-import { legacyConfig } from "../plugin/studio-model.js";
+import { legacyConfig } from "../shared/domain/studio-model.js";
 const versionBody = z.object({ version: z.number().int().min(0) }).strict();
 const reasonBody = z.object({ reason: z.string().trim().min(1).max(1000) }).strict();
 export async function createApp(

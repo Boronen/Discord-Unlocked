@@ -6,8 +6,8 @@ import {
   type SceneConfig,
   type PersonalLibrary,
   type AutomationRule,
-} from "../plugin/studio-model.js";
-import type { ProfileConfig } from "../plugin/model.js";
+} from "./domain/studio-model.js";
+import type { ProfileConfig } from "./domain/model.js";
 const color = z.string().regex(/^#[0-9a-fA-F]{6}$/);
 const id = z.string().regex(/^[a-zA-Z0-9_-]{1,100}$/);
 export const labelSchema = z.string().trim().min(1).max(64);

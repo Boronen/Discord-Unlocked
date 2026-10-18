@@ -1,25 +1,13 @@
 // Participant-only release: never walk the server tree or operator configuration.
-import { readdir, readFile, lstat, mkdir, writeFile } from "node:fs/promises";
+import { readdir, readFile, mkdir, writeFile } from "node:fs/promises";
 import { join } from "node:path";
 import { createHash } from "node:crypto";
 import { zipSync, unzipSync } from "fflate";
 import { scanZip } from "./security-scan.mjs";
+import { pluginSource } from "./plugin-source.mjs";
 
 const files = {};
-async function add(directory, prefix) {
-  for (const entry of await readdir(directory, { withFileTypes: true })) {
-    const path = join(directory, entry.name);
-    const info = await lstat(path);
-    if (info.isSymbolicLink()) throw new Error("Client packaging refuses links.");
-    const name = `${prefix}/${entry.name}`;
-    if (info.isDirectory()) await add(path, name);
-    else {
-      if (!/\.(?:ts|tsx|css|md)$/.test(entry.name)) throw new Error("Unexpected client source file.");
-      files[name] = new Uint8Array(await readFile(path));
-    }
-  }
-}
-await add("packages/plugin", "profileStudio");
+for (const [path, bytes] of Object.entries(await pluginSource())) files[`profileStudio/${path}`] = bytes;
 files["LICENSE"] = new Uint8Array(await readFile("LICENSE"));
 files["INSTALL-WINDOWS.md"] = new Uint8Array(await readFile("docs/INSTALL-WINDOWS.md"));
 

@@ -2,7 +2,7 @@ import type { FastifyInstance } from "fastify";
 import { z } from "zod";
 import { uuid, snowflake } from "../shared/schema.js";
 import { labelSchema } from "../shared/studio-schema.js";
-import { FEATURE_GROUPS, configDiff } from "../plugin/studio-model.js";
+import { FEATURE_GROUPS, configDiff } from "../shared/domain/studio-model.js";
 import { StudioService } from "./studio.js";
 import { invariant } from "./errors.js";
 import { hash } from "./service.js";

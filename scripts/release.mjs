@@ -3,6 +3,7 @@ import { resolve, join, relative } from "node:path";
 import { zipSync } from "fflate";
 import { createHash } from "node:crypto";
 import { scanProject, scanZip, forbidden } from "./security-scan.mjs";
+import { pluginSource } from "./plugin-source.mjs";
 await scanProject();
 const root = resolve("."),
   output = join(root, "dist", "release");
@@ -26,6 +27,8 @@ const paths = [
   ".gitignore",
   ".dockerignore",
   ".prettierrc.json",
+  ".prettierignore",
+  ".oxlintrc.json",
   "Dockerfile",
   "compose.yml",
   "README.md",
@@ -54,10 +57,7 @@ const source = zipSync(files, { level: 6 });
 if (scanZip(source).length) throw new Error("Release security check failed.");
 await writeFile(join(output, "profile-studio-source.zip"), source);
 const plugin = {};
-for (const [path, data] of Object.entries(files)) {
-  if (path.startsWith("packages/plugin/"))
-    plugin[`profileStudio/${path.slice("packages/plugin/".length)}`] = data;
-}
+for (const [path, bytes] of Object.entries(await pluginSource())) plugin[`profileStudio/${path}`] = bytes;
 plugin["LICENSE"] = files["LICENSE"];
 const pluginZip = zipSync(plugin, { level: 6 });
 await writeFile(join(output, "profile-studio-userplugin.zip"), pluginZip);

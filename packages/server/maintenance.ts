@@ -2,7 +2,7 @@ import { readdir, stat } from "node:fs/promises";
 import { join } from "node:path";
 import type { ProfileService } from "./service.js";
 import { FileStore } from "./media.js";
-import { assetIds } from "../plugin/model.js";
+import { assetIds } from "../shared/domain/model.js";
 function withoutAsset(value: any, id: string) {
   const config = structuredClone(value);
   for (const slot of ["avatar", "banner", "audio"]) if (config[slot] === id) config[slot] = null;
