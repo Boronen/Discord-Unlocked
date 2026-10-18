@@ -24,11 +24,11 @@ The operator supplied these publication facts for the intended community:
 - Responsible individual/controller: **Kovács Kevin**.
 - Project: **Discord Unlocked**; planned company/brand: **Boronen Games**. No registered-company operator is claimed.
 - Country: **Hungary**.
-- Privacy/security contact: **alisioboronen@gmail.com**.
+- Privacy/security contact: **boronengames.support@gmail.com**.
 - Source repository: [Boronen/Discord-Unlocked](https://github.com/Boronen/Discord-Unlocked).
 - Intended hosting: an isolated Linux VM on the operator's Windows machine, exposed through Tailscale Funnel; private Google Drive for encrypted offsite backups.
 
-Hosting/provider storage locations, international-transfer arrangements, legal bases and the rights/complaints process still require operator assessment. A provider's name does not establish its actual processing region. Earlier Oracle/DuckDNS/Caddy proposals are deployment alternatives, not claims about this installation. No paid resource is enabled by these instructions.
+The operator confirmed personal, free Google Drive and Tailscale Personal accounts, and accepted mailbox monitoring, proportionate account verification and a response normally within one month. The request workflow still needs operational rehearsal. Hosting/provider storage locations, international-transfer arrangements and legal bases still require operator assessment. A provider's name does not establish its actual processing region. Earlier Oracle/DuckDNS/Caddy proposals are deployment alternatives, not claims about this installation. No paid resource is enabled by these instructions.
 
 1. Copy `deploy/privacy-notice.example.json` to `secrets/privacy-notice.json` locally. Replace **every** placeholder and verify the provider list. Include Discord, the actual network/hosting and backup providers, and relevant music/artwork/Steam processing described in [Privacy](PRIVACY.md). The file is intended to become public through the endpoint; put no credentials, user records, internal paths or private diagnostics in it.
 2. Review the legal basis, contact/rights process, provider locations and effective date. Placeholder values are rejected. `configured:true` means the schema is filled; it does not certify legal compliance or the truth of provider facts.
