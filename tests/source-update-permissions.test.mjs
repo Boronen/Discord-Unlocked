@@ -29,6 +29,51 @@ async function cleanFixture(directory) {
   await rm(directory, { recursive: true, force: true });
 }
 
+test("update admission accepts the documentation release and rejects private/generated paths", async () => {
+  const script = await readFile(scriptPath, "utf8");
+  const admission = [...script.matchAll(/<<'JS'\r?\n([\s\S]*?)\r?\nJS/g)][0][1];
+  function check(paths) {
+    const source = admission
+      .replace(
+        "import { unzipSync } from 'fflate';",
+        `const unzipSync = () => Object.fromEntries(${JSON.stringify(paths)}.map(name => [name, new Uint8Array()]));`,
+      )
+      .replace("readFileSync(process.argv[2])", "new Uint8Array()");
+    execFileSync(process.execPath, ["--input-type=module", "-"], {
+      input: source,
+      stdio: ["pipe", "pipe", "pipe"],
+    });
+  }
+  check([
+    "docs-site/package.json",
+    "docs-site/package-lock.json",
+    "docs-site/.vitepress/config.mts",
+    "CONTRIBUTING.md",
+    ".oxlintrc.json",
+    "deploy/api.env.example",
+  ]);
+  const release = await readFile(new URL("../scripts/release.mjs", import.meta.url), "utf8");
+  const roots = JSON.parse(release.match(/const paths = (\[[\s\S]*?\]);/)[1].replace(/,\s*\]/, "]"));
+  check(
+    roots.filter(
+      (path) => (path.includes(".") && path !== ".github") || ["LICENSE", "Dockerfile"].includes(path),
+    ),
+  );
+  for (const path of [
+    "secrets/api.env",
+    "packages/secrets/private.env",
+    "docs/.vitepress/dist/index.html",
+    "docs-site/.vitepress/cache/index.json",
+    "docs-site/node_modules/tool/index.js",
+    "docs/backup-oauth-site/index.html",
+    "deploy/backup.key",
+    "packages/.env",
+    "../package.json",
+    "/package.json",
+  ])
+    assert.throws(() => check([path]), undefined, path);
+});
+
 test(
   "source extraction overrides umask 077 for code without changing private files",
   { skip: process.platform !== "linux" },

@@ -28,7 +28,12 @@ import { unzipSync } from 'fflate';
 const files = unzipSync(readFileSync(process.argv[2]));
 for (const path of Object.keys(files)) {
   if (path.includes('\\') || path.startsWith('/') || path.split('/').some(p => p === '..' || p === '.') ||
-      !/^(?:packages|migrations|scripts|deploy|preview|docs|tests|\.github)\/|^(?:package(?:-lock)?\.json|tsconfig(?:\.build)?\.json|vitest\.config\.ts|vite\.config\.ts|vencord-version\.json|premium-ui\.json|\.env\.example|\.gitignore|\.dockerignore|\.prettierrc\.json|Dockerfile|compose\.yml|README\.md|DESIGN\.md|UX-CONTRACT\.md|LICENSE|SECURITY\.md|PRIVACY\.md)$/.test(path))
+      !/^(?:packages|migrations|scripts|deploy|preview|docs|tests|\.github)\/|^docs-site\/(?:package(?:-lock)?\.json|\.vitepress\/config\.mts)$|^(?:package(?:-lock)?\.json|tsconfig(?:\.build)?\.json|vitest\.config\.ts|vite\.config\.ts|vencord-version\.json|premium-ui\.json|\.env\.example|\.gitignore|\.dockerignore|\.prettierrc\.json|\.prettierignore|\.oxlintrc\.json|Dockerfile|compose\.yml|README\.md|CONTRIBUTING\.md|DESIGN\.md|UX-CONTRACT\.md|LICENSE|SECURITY\.md|PRIVACY\.md)$/.test(path) ||
+      /(?:^|\/)(?:secrets|data|backups|exports|diagnostics|node_modules|\.vendor|\.git)(?:\/|$)/i.test(path) ||
+      /(?:^|\/)\.env(?:\..*)?$/i.test(path) && !path.endsWith('.env.example') ||
+      /\.(?:reg|pem|key|p8|p12|pfx|jks|keystore|dump|dmp|bak|backup|bkp|psb|har|heapsnapshot|sqlite3?|db)$/i.test(path) ||
+      /^(?:docs|docs-site)\/\.vitepress\/(?:cache|dist|\.temp)(?:\/|$)/.test(path) ||
+      /^docs\/backup-oauth-site(?:\/|$)/.test(path))
     throw new Error('Unexpected source archive path.');
 }
 console.log('Source archive paths verified. Local secrets and data are not part of this update.');

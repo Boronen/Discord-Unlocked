@@ -12,6 +12,12 @@ Use the existing isolated Linux VM. Preserve `secrets/`, the security journal, a
 
 ## Recovery
 
+### Source updater compatibility
+
+The documentation/refactor release adds `docs-site/`, `CONTRIBUTING.md` and `.oxlintrc.json`. An older `apply-source-update.sh` rejects these before extraction. Before applying that release, the operator must stage the reviewed, checksum-verified matching updater itself through the existing private SSH channel; do not loosen validation on the VM or extract the archive manually to bypass it. The updated admission check allows only the docs package/lock/config files, rejects private/generated paths, and still preserves local secrets and data. Transfer and verify the release ZIP and updater separately before invoking it.
+
+The optional privacy-notice Compose override must be preserved in the lifecycle command's file set when enabled. The existing v2 updater explicitly selects its base/production Compose files; do not assume it will enable or preserve an extra override automatically. Keep the notice unconfigured until its operator facts are complete, and rehearse the exact configuration before rollout.
+
 On migration or health failure, the updater leaves API, bot and worker stopped. Do not retag the old image and start it against the expanded database. Prefer fixing forward with the new image and intact data.
 
 If replacing data is necessary, obtain the latest independently retained security journal first. Use `scripts/restore.mjs` with the authenticated encrypted backup and `--journal-current`, following the existing recovery procedure. The current migration code runs before recovery fences, so an older backup is upgraded safely. All sessions are invalidated; erasures and revocations, including shared-media descendants, are reapplied. Restoring an old application image also requires a verified compatible database snapshot and a recovery tool that understands the current journal kinds. Never remove new journal entries to make an older tool accept them.
