@@ -4,7 +4,7 @@ Prepared on 18 October 2026. **Draft: not approved for deployment.** This supple
 
 ## Confirmed deployment facts
 
-The operator supplied the public identity **Boronen games**, country **Hungary**, and contact **alisioboronen@gmail.com**. The intended host is an isolated Linux VM on the operator's Windows computer, exposed through Tailscale Funnel. Encrypted backups are copied to private Google Drive. These are operator statements; provider locations and contractual terms have not been verified for the actual accounts.
+The operator supplied the public identity **Boronen games**, country **Hungary**, and contact **alisioboronen@gmail.com**. The operator confirmed they act as a private individual, the host is physically in Hungary, and only they administer the Windows computer and isolated Linux VM. The VM is exposed through Tailscale Funnel. Encrypted backups are copied to private Google Drive. The beta admission policy is 18+; the operator controls invitations and beta-role assignment. The software does not automatically verify age or collect birth dates for this policy. These are operator statements; external provider locations and contractual terms have not been verified for the actual accounts.
 
 The application stores Discord account identifiers, sessions, chosen profile content, normalized uploads, presets, private collections, moderation records and the other data listed in the canonical notice. Approved content is visible to paired beta members. Moderators and the operator have the access described there. Current listening activity is read locally; no listening history is stored by the Profile Studio API. Retention, encrypted backup expiry and deletion behavior remain exactly as documented in the canonical notice, rather than a second schedule here.
 
@@ -31,7 +31,7 @@ Operational review: confirm the mailbox is monitored, assign a responsible perso
 
 ## Providers and transfers to verify
 
-- **Self-hosted VM:** database and normalized media on the isolated host. Confirm its physical country, administrator access and any Windows/cloud synchronization that could receive data. Do not publish the home address or network addresses in documentation.
+- **Self-hosted VM:** database and normalized media on the isolated host. The operator confirmed Hungary and sole administrator access. Still verify any Windows/cloud synchronization that could receive data. Do not publish the home address or network addresses in documentation.
 - **Tailscale:** Funnel/network service and operator administration. Its [privacy policy](https://tailscale.com/privacy-policy) and [DPA](https://tailscale.com/dpa) describe separate scopes. Verify the terms actually applicable to this account, processing locations and safeguards; this draft does not assert a DPA is executed or covers all traffic.
 - **Google Drive:** encrypted backup objects plus provider-visible account/file metadata. Google describes worldwide processing and transfer mechanisms in its [transfer framework notice](https://policies.google.com/privacy/frameworks?hl=en). This does not establish EU-only storage, the operator's specific agreement, or a chosen mechanism for this deployment. Verify those separately. The backup key stays independent of this destination.
 - **Discord:** identity/role checks and private bot moderation previews. Its [privacy policy](https://discord.com/privacy) governs Discord's processing. Record applicable terms, destinations, preview-message erasure procedures and recipients; do not label Discord solely as this operator's processor without assessing its role.
@@ -40,7 +40,7 @@ Operational review: confirm the mailbox is monitored, assign a responsible perso
 ## Decisions required before approval
 
 1. Confirm that the public operator identity identifies the responsible natural/legal controller and complete any required controller contact details.
-2. Approve a basis for each purpose, with the necessary terms, consent workflow or balancing record. Decide the supported age group and safeguards.
+2. Approve a basis for each purpose, with the necessary terms, consent workflow or balancing record. The operator selected an adults-only beta; document how invitation/role assignment enforces that policy without unnecessary identity documents.
 3. Verify actual provider terms, roles, processing regions and transfer arrangements for the accounts used.
 4. Approve and rehearse the request, identity-verification and complaint process.
 5. Compare the wording with actual deployed retention, permissions, backup rotation and erasure behavior. Rehearse the optional API-only notice mount through the update/restart path before enabling it.
