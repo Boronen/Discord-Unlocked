@@ -46,22 +46,18 @@ export async function recordProfileGif(
     id = await native.begin(capture.width, capture.height);
     if (!id) return false;
     signal.throwIfAborted();
-    const start = performance.now();
-    let time = 0;
     for (let frame = 0; frame < 32; frame++) {
       signal.throwIfAborted();
       if (document.hidden || hiddenDuringRecording)
-        throw new Error("The preview was hidden. Keep Discord visible while exporting GIF.");
+        throw new Error("The profile was hidden. Keep Discord visible while exporting GIF.");
+      const time = frame * 125;
       const sample = await capture.snapshot(time);
       signal.throwIfAborted();
       await native.frame(id, sample.svg, time);
-      const elapsed = performance.now() - start;
-      progress(Math.min(1, elapsed / 4000));
-      if (elapsed >= 4000 || frame === 31) break;
-      await wait(Math.max(0, 125 - (elapsed - time)), signal);
-      const nextTime = Math.round(performance.now() - start);
-      if (nextTime >= 4000) break;
-      time = nextTime;
+      progress((frame + 1) / 32);
+      // Do not drop animation frames merely because rendering is slower than
+      // playback. The output timeline is four seconds regardless of encoding time.
+      if (frame < 31) await wait(125, signal);
     }
     signal.throwIfAborted();
     const saved = await native.finish(id, 4000);

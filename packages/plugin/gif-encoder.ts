@@ -51,12 +51,19 @@ export class CardGif {
   }
   private write(delay: number) {
     const rgba = this.previous!.rgba;
-    const palette = quantize(rgba, 256, { format: "rgba4444", oneBitAlpha: true });
-    const index = applyPalette(rgba, palette, "rgba4444");
-    const transparentIndex = palette.findIndex((color) => color[3] === 0);
+    const palette = quantize(rgba, 255, { format: "rgb565", oneBitAlpha: true });
+    const index = applyPalette(rgba, palette, "rgb565");
+    // Reserve transparency independently; rgba4444 reduced every color channel
+    // to four bits and visibly posterized album gradients.
+    const transparentIndex = palette.length;
+    palette.push([0, 0, 0]);
+    for (let pixel = 0; pixel < index.length; pixel++)
+      if (rgba[pixel * 4 + 3] === 0) index[pixel] = transparentIndex;
+    const start = Math.round(this.previous!.time / 10) * 10;
+    const end = Math.round((this.previous!.time + delay) / 10) * 10;
     this.encoder.writeFrame(index, this.width, this.height, {
       palette,
-      delay: Math.max(20, Math.round(delay / 10) * 10),
+      delay: Math.max(20, end - start),
       repeat: 0,
       dispose: 2,
       transparent: transparentIndex >= 0,

@@ -12,7 +12,7 @@ function setup() {
   capture.snapshot.mockResolvedValue({ svg: "<svg/>" });
   return {
     begin: vi.fn(async () => "recording"),
-    frame: vi.fn(async () => {}),
+    frame: vi.fn(async (_id: string, _svg: string, _time: number) => {}),
     finish: vi.fn(async () => true),
     cancel: vi.fn(async () => {}),
   };
@@ -59,4 +59,25 @@ it("cleans up after a failed native frame and save-dialog cancellation", async (
     await recordProfileGif(document.body, async () => "", native, new AbortController().signal, vi.fn()),
   ).toBe(false);
   expect(capture.close).toHaveBeenCalledTimes(2);
+});
+
+it("slow native rendering still exports all 32 deterministic animation samples", async () => {
+  const native = setup();
+  native.frame.mockImplementation(async () => {
+    await new Promise((resolve) => setTimeout(resolve, 500));
+  });
+  const result = recordProfileGif(
+    document.body,
+    async () => "",
+    native,
+    new AbortController().signal,
+    vi.fn(),
+  );
+  await vi.advanceTimersByTimeAsync(22000);
+  expect(await result).toBe(true);
+  expect(native.frame).toHaveBeenCalledTimes(32);
+  expect(native.frame.mock.calls.map((call) => call[2])).toEqual(
+    Array.from({ length: 32 }, (_, i) => i * 125),
+  );
+  expect(native.finish).toHaveBeenCalledWith("recording", 4000);
 });

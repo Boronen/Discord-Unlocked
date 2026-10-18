@@ -10,7 +10,8 @@ import { createHash, randomUUID } from "node:crypto";
 import { accountZip } from "./export-zip";
 import type { DraftBackup } from "./draft-history";
 import { renderCard, validateCard } from "./card-surface";
-import { CardGif } from "./gif-encoder";
+import { CardGif, GIF_LIMITS } from "./gif-encoder";
+import { discordAssetArtwork } from "./artwork-policy";
 import { steamGameId, parseSteamGame, steamArtwork } from "./steam-games";
 function sessionPath(userId: string, base: string) {
   const configured =
@@ -189,7 +190,7 @@ export async function beginProfileGif(event: IpcMainInvokeEvent, width: number, 
       output: output.filePath,
       busy: false,
       abort: new AbortController(),
-      timer: setTimeout(() => discardGif(id), 90000),
+      timer: setTimeout(() => discardGif(id), GIF_LIMITS.sessionMs),
       detach: () => event.sender.removeListener("destroyed", destroyed),
     });
     return id;
@@ -442,6 +443,7 @@ export async function artwork(_: IpcMainInvokeEvent, value: string) {
     url.protocol !== "https:" ||
     !(
       ["cdn.discordapp.com", "media.discordapp.net"].includes(url.hostname) ||
+      discordAssetArtwork(value) ||
       providerArtwork(value) ||
       steamArtwork(value)
     ) ||

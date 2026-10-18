@@ -1,3 +1,4 @@
+import { CardExportControls } from "./CardExportControls.js";
 import {
   React,
   ReactDOM,
@@ -380,6 +381,27 @@ export function ProfileAttachment({ userId }: { userId: string }) {
                 void Native.closeSong(favoriteSession.current);
               }}
             />
+            {viewer === userId && (
+              <details className="ps-root ps-live-profile-export" data-ps-export-exclude>
+                <summary>Export my complete profile</summary>
+                <p>
+                  Includes this Discord profile, badges, music presence and Studio layers. Only this card is
+                  saved; no surrounding Discord content or audio.
+                </p>
+                <CardExportControls
+                  source="profile"
+                  getCard={() => root}
+                  artworkLoader={loadAlbumArtwork}
+                  png={(svg, width, height) => Native.exportProfilePng(svg, width, height)}
+                  gif={{
+                    begin: (width, height) => Native.beginProfileGif(width, height),
+                    frame: (id, svg, time) => Native.appendProfileGif(id, svg, time),
+                    finish: (id, time) => Native.finishProfileGif(id, time),
+                    cancel: (id) => Native.cancelProfileGif(id),
+                  }}
+                />
+              </details>
+            )}
             <details className="ps-viewer-controls">
               <summary>Profile display on this device</summary>
               {(["background", "effects", "decoration", "tint", "parallax"] as const).map((name) => (

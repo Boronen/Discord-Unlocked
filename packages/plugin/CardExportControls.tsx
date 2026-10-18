@@ -9,12 +9,14 @@ export function CardExportControls({
   png,
   gif,
   disabled = false,
+  source = "preview",
 }: {
   getCard: () => HTMLElement | null | undefined;
   artworkLoader?: (url: string) => Promise<string>;
   png?: (svg: string, width: number, height: number) => Promise<boolean>;
   gif?: GifExporter;
   disabled?: boolean;
+  source?: "preview" | "profile";
 }) {
   const [format, setFormat] = React.useState("png");
   const [progress, setProgress] = React.useState<number | null>(null);
@@ -73,8 +75,8 @@ export function CardExportControls({
         label="Card export"
         help={
           format === "gif"
-            ? "4-second looping GIF · up to 450 px · no sound. Tall cards fit automatically. Keep the preview visible."
-            : "High-resolution still image of this preview. Only the profile card is saved."
+            ? `4-second looping GIF · up to 450 px · no sound. Every frame is encoded; preparation may take longer. Keep the ${source === "profile" ? "profile" : "preview"} open.`
+            : `High-resolution still image of this ${source}. Only the profile card is saved.`
         }
       >
         <Choice

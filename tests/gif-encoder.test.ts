@@ -37,3 +37,19 @@ describe("card GIF", () => {
     expect(() => gif.finish(8001)).toThrow(/incomplete/);
   });
 });
+
+it("all 32 output samples retain a four-second total instead of accumulating delay rounding", async () => {
+  const gif = new CardGif(100, 100);
+  for (let i = 0; i < 32; i++) gif.add(bitmap(i < 16 ? [0, 0, 255, 255] : [255, 0, 0, 255]), i * 125);
+  const bytes = gif.finish(4000);
+  const metadata = await sharp(bytes, { animated: true }).metadata();
+  expect(metadata.pages).toBe(32);
+  expect(metadata.delay?.reduce((a, b) => a + b, 0)).toBe(4000);
+  const { data } = await sharp(bytes, { animated: true })
+    .ensureAlpha()
+    .raw()
+    .toBuffer({ resolveWithObject: true });
+  expect([...data.subarray(4, 8)]).toEqual([255, 0, 0, 255]);
+  const last = 31 * 100 * 100 * 4 + 4;
+  expect([...data.subarray(last, last + 4)]).toEqual([0, 0, 255, 255]);
+});

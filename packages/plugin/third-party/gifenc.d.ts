@@ -20,8 +20,8 @@ export function quantize(
   rgba: Uint8Array,
   colors: number,
   options: {
-    format: "rgba4444";
+    format: "rgba4444" | "rgb565";
     oneBitAlpha: boolean;
   },
 ): number[][];
-export function applyPalette(rgba: Uint8Array, palette: number[][], format: "rgba4444"): Uint8Array;
+export function applyPalette(rgba: Uint8Array, palette: number[][], format: "rgba4444" | "rgb565"): Uint8Array;

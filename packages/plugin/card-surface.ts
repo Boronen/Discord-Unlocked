@@ -19,7 +19,7 @@ export function validateCard(svg: string, width: number, height: number, animate
     throw new Error("The export exceeds its image limits.");
 }
 
-/** One isolated, scriptless paint. No live Discord content or desktop pixels are captured. */
+/** One isolated, scriptless paint. Only the supplied profile-card document is painted; no desktop or surrounding Discord pixels are captured. */
 export async function renderCard(
   svg: string,
   width: number,
