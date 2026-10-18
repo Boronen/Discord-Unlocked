@@ -36,6 +36,8 @@ Hosting/provider storage locations, international-transfer arrangements, legal b
 4. For direct Node development, set `PRIVACY_NOTICE_FILE` in the API environment to the local completed file path.
 5. Test in the candidate environment: request `/v1/privacy/notice` without Authorization, verify the displayed facts, then verify export/account/media endpoints still reject anonymous access. Restarting the API is required to load a changed notice; it is loaded once, not on each request.
 
+**Update lifecycle limitation:** `deploy/update-studio-v2.sh` and `deploy/update-appearance-library.sh` currently reset `COMPOSE_FILE` to the base and production files. An inherited third override is therefore not preserved by these scripts. The backup timer installer also records that two-file set. Do not enable the optional notice mount on the live service and assume a later update will retain it. Before activation, adapt and rehearse every applicable update/restart/backup path with the same reviewed override, then verify that the notice remains configured after the rehearsal. The current deployment keeps the notice unconfigured while its wording and this lifecycle check remain pending.
+
 Public launch also requires [readiness checks](ACCEPTANCE.md); an incomplete notice must not be presented as a completed launch gate. Never mark a readiness checkbox true just to bypass a failed test.
 
 ## Bounded storage and worker isolation
