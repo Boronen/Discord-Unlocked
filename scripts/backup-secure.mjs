@@ -2,6 +2,8 @@ import { spawn } from "node:child_process";
 import { mkdir, writeFile, rm } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import { encrypt, readKey, sealManifest } from "./backup-crypto.mjs";
+import { productionComposeEnv } from "./production-compose.mjs";
+const composeEnvironment = productionComposeEnv();
 const directory = resolve(
   process.argv.find((v, i) => i > 1 && !v.startsWith("--")) ??
     join("backups", new Date().toISOString().replaceAll(":", "-")),
@@ -12,6 +14,7 @@ await mkdir(directory, { recursive: true, mode: 0o700 });
 function docker(args, archive) {
   return new Promise((resolve, reject) => {
     const child = spawn("docker", ["compose", ...args], {
+      env: composeEnvironment,
       windowsHide: true,
       stdio: ["ignore", "pipe", "pipe"],
     });

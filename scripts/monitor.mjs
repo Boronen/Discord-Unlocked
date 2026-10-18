@@ -2,6 +2,8 @@ import { execFileSync } from "node:child_process";
 import { readdir, readFile, stat } from "node:fs/promises";
 import { join } from "node:path";
 import { verifyOffsite } from "./offsite.mjs";
+import { productionComposeEnv } from "./production-compose.mjs";
+const composeEnvironment = productionComposeEnv();
 const problems = [];
 try {
   if (!(await fetch("http://127.0.0.1:3100/health", { signal: AbortSignal.timeout(5000) })).ok)
@@ -13,6 +15,7 @@ try {
   const probe = `import pg from 'pg';import{statfs}from'node:fs/promises';const db=new pg.Pool({connectionString:process.env.DATABASE_URL});const [v]=(await db.query("SELECT EXISTS(SELECT 1 FROM media WHERE status='processing' AND created_at<now()-interval '5 minutes') AS stuck,EXISTS(SELECT 1 FROM users WHERE deleted_at<now()-interval '1 hour') AS erasure,EXISTS(SELECT 1 FROM file_deletions WHERE created_at<now()-interval '1 hour') AS files,EXISTS(SELECT 1 FROM moderation_messages WHERE erase=true AND created_at<now()-interval '1 hour') AS messages")).rows;const disks=[];for(const area of ['quarantine','staging','processed']){const s=await statfs('/data/media/'+area);if(s.bavail/s.blocks<0.15)disks.push(area);}console.log(JSON.stringify({...v,disks}));await db.end();`;
   const data = JSON.parse(
     execFileSync("docker", ["compose", "exec", "-T", "api", "node", "--input-type=module", "-e", probe], {
+      env: composeEnvironment,
       windowsHide: true,
       stdio: ["ignore", "pipe", "pipe"],
     }),

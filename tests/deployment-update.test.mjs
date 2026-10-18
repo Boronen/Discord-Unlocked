@@ -36,6 +36,10 @@ const before=(()=>{try{return readFileSync(log,'utf8')}catch{return ''}})();
 appendFileSync(log,JSON.stringify([name,...a])+'\\n');
 if(name==='id') console.log('0');
 if(name==='curl') console.log('{"ok":true}');
+if(name==='node' && a.includes('scripts/production-compose.mjs')) {
+  if(process.env.MOCK_SCENARIO==='compose-fails') process.exit(13);
+  console.log(process.cwd()+'/compose.yml:'+process.cwd()+'/deploy/production.yml');
+}
 if(name==='node' && a.includes('scripts/restore-drill.mjs') && process.env.MOCK_SCENARIO==='drill-fails') process.exit(17);
 if(name==='docker') {
   if(a[0]==='image' && a[1]==='inspect') console.log(process.env.MOCK_SCENARIO==='tag-changes' && before.includes('scripts/restore-drill.mjs') ? 'sha256:'+'c'.repeat(64) : '${candidate}');
@@ -77,6 +81,7 @@ test(
       commands.some((c) => c[0] === "docker" && c[1] === "image" && c[2] === "tag" && c[3] === previous),
     );
     const index = (value) => commands.findIndex((c) => c.includes(value));
+    assert.ok(index("scripts/production-compose.mjs") < index("scripts/backup-secure.mjs"));
     assert.ok(index("scripts/backup-secure.mjs") < index("scripts/security-scan.mjs"));
     assert.ok(index("scripts/security-scan.mjs") < index("scripts/restore-drill.mjs"));
     assert.ok(index("scripts/restore-drill.mjs") < index("stop"));
@@ -95,3 +100,17 @@ for (const scenario of ["drill-fails", "tag-changes"])
       false,
     );
   });
+
+test("invalid notice activation stops deployment before Docker or backup operations", linuxOnly, async () => {
+  const { status, commands } = await deployment("compose-fails");
+  assert.notEqual(status, 0);
+  assert.ok(commands.some((c) => c.includes("scripts/production-compose.mjs")));
+  assert.equal(
+    commands.some((c) => c[0] === "docker"),
+    false,
+  );
+  assert.equal(
+    commands.some((c) => c.includes("scripts/backup-secure.mjs")),
+    false,
+  );
+});

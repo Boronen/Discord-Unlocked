@@ -1,5 +1,6 @@
 # Optional override. First create and complete secrets/privacy-notice.json locally.
 # Add this file to the same Compose invocation after compose.yml and production.yml.
+# Updated lifecycle helpers require a separately approved secrets/privacy-notice.enabled marker.
 services:
   api:
     environment:

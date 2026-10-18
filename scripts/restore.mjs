@@ -3,6 +3,8 @@ import { readFile } from "node:fs/promises";
 import { resolve, join } from "node:path";
 import { readKey, decrypt, checksum, discard, verifyManifest } from "./backup-crypto.mjs";
 import { Writable } from "node:stream";
+import { productionComposeEnv } from "./production-compose.mjs";
+const composeEnvironment = productionComposeEnv();
 if (
   !process.argv[2] ||
   !process.argv.includes("--replace-current-data") ||
@@ -52,6 +54,7 @@ else journal = await readFile(journalPath, "utf8");
 const run = (args, inputFile, inputText) =>
   new Promise((resolve, reject) => {
     const child = spawn("docker", ["compose", ...args], {
+      env: composeEnvironment,
       windowsHide: true,
       stdio: [inputFile || inputText !== undefined ? "pipe" : "ignore", "inherit", "inherit"],
     });

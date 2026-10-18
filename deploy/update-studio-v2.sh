@@ -14,7 +14,8 @@ cd "$app"
 mkdir -p backups
 exec 9>backups/.drive-job.lock
 flock -w 180 9
-export COMPOSE_FILE="$app/compose.yml:$app/deploy/production.yml"
+COMPOSE_FILE=$(/usr/local/bin/node scripts/production-compose.mjs --production)
+export COMPOSE_FILE
 docker compose config --quiet
 assert_image() {
   [ "$(docker image inspect --format '{{.Id}}' profile-studio:local)" = "$1" ] || {

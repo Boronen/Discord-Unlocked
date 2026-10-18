@@ -6,7 +6,8 @@ app=$(CDPATH= cd -- "$(dirname -- "$0")/.." && pwd -P)
 cd "$app"
 exec 9>backups/.drive-job.lock
 flock -w 180 9
-export COMPOSE_FILE="$app/compose.yml:$app/deploy/production.yml"
+COMPOSE_FILE=$(/usr/local/bin/node scripts/production-compose.mjs --production)
+export COMPOSE_FILE
 docker compose config --quiet
 # Existing backup code stops writers consistently and restarts them in finally.
 /usr/local/bin/node --env-file=/etc/profile-studio-backup/backup.env scripts/backup-secure.mjs

@@ -36,7 +36,17 @@ The operator confirmed personal, free Google Drive and Tailscale Personal accoun
 4. For direct Node development, set `PRIVACY_NOTICE_FILE` in the API environment to the local completed file path.
 5. Test in the candidate environment: request `/v1/privacy/notice` without Authorization, verify the displayed facts, then verify export/account/media endpoints still reject anonymous access. Restarting the API is required to load a changed notice; it is loaded once, not on each request.
 
-**Update lifecycle limitation:** `deploy/update-studio-v2.sh` and `deploy/update-appearance-library.sh` currently reset `COMPOSE_FILE` to the base and production files. An inherited third override is therefore not preserved by these scripts. The backup timer installer also records that two-file set. Do not enable the optional notice mount on the live service and assume a later update will retain it. Before activation, adapt and rehearse every applicable update/restart/backup path with the same reviewed override, then verify that the notice remains configured after the rehearsal. The current deployment keeps the notice unconfigured while its wording and this lifecycle check remain pending.
+**Explicit activation and lifecycle:** after the completed notice and its candidate rehearsal are approved, create `secrets/privacy-notice.enabled` containing exactly `enabled` followed by a newline, with private operator permissions. A JSON file alone never activates it. The updated deployment scripts and backup/restore/journal/monitor helpers resolve the fixed API-only override through `scripts/production-compose.mjs`. Existing backup timer environments can retain their base/production `COMPOSE_FILE`: the helper appends the reviewed override at runtime. An invalid marker, missing/linked/oversized notice or incompatible file set fails before Docker is invoked. Full notice schema validation still occurs at API startup; the helper is not legal or schema approval.
+
+For a manual lifecycle command, run from the project root and use the same resolver:
+
+```sh
+COMPOSE_FILE=$(/usr/local/bin/node scripts/production-compose.mjs --production)
+export COMPOSE_FILE
+docker compose config --quiet
+```
+
+Run the desired reviewed Compose command only after this succeeds. Do not combine activation with an unreviewed third override. Install and test these updated helpers before enabling the marker on an older deployment; older scripts ignore it. Removing the marker affects subsequent commands, not already running containers, so deactivation requires a deliberate API recreation with the two-file set. The live deployment keeps the notice unconfigured while its wording and full lifecycle rehearsal remain pending. Local/synthetic Compose checks do not establish live restart/backup acceptance.
 
 Public launch also requires [readiness checks](ACCEPTANCE.md); an incomplete notice must not be presented as a completed launch gate. Never mark a readiness checkbox true just to bypass a failed test.
 
