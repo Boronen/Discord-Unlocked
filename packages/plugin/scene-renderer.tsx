@@ -1,5 +1,6 @@
+import { observeFrames, observeForeground, observeScene, nextSceneBoundary } from "./scene-scheduler.js";
 import { React } from "@webpack/common";
-import type { CatalogItem, MusicStyle, ProfileConfig } from "./model.js";
+import type { CatalogItem, ProfileConfig } from "./model.js";
 import {
   resolveScene,
   type SceneConfig,
@@ -60,20 +61,22 @@ export function useSceneMotion(
   reduced: boolean,
   mode: PerformanceMode,
   sessionKey: string,
+  layers: readonly SceneLayer[] = [],
+  items: readonly CatalogItem[] = [],
+  forcedPhase?: SceneLayer["phase"],
+  selected?: string,
 ) {
   const [elapsed, setElapsed] = React.useState(0),
     [hover, setHover] = React.useState(false),
     [visible, setVisible] = React.useState(true),
     [foreground, setForeground] = React.useState(!document.hidden),
     [level, setLevel] = React.useState(mode === "low" ? 2 : 0);
+  React.useEffect(() => observeForeground(setForeground), []);
+  const clock = React.useRef({ start: performance.now(), pausedAt: null as number | null, offset: 0 });
+  const readElapsed = () =>
+    Math.max(0, (clock.current.pausedAt ?? performance.now()) - clock.current.start - clock.current.offset);
   React.useEffect(() => {
-    const update = () => setForeground(!document.hidden);
-    document.addEventListener("visibilitychange", update);
-    return () => document.removeEventListener("visibilitychange", update);
-  }, []);
-  const clock = React.useRef({ start: 0, pausedAt: 0, offset: 0 });
-  React.useEffect(() => {
-    clock.current = { start: performance.now(), pausedAt: 0, offset: 0 };
+    clock.current = { start: performance.now(), pausedAt: null, offset: 0 };
     setElapsed(0);
   }, [sessionKey]);
   React.useEffect(() => {
@@ -89,13 +92,9 @@ export function useSceneMotion(
     element.addEventListener("pointerleave", leave);
     element.addEventListener("focusin", focus);
     element.addEventListener("focusout", blur);
-    const io =
-      typeof IntersectionObserver === "undefined"
-        ? null
-        : new IntersectionObserver((entries) => setVisible(entries[0]?.isIntersecting ?? false));
-    io?.observe(element);
+    const stopObserving = observeScene(element, setVisible);
     return () => {
-      io?.disconnect();
+      stopObserving();
       element.removeEventListener("pointerenter", enter);
       element.removeEventListener("pointerleave", leave);
       element.removeEventListener("focusin", focus);
@@ -107,39 +106,57 @@ export function useSceneMotion(
   }, [mode, sessionKey]);
   React.useEffect(() => {
     if (reduced || !visible || !foreground || level >= 2) {
-      if (!clock.current.pausedAt) clock.current.pausedAt = performance.now();
+      clock.current.pausedAt ??= performance.now();
       return;
     }
-    if (clock.current.pausedAt) {
+    if (clock.current.pausedAt !== null) {
       clock.current.offset += performance.now() - clock.current.pausedAt;
-      clock.current.pausedAt = 0;
+      clock.current.pausedAt = null;
     }
-    let frame = 0,
-      last = performance.now(),
-      lastRender = 0,
-      samples = 0,
-      slow = 0;
-    const tick = (now: number) => {
-      const delta = now - last;
-      last = now;
-      if (mode === "auto") {
-        samples++;
-        if (delta > 33) slow++;
-        if (samples >= 180) {
+    let boundary = nextSceneBoundary(layers, items, readElapsed(), hover, forcedPhase, selected);
+    setElapsed(readElapsed());
+    const advance = () => {
+      const now = readElapsed();
+      if (now >= boundary) {
+        setElapsed(now);
+        boundary = nextSceneBoundary(layers, items, now, hover, forcedPhase, selected);
+      }
+    };
+    if (mode === "auto") {
+      let last = performance.now(),
+        samples = 0,
+        slow = 0;
+      return observeFrames((now) => {
+        if (now - last > 33) slow++;
+        last = now;
+        if (++samples >= 180) {
           if (slow > samples * 0.35) setLevel((v) => Math.min(2, v + 1));
           samples = slow = 0;
         }
-      }
-      if (now - lastRender >= 50) {
-        setElapsed(Math.max(0, now - clock.current.start - clock.current.offset));
-        lastRender = now;
-      }
-      frame = requestAnimationFrame(tick);
+        advance();
+      });
+    }
+    let timer: ReturnType<typeof setTimeout>;
+    const schedule = () => {
+      if (Number.isFinite(boundary))
+        timer = setTimeout(
+          () => {
+            advance();
+            schedule();
+          },
+          Math.max(1, boundary - readElapsed()),
+        );
     };
-    frame = requestAnimationFrame(tick);
-    return () => cancelAnimationFrame(frame);
-  }, [visible, foreground, reduced, mode, sessionKey, level]);
-  return { elapsed, hover, visible, level, static: reduced || level >= 2 || !visible || !foreground };
+    schedule();
+    return () => clearTimeout(timer);
+  }, [visible, foreground, reduced, mode, sessionKey, level, layers, items, hover, forcedPhase, selected]);
+  return {
+    elapsed: Math.max(elapsed, readElapsed()),
+    hover,
+    visible,
+    level,
+    static: reduced || level >= 2 || !visible || !foreground,
+  };
 }
 function CatalogVisual({
   item,
@@ -207,7 +224,16 @@ export function SceneRenderer({
   onTransform?: (id: string, transform: SceneLayer["transform"]) => void;
 }) {
   const own = React.useRef<HTMLDivElement>(null);
-  const motion = useSceneMotion(outside ?? own, reduced || !scene.layers.length, mode, sessionKey);
+  const motion = useSceneMotion(
+    outside ?? own,
+    reduced || !scene.layers.length,
+    mode,
+    sessionKey,
+    scene.layers,
+    items,
+    forcedPhase,
+    onTransform ? (scene.layers.find((l) => l.id === selected)?.id ?? scene.layers[0]?.id) : undefined,
+  );
   const point = React.useRef({ x: 0, y: 0 });
   React.useEffect(() => {
     const element = (outside ?? own).current;

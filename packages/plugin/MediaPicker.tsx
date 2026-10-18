@@ -1,3 +1,4 @@
+import { usePrivateMedia } from "./usePrivateMedia.js";
 import { React } from "@webpack/common";
 import { Button } from "@components/Button";
 import type { CatalogItem, MediaAsset, MediaSlot, ProfileConfig } from "./model.js";
@@ -94,8 +95,6 @@ export function MediaPicker({
     observer.observe(results.current!);
     return () => observer.disconnect();
   }, [slot]);
-  const [urls, setUrls] = React.useState<Record<string, string>>({});
-  const [failed, setFailed] = React.useState(false);
   const [attempt, setAttempt] = React.useState(0);
   React.useEffect(() => {
     const previous = document.activeElement as HTMLElement | null;
@@ -166,31 +165,14 @@ export function MediaPicker({
         .map((asset) => asset.id),
     ]),
   ].join(",");
-  React.useEffect(() => {
-    let cancelled = false;
-    setFailed(false);
-    const ids = new Set(needed.split(","));
-    void Promise.allSettled(
-      assets
-        .filter((asset) => ids.has(asset.id))
-        .map(async (asset) => {
-          const selected = asset.id === candidateOption?.asset?.id;
-          const url = !reduced && selected ? asset.url : (asset.previewUrl ?? asset.url);
-          return [asset.id, await api.privateMedia(url)] as const;
-        }),
-    ).then((results) => {
-      if (cancelled) return;
-      setFailed(results.some((result) => result.status === "rejected"));
-      setUrls(
-        Object.fromEntries(
-          results.flatMap((result) => (result.status === "fulfilled" ? [result.value] : [])),
-        ),
-      );
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [needed, candidate, reduced, assets, api, attempt]);
+  const neededIds = new Set(needed.split(","));
+  const { urls, failed } = usePrivateMedia(
+    api,
+    assets
+      .filter((a) => neededIds.has(a.id))
+      .map((a) => [a.id, !reduced && a.id === candidateOption?.asset?.id ? a.url : (a.previewUrl ?? a.url)]),
+    attempt,
+  );
   const preview = {
     ...legacyConfig(config),
     ...visualPatch(slot, candidate),

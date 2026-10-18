@@ -29,7 +29,8 @@
     "release": "node scripts/release.mjs",
     "lint": "oxlint packages tests scripts",
     "format:domain": "prettier --check packages/shared/domain packages/plugin/model.ts packages/plugin/studio-model.ts packages/plugin/tint.ts packages/plugin/music-links.ts packages/plugin/export-zip.ts scripts/plugin-source.mjs scripts/plugin-source.d.mts tests/domain-boundary.test.ts .oxlintrc.json",
-    "format:editor": "prettier --check packages/plugin/Editor.tsx packages/plugin/StudioWorkspace.tsx packages/plugin/studio-community.tsx packages/plugin/community packages/plugin/use*Controller.ts packages/plugin/workspace-*.ts* packages/plugin/legacy-*.tsx packages/plugin/editor-*.ts packages/plugin/studio-dialogs.tsx packages/plugin/studio-notice.tsx tests/editor-module-compatibility.test.tsx scripts/dead-code-entrypoints.json"
+    "format:editor": "prettier --check packages/plugin/Editor.tsx packages/plugin/StudioWorkspace.tsx packages/plugin/studio-community.tsx packages/plugin/community packages/plugin/use*Controller.ts packages/plugin/workspace-*.ts* packages/plugin/legacy-*.tsx packages/plugin/editor-*.ts packages/plugin/studio-dialogs.tsx packages/plugin/studio-notice.tsx tests/editor-module-compatibility.test.tsx scripts/dead-code-entrypoints.json",
+    "format:resources": "prettier --check packages/plugin/media-cache.ts packages/plugin/usePrivateMedia.ts packages/plugin/scene-scheduler.ts packages/plugin/scene-renderer.tsx packages/plugin/client.ts packages/plugin/runtime.ts tests/media-cache.test.ts tests/private-media-lifecycle.test.tsx tests/studio-renderer.test.tsx scripts/assessment/renderer.mjs"
   },
   "dependencies": {
     "@fastify/cors": "^11.3.1",

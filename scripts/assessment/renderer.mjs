@@ -6,7 +6,7 @@ const executable = process.argv[2],
   run = process.argv[3] ?? "1";
 if (!executable || !/^[1-9]$/.test(run))
   throw new Error("Usage: node scripts/assessment/renderer.mjs <electron.exe> <run 1–9>");
-const directory = resolve("diagnostics/refactor-stage0");
+const directory = resolve(process.argv[4] ?? "diagnostics/refactor-stage0");
 await mkdir(directory, { recursive: true });
 await build({
   entryPoints: ["scripts/assessment/renderer.tsx"],
@@ -52,6 +52,9 @@ app.whenReady().then(async()=>{
   await window.loadURL('https://assessment.invalid/');
   const evaluate=script=>window.webContents.executeJavaScript(script);
   const metrics=()=>app.getAppMetrics().map(m=>({type:m.type,pid:m.pid,cpu:m.cpu.cumulativeCPUUsage,workingSetKb:m.memory.workingSetSize,peakWorkingSetKb:m.memory.peakWorkingSetSize}));
+  // Calibrate independently: optimized CSS-only scenes legitimately request no RAF.
+  const frameCalibration=await evaluate('new Promise(done=>{let count=0;const start=performance.now();function tick(now){count++;if(now-start>=500)done(count);else requestAnimationFrame(tick)}requestAnimationFrame(tick)})');
+  if(frameCalibration<5)throw new Error('Background frame throttling invalidates this sample');
   const rows=[];
   for(const name of ['empty','profile-static','profile-small','profile-full','profiles-five','profile-offscreen','editor','catalog']){
     await evaluate('assessment.clear()');
@@ -63,14 +66,13 @@ app.whenReady().then(async()=>{
     await wait(3000);clearInterval(sampler);
     const after=await evaluate('assessment.stats()'),cpuAfter=metrics();
     const cpuMs=cpuAfter.reduce((sum,m)=>sum+Math.max(0,m.cpu-(cpuBefore.find(b=>b.pid===m.pid)?.cpu??m.cpu))*1000,0);
-    if(name==='profile-small'&&after.rafCallbacks-before.rafCallbacks<30)throw new Error('Background frame throttling invalidates this sample');
     rows.push({name,mountMs,interaction,settledAfterMs:wall-at,wallMs:performance.now()-wall,cpuMs,processWorkingSetKb:cpuAfter.reduce((s,m)=>s+m.workingSetKb,0),largestProcessPeakKb:peak,commits:after.commits-before.commits,reactRenderMs:after.renderMs-before.renderMs,rafCallbacks:after.rafCallbacks-before.rafCallbacks,pendingAnimationFrames:after.pendingAnimationFrames,activeIntervals:after.activeIntervals,activeTimeouts:after.activeTimeouts,requests:after.requests-before.requests,domNodes:after.domNodes,heapBytes:after.heap});
     if(run==='1'&&(name==='editor'||name==='catalog'))await fs.writeFile(path.join(directory,name+'.png'),(await window.webContents.capturePage()).toPNG());
   }
   await evaluate('assessment.clear()');
   const beforeChurn=await evaluate('assessment.stats()');
   const afterChurn=await evaluate('assessment.churn()');
-  const result={at:new Date().toISOString(),electron:process.versions.electron,chrome:process.versions.chrome,node:process.versions.node,kind:'Isolated offscreen Electron at 60fps; production React profiling build; synthetic 3-layer CSS/texture profiles; no Discord',rows,churn:{cycles:20,before:beforeChurn,after:afterChurn},externalRequests};
+  const result={at:new Date().toISOString(),electron:process.versions.electron,chrome:process.versions.chrome,node:process.versions.node,kind:'Isolated offscreen Electron at 60fps; production React profiling build; synthetic 3-layer CSS/texture profiles; no Discord',frameCalibration,rows,churn:{cycles:20,before:beforeChurn,after:afterChurn},externalRequests};
   await fs.writeFile(path.join(directory,'renderer-'+run+'.json'),JSON.stringify(result,null,2)+'\\n');
   window.destroy();clearTimeout(timeout);console.log('Renderer baseline run '+run+' complete ('+rows.length+' cases).');app.exit(0);
 }).catch(e=>{console.error(e);app.exit(1)});

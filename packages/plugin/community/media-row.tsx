@@ -1,3 +1,4 @@
+import { usePrivateMedia } from "../usePrivateMedia.js";
 import { React } from "@webpack/common";
 import type { StudioClient } from "../client.js";
 import { type MediaAsset } from "../model.js";
@@ -8,19 +9,8 @@ import type { CommunityProps as Props } from "./types.js";
 import { StudioDialog } from "../studio-dialogs.js";
 
 export function PrivateImage({ asset, api }: { asset: MediaAsset; api: StudioClient }) {
-  const [url, setUrl] = React.useState<string>();
-  React.useEffect(() => {
-    let cancel = false;
-    void api
-      .privateMedia(asset.previewUrl ?? asset.url)
-      .then((value) => {
-        if (!cancel) setUrl(value);
-      })
-      .catch(() => {});
-    return () => {
-      cancel = true;
-    };
-  }, [asset.id, asset.previewUrl, api]);
+  const { urls } = usePrivateMedia(api, [[asset.id, asset.previewUrl ?? asset.url]]);
+  const url = urls[asset.id];
   return <Thumbnail url={url} />;
 }
 export function MediaRow({
@@ -40,21 +30,12 @@ export function MediaRow({
     [background, setBackground] = React.useState("checker"),
     [zoom, setZoom] = React.useState(1),
     [staticMode, setStatic] = React.useState(true),
-    [black, setBlack] = React.useState(false),
-    [url, setUrl] = React.useState<string>();
-  React.useEffect(() => {
-    if (!inspect) return;
-    let cancel = false;
-    void props.api
-      .privateMedia(staticMode && asset.previewUrl ? asset.previewUrl : asset.url)
-      .then((value) => {
-        if (!cancel) setUrl(value);
-      })
-      .catch(() => props.onMessage("This preview is unavailable."));
-    return () => {
-      cancel = true;
-    };
-  }, [inspect, staticMode, asset.id]);
+    [black, setBlack] = React.useState(false);
+  const { urls, failed } = usePrivateMedia(
+    props.api,
+    inspect ? [[asset.id, staticMode && asset.previewUrl ? asset.previewUrl : asset.url]] : [],
+  );
+  const url = urls[asset.id];
   return (
     <article className="ps-media-row">
       <div className="ps-media-heading">
@@ -181,7 +162,7 @@ export function MediaRow({
                 style={{ transform: `scale(${zoom})`, mixBlendMode: black ? "screen" : "normal" }}
               />
             ) : (
-              <p role="status">Loading preview…</p>
+              <p role="status">{failed ? "This preview is unavailable." : "Loading preview…"}</p>
             )}
           </div>
           <p className="ps-help">Inspection does not modify your file or preset.</p>

@@ -1,7 +1,8 @@
 // @vitest-environment jsdom
 import React from "react";
 import { afterEach, expect, test, vi } from "vitest";
-import { render, cleanup, act, screen } from "@testing-library/react";
+import { render, cleanup, act, screen, fireEvent } from "@testing-library/react";
+import { nextSceneBoundary } from "../packages/plugin/scene-scheduler.js";
 import { SceneRenderer, phaseVisible, StudioBlocks } from "../packages/plugin/scene-renderer.js";
 import { newLayer, normalizeStudio, resolveScene } from "../packages/plugin/studio-model.js";
 import { DEFAULT_CONFIG } from "../packages/plugin/model.js";
@@ -34,8 +35,171 @@ test("original comparison retains cached Discord appearance without a fabricated
 });
 afterEach(() => {
   cleanup();
+  vi.useRealTimers();
   vi.restoreAllMocks();
   vi.unstubAllGlobals();
+});
+
+function mockFrames() {
+  let now = 0,
+    serial = 0;
+  const pending = new Map<number, FrameRequestCallback>();
+  vi.spyOn(performance, "now").mockImplementation(() => now);
+  vi.spyOn(document, "hidden", "get").mockReturnValue(false);
+  vi.stubGlobal("requestAnimationFrame", (cb: FrameRequestCallback) => {
+    const id = ++serial;
+    pending.set(id, cb);
+    return id;
+  });
+  vi.stubGlobal("cancelAnimationFrame", (id: number) => pending.delete(id));
+  return {
+    pending,
+    tick(time: number) {
+      now = time;
+      act(() => {
+        const callbacks = [...pending.values()];
+        pending.clear();
+        callbacks.forEach((fn) => fn(time));
+      });
+    },
+  };
+}
+
+test("five CSS scenes share a frame sampler and perform no React work between phase boundaries", () => {
+  const frames = mockFrames();
+  const c = normalizeStudio(DEFAULT_CONFIG);
+  c.studio.base.layers = [newLayer("preset"), newLayer("texture")];
+  const scene = resolveScene(c, "small"),
+    items: [] = [];
+  let commits = 0;
+  const { unmount } = render(
+    <React.Profiler id="scenes" onRender={() => commits++}>
+      {Array.from({ length: 5 }, (_, i) => (
+        <SceneRenderer key={i} scene={scene} items={items} urls={{}} />
+      ))}
+    </React.Profiler>,
+  );
+  const settled = commits;
+  for (let i = 1; i <= 200; i++) frames.tick(i * 16);
+  expect(frames.pending.size).toBe(1);
+  expect(commits).toBe(settled);
+  unmount();
+  expect(frames.pending.size).toBe(0);
+});
+
+test("quality CSS scenes need neither a frame sampler nor a recurring timer", () => {
+  vi.useFakeTimers();
+  const raf = vi.fn();
+  vi.stubGlobal("requestAnimationFrame", raf);
+  const c = normalizeStudio(DEFAULT_CONFIG);
+  c.studio.base.layers = [newLayer("texture")];
+  render(<SceneRenderer scene={resolveScene(c, "small")} items={[]} urls={{}} mode="quality" />);
+  expect(raf).not.toHaveBeenCalled();
+  expect(vi.getTimerCount()).toBe(0);
+});
+
+test("quality timers honor intro and catalogue loop edges without changing animation sessions", () => {
+  vi.useFakeTimers({ toFake: ["setTimeout", "clearTimeout", "performance"] });
+  const c = normalizeStudio(DEFAULT_CONFIG);
+  c.studio.base.layers = [{ ...newLayer("discord"), assetId: "effect" }];
+  const item = {
+    id: "effect",
+    kind: "effect" as const,
+    name: "Effect",
+    imageUrl: "still",
+    staticUrl: "still",
+    discordAsset: null,
+    layers: [
+      {
+        src: "animated",
+        x: 0,
+        y: 0,
+        width: 450,
+        height: 880,
+        start: 100,
+        duration: 200,
+        loop: true,
+        loopDelay: 100,
+        zIndex: 0,
+      },
+    ],
+  };
+  render(<SceneRenderer scene={resolveScene(c, "small")} items={[item]} urls={{}} mode="quality" />);
+  expect(document.querySelector("image")).toBeNull();
+  act(() => vi.advanceTimersByTime(100));
+  const first = document.querySelector("image");
+  expect(first).not.toBeNull();
+  act(() => vi.advanceTimersByTime(200));
+  expect(document.querySelector("image")).toBeNull();
+  act(() => vi.advanceTimersByTime(100));
+  expect(document.querySelector("image")).not.toBeNull();
+  expect(document.querySelector("image")).not.toBe(first);
+});
+
+test("offscreen and background scenes pause their intro clock and release the shared frame", () => {
+  const frames = mockFrames();
+  let intersects!: (entries: { target: Element; isIntersecting: boolean }[]) => void;
+  const targets = new Set<Element>();
+  const disconnect = vi.fn();
+  vi.stubGlobal(
+    "IntersectionObserver",
+    class {
+      constructor(cb: typeof intersects) {
+        intersects = cb;
+      }
+      observe(target: Element) {
+        targets.add(target);
+      }
+      unobserve(target: Element) {
+        targets.delete(target);
+      }
+      disconnect = disconnect;
+    },
+  );
+  const c = normalizeStudio(DEFAULT_CONFIG);
+  c.studio.base.layers = [{ ...newLayer("media"), assetId: "intro", phase: "intro", durationMs: 300 }];
+  const { unmount } = render(
+    <SceneRenderer scene={resolveScene(c, "small")} items={[]} urls={{ intro: "animated" }} />,
+  );
+  frames.tick(100);
+  act(() => intersects([...targets].map((target) => ({ target, isIntersecting: false }))));
+  expect(frames.pending.size).toBe(0);
+  frames.tick(10_000);
+  act(() => intersects([...targets].map((target) => ({ target, isIntersecting: true }))));
+  expect(document.querySelector(".ps-scene-image")).not.toBeNull();
+  frames.tick(10_199);
+  expect(document.querySelector(".ps-scene-image")).not.toBeNull();
+  frames.tick(10_201);
+  expect(document.querySelector(".ps-scene-image")).toBeNull();
+  vi.spyOn(document, "hidden", "get").mockReturnValue(true);
+  act(() => document.dispatchEvent(new Event("visibilitychange")));
+  expect(frames.pending.size).toBe(0);
+  unmount();
+  expect(disconnect).toHaveBeenCalledOnce();
+});
+
+test("auto quality still degrades on sustained slow frames and hover supports keyboard focus", () => {
+  const frames = mockFrames();
+  const c = normalizeStudio(DEFAULT_CONFIG);
+  c.studio.base.layers = [{ ...newLayer("media"), assetId: "hover", phase: "hover" }];
+  render(<SceneRenderer scene={resolveScene(c, "small")} items={[]} urls={{ hover: "animated" }} />);
+  const host = document.querySelector(".ps-scene")!;
+  expect(document.querySelector("img")).toBeNull();
+  fireEvent.focusIn(host);
+  expect(document.querySelector("img")).not.toBeNull();
+  fireEvent.focusOut(host);
+  expect(document.querySelector("img")).toBeNull();
+  for (let i = 1; i <= 360; i++) frames.tick(i * 50);
+  expect(host.classList.contains("ps-scene-static")).toBe(true);
+  expect(frames.pending.size).toBe(0);
+});
+
+test("boundary calculation stops completed intros and ignores inactive hover catalogue work", () => {
+  const intro = { ...newLayer(), phase: "intro" as const, delayMs: 100, durationMs: 200 };
+  expect(nextSceneBoundary([intro], [], 0, false)).toBe(100);
+  expect(nextSceneBoundary([intro], [], 100, false)).toBe(300);
+  expect(nextSceneBoundary([intro], [], 300, false)).toBe(Infinity);
+  expect(nextSceneBoundary([{ ...intro, phase: "hover" }], [], 0, false)).toBe(Infinity);
 });
 
 test("overlapping layers expose a handle only for the selected unlocked layer", () => {

@@ -1,3 +1,4 @@
+import { usePrivateMedia } from "../usePrivateMedia.js";
 import { React } from "@webpack/common";
 import { DEFAULT_CONFIG, type MediaAsset, type ProfileRevision } from "../model.js";
 import type { StyleShare } from "../studio-model.js";
@@ -18,7 +19,6 @@ export function ReviewPanel(props: Props) {
       changes: string[];
     } | null>(null),
     [share, setShare] = React.useState<StyleShare | null>(null),
-    [urls, setUrls] = React.useState<Record<string, string>>({}),
     [reason, setReason] = React.useState(""),
     [full, setFull] = React.useState(false),
     [phase, setPhase] = React.useState<"" | "intro" | "idle" | "hover">(""),
@@ -27,15 +27,11 @@ export function ReviewPanel(props: Props) {
   React.useEffect(() => {
     void props.onRun(refresh);
   }, [props.api]);
-  async function loadAssets(assets: MediaAsset[]) {
-    const result = await Promise.allSettled(
-      assets.map(
-        async (a) =>
-          [a.id, await props.api.privateMedia(props.reduced && a.previewUrl ? a.previewUrl : a.url)] as const,
-      ),
-    );
-    setUrls(Object.fromEntries(result.flatMap((r) => (r.status === "fulfilled" ? [r.value] : []))));
-  }
+  const [assets, setAssets] = React.useState<MediaAsset[]>([]);
+  const { urls } = usePrivateMedia(
+    props.api,
+    assets.map((a) => [a.id, props.reduced && a.previewUrl ? a.previewUrl : a.url]),
+  );
   async function decide(action: "approve" | "reject") {
     const id = review?.revision.id ?? share?.id;
     if (!id) return;
@@ -45,6 +41,7 @@ export function ReviewPanel(props: Props) {
     });
     setReview(null);
     setShare(null);
+    setAssets([]);
     setReason("");
     await refresh();
     await props.onRefresh();
@@ -68,7 +65,7 @@ export function ReviewPanel(props: Props) {
               const value = await props.api.request<NonNullable<typeof review>>(`/v2/moderation/${r.id}`);
               setReview(value);
               setShare(null);
-              await loadAssets(value.assets);
+              setAssets(value.assets);
             })
           }
         >
@@ -86,7 +83,7 @@ export function ReviewPanel(props: Props) {
               );
               setShare(value.share);
               setReview(null);
-              await loadAssets(value.assets);
+              setAssets(value.assets);
             })
           }
         >
@@ -100,6 +97,7 @@ export function ReviewPanel(props: Props) {
           onClose={() => {
             setReview(null);
             setShare(null);
+            setAssets([]);
           }}
         >
           <div className="ps-actions">

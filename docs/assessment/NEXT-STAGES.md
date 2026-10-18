@@ -1,6 +1,6 @@
 # Proposed refactor budgets — approval required
 
-Stages 1A and 1B were authorized on 18 October 2026. Their implementation is described in [Shared domain boundary](../DOMAIN-BOUNDARY.md) and [Editor ownership](../CODE-OWNERSHIP.md); validation evidence is retained privately. Later stages remain proposed work. Approve one stage at a time; update the estimate at each checkpoint. Structural-stage approval does not authorize the later performance/UI stages or deployment.
+Stages 1A, 1B and 2 were authorized on 18 October 2026. Their implementation is described in [Shared domain boundary](../DOMAIN-BOUNDARY.md), [Editor ownership](../CODE-OWNERSHIP.md) and [Resource ownership](../RESOURCE-LIFECYCLE.md); validation evidence is retained privately. Later stages remain proposed work. Approve one stage at a time; update the estimate at each checkpoint. Stage 2 approval does not authorize UI redesign or deployment.
 
 ## Recommended first package: 1A, shared domain boundary
 
@@ -23,6 +23,10 @@ Estimate: 1–2 hours; 150k–350k uncached input and 12k–30k output; gross in
 Start with the confirmed media-concurrency and animation-commit findings. Add byte accounting, active-resource ownership and cancellation/clear semantics before cache eviction changes. Preserve the 100 MiB user allowance, animation fidelity and tall GIF capability. Only then examine query batching, palette decode reuse and packaging debug artifacts.
 
 Targets to validate, not claimed results: bounded pending media work under the 80-request probe; every active blob remains valid; zero stale callbacks/resources after access loss; CSS-only layers do not require approximately 20 React commits/second; timed catalogue layer changes/Intro/Hover stay correct; GIF end panel and frame timing remain intact. Profile CPU/memory must improve beyond repeated-run spread on the real client before advertising a percentage. Docker packaging improvements require real image/layer sizes first.
+
+Implemented: bounded native media queues, encoded-byte accounting, scoped URL leases, stale-result fencing, one shared Auto frame sampler, shared visibility/intersection observers and boundary-driven scene updates. The 80-source probe peaks at four downloads per pool and preserves all 80 active URLs; clear leaves zero. Three identical Electron scenarios show zero steady-state React commits for CSS-only scenes; Quality mode has no scene RAF. Twenty open/close cycles leave zero frame/interval/timeout resources. CPU and memory samples do not justify a production percentage claim. See [Resource ownership](../RESOURCE-LIFECYCLE.md) for soft-budget and native-cancellation limits.
+
+Deferred on evidence: server query batching and palette changes lack a demonstrated production bottleneck; Docker layer trimming still lacks image/layer measurements. No speculative replacement, fidelity reduction, production deployment or deletion of recovery/source/licence files was made.
 
 Estimate: 2–4 hours; 250k–600k uncached input, 20k–45k output; gross input 5m–15m. A narrowly bounded higher-effort Sol review may be justified for resource ownership. Astra requires an explicit reason and a small input/output handoff recorded privately.
 
@@ -50,4 +54,4 @@ Estimate: 1–2 hours of agent work plus build, operator and real-client test ti
 
 Uncached input = input minus cached input. Cached input is a subset of input; reasoning output is a subset of output. Report each separately, not as extra totals. Ranges are independent planning estimates and should not be added as a purchased allowance. Actual usage, effort, cache ratio and elapsed/tool times are retained in ignored private reports. Active inference time and account credits are unavailable unless the host exposes them. A partial final-turn log must be labelled partial.
 
-The next action is approval of **1A only**, with the proposed scope, limits and acceptance criteria. Stage 2–release estimates are provisional and must be revisited after 1A/1B.
+After Stage 2 validation and the local candidate checkpoint, the next approval is **Stage 3 only**. Documentation and release estimates remain provisional; real Discord acceptance and production deployment require their own recorded checks.

@@ -48,6 +48,12 @@ import { HoverProfiles } from "./hover-profiles.js";
 import { HoverProfileCard, type NativeHoverCardProps } from "./HoverProfileCard.js";
 import { configureSteamGames, clearSteamGames } from "./steam-games.js";
 import { albumArtworkCache } from "./artwork-cache.js";
+let localMediaOwner = new AbortController();
+function clearLocalTests() {
+  localTests.clear();
+  localMediaOwner.abort();
+  localMediaOwner = new AbortController();
+}
 const hoverProfiles = new HoverProfiles(
   () => active && client.canView && settings.store.hoverProfiles,
   () => settings.store.hoverProfileDelay * 1000,
@@ -206,7 +212,8 @@ Connection: ${client.token ? "Paired" : "Not paired"}\nProfile API: ${cache.erro
 Catalog: ${catalog.size} items\nShop refresh: ${lastShopRefresh}\nLocal tests: ${localTests.size}`
       }
       onTestProfile={async (id, config) => {
-        localTests.clear();
+        clearLocalTests();
+        const owner = localMediaOwner;
         if (id) {
           const state = await client.editor();
           const media: PublicProfile["media"] = {};
@@ -214,10 +221,13 @@ Catalog: ${catalog.size} items\nShop refresh: ${lastShopRefresh}\nLocal tests: $
             if (asset.status === "ready" && assetIds(config).includes(asset.id)) {
               media[asset.id] = {
                 ...asset,
-                url: await client.privateMedia(asset.url),
-                previewUrl: asset.previewUrl ? await client.privateMedia(asset.previewUrl) : null,
+                url: await client.privateMedia(asset.url, owner.signal),
+                previewUrl: asset.previewUrl
+                  ? await client.privateMedia(asset.previewUrl, owner.signal)
+                  : null,
               };
             }
+          if (owner.signal.aborted) return;
           localTests.set(id, {
             userId: id,
             revisionId: `local-test:${Date.now()}`,
@@ -258,7 +268,7 @@ export default definePlugin({
           hoverProfiles.cancel();
           closeHoverCard?.();
           clearSteamGames();
-          localTests.clear();
+          clearLocalTests();
           nativeProfileSources.clear();
           clearArtworkCache();
         }
@@ -300,21 +310,21 @@ export default definePlugin({
     client.disconnect();
     nativeProfileSources.clear();
     nativeAvatarResolver = undefined;
-    localTests.clear();
+    clearLocalTests();
     catalog.clear();
     cleanups.splice(0).forEach((fn) => fn());
   },
   flux: {
     CONNECTION_OPEN: () => {
       syncAccount();
-      localTests.clear();
+      clearLocalTests();
     },
     LOGOUT: () => {
       closeHoverCard?.();
       nativeProfileSources.clear();
       void client.logout().catch(() => {});
       sound.stop();
-      localTests.clear();
+      clearLocalTests();
       cache.clear();
     },
   },

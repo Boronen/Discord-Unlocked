@@ -6,6 +6,7 @@ import type {
   PublicProfile,
   MediaAsset,
 } from "./model.js";
+import { MediaUrlCache } from "./media-cache.js";
 export interface WireResponse {
   status: number;
   body: string;
@@ -55,7 +56,8 @@ export class StudioClient {
   token: string | undefined;
   userId: string | undefined;
   pendingPair: PendingPair | undefined;
-  private blobs = new Map<string, string>();
+  private blobs = new MediaUrlCache((url) => this.downloadMedia(url, false));
+  private blobContext?: { base: string; token: string; generation: number };
   private listeners = new Set<() => void>();
   private restoring: Promise<boolean> | undefined;
   private restoreKey: string | undefined;
@@ -319,30 +321,20 @@ export class StudioClient {
     for (let start = 0; start < items.length; start += 100)
       await this.request("/v1/admin/catalog/batch", "POST", items.slice(start, start + 100));
   }
-  async privateMedia(url: string) {
+  async privateMedia(url: string, signal?: AbortSignal) {
     if (!this.token) throw new Error("Pair your account to view media.");
-    const cached = this.blobs.get(url);
-    if (cached) return cached;
-    const target = new URL(url),
-      base = new URL(this.base);
-    if (target.origin !== base.origin || !/^\/v1\/media\/[0-9a-f-]{36}(\/preview)?$/.test(target.pathname))
-      throw new Error("Invalid media reference.");
-    const token = this.token;
-    const response = await this.transport(this.base, target.pathname, "GET", undefined, token, true);
-    if (response.status >= 400) throw new Error("The preview could not be loaded.");
-    if (token !== this.token) throw new Error("The session changed.");
-    const bytes = Uint8Array.from(atob(response.body), (char) => char.charCodeAt(0));
-    const objectUrl = URL.createObjectURL(new Blob([bytes], { type: response.mime }));
-    if (this.blobs.size >= 32) {
-      const oldest = this.blobs.keys().next().value!;
-      URL.revokeObjectURL(this.blobs.get(oldest)!);
-      this.blobs.delete(oldest);
+    if (
+      this.blobContext?.base !== this.base ||
+      this.blobContext?.token !== this.token ||
+      this.blobContext?.generation !== this.sessionGeneration
+    ) {
+      this.clearBlobs();
+      this.blobContext = { base: this.base, token: this.token, generation: this.sessionGeneration };
     }
-    this.blobs.set(url, objectUrl);
-    return objectUrl;
+    return this.blobs.acquire(url, signal);
   }
-  async publicMedia(url: string) {
-    if (!this.canView) throw new Error("Pair your account to view media.");
+  private async downloadMedia(url: string, publicView: boolean) {
+    if (publicView ? !this.canView : !this.token) throw new Error("Pair your account to view media.");
     const target = new URL(url),
       base = new URL(this.base);
     if (target.origin !== base.origin || !/^\/v1\/media\/[0-9a-f-]{36}(\/preview)?$/.test(target.pathname))
@@ -361,9 +353,12 @@ export class StudioClient {
     const bytes = Uint8Array.from(atob(response.body), (char) => char.charCodeAt(0));
     return new Blob([bytes], { type: response.mime });
   }
+  async publicMedia(url: string) {
+    return this.downloadMedia(url, true);
+  }
   clearBlobs() {
-    for (const url of this.blobs.values()) URL.revokeObjectURL(url);
     this.blobs.clear();
+    this.blobContext = undefined;
   }
   async capabilities() {
     try {

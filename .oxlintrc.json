@@ -58,6 +58,15 @@
       "rules": {
         "no-unused-vars": "error"
       }
+    },
+    {
+      "files": [
+        "packages/plugin/media-cache.ts",
+        "packages/plugin/usePrivateMedia.ts",
+        "packages/plugin/scene-scheduler.ts",
+        "packages/plugin/scene-renderer.tsx"
+      ],
+      "rules": { "no-unused-vars": "error" }
     }
   ]
 }

@@ -1,3 +1,4 @@
+import { usePrivateMedia } from "./usePrivateMedia.js";
 import { React } from "@webpack/common";
 import { DEFAULT_CONFIG, assetIds, type ProfileConfig } from "./model.js";
 import {
@@ -58,8 +59,7 @@ export function useWorkspaceController({
       action: string;
       run: () => void;
     } | null>(null);
-  const [urls, setUrls] = React.useState<Record<string, string>>({}),
-    [songInput, setSongInput] = React.useState(""),
+  const [songInput, setSongInput] = React.useState(""),
     [activateOnApproval, setActivateOnApproval] = React.useState(true);
   const history = React.useRef(new DraftHistory(config)),
     operation = React.useRef(false),
@@ -218,28 +218,14 @@ export function useWorkspaceController({
       ...assetIds(state.published?.config ?? DEFAULT_CONFIG),
     ]),
   ].join(",");
-  React.useEffect(() => {
-    let cancel = false;
-    const needed = new Set(ids.split(","));
-    void Promise.allSettled(
-      state.assets
-        .filter((a) => a.status === "ready" && needed.has(a.id))
-        .flatMap((a) => [a, ...(a.previewUrl ? [{ ...a, id: `${a.id}:static`, url: a.previewUrl }] : [])])
-        .map(
-          async (a) =>
-            [
-              a.id,
-              await api.privateMedia((reduced || quality === "low") && a.previewUrl ? a.previewUrl : a.url),
-            ] as const,
-        ),
-    ).then((result) => {
-      if (!cancel)
-        setUrls(Object.fromEntries(result.flatMap((r) => (r.status === "fulfilled" ? [r.value] : []))));
-    });
-    return () => {
-      cancel = true;
-    };
-  }, [ids, state.assets, api, reduced, quality]);
+  const needed = new Set(ids.split(","));
+  const { urls } = usePrivateMedia(
+    api,
+    state.assets
+      .filter((a) => a.status === "ready" && needed.has(a.id))
+      .flatMap((a) => [a, ...(a.previewUrl ? [{ ...a, id: `${a.id}:static`, url: a.previewUrl }] : [])])
+      .map((a) => [a.id, (reduced || quality === "low") && a.previewUrl ? a.previewUrl : a.url]),
+  );
   async function save() {
     if (!preset) return 0;
     const result = await api.request<{ version: number }>(`/v2/me/presets/${preset.id}`, "PUT", {

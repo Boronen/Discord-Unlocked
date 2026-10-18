@@ -174,7 +174,14 @@ export function setActive(value: boolean) {
 }
 export function useProfile(id: string | undefined) {
   const [, render] = React.useReducer((n: number) => n + 1, 0);
-  React.useEffect(() => (id ? cache.observe(id, render) : undefined), [id]);
+  React.useEffect(() => {
+    if (!id) return;
+    const stop = cache.observe(id, render);
+    return () => {
+      stop();
+      publicMedia.prune();
+    };
+  }, [id]);
   return id && active && client.canView ? cache.get(id) : null;
 }
 export function useReducedMotion() {

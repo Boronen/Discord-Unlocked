@@ -16,6 +16,8 @@ Stage 1B keeps the existing appearance, routes, event handlers, hook order and A
 
 Hook extraction is mechanical: existing effects, cancellation flags, generation counters, operation guards and dependency lists are retained. Shared refs and current-state reads still belong to one mounted controller. Views must not introduce another autosave, pairing poll, media cache or undo stack. Preserve account/API/preset scoping and immutable moderation targets.
 
+Stage 2 subsequently centralized private media loading in `usePrivateMedia.ts`, shared by controllers, picker and community views. Its committed-batch leases replace their duplicated loading effects; ownership and cancellation rules are documented in [Resource lifecycle](RESOURCE-LIFECYCLE.md).
+
 No styles or DOM wrappers were added. Profile designs, pinned preview, small thumbnails, layer locking and effect stacking use the existing renderer and classes. Isolated/browser evidence is not a real Discord two-account test. No production deployment or Discord installation/restart is part of this stage.
 
 ## Unused-code policy

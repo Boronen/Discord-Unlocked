@@ -1,3 +1,4 @@
+import { usePrivateMedia } from "../usePrivateMedia.js";
 import { React } from "@webpack/common";
 import { type MediaAsset } from "../model.js";
 import type { Preset, StyleShare } from "../studio-model.js";
@@ -9,7 +10,6 @@ export function SharingPanel(props: Props) {
   const [shares, setShares] = React.useState<StyleShare[]>([]),
     [selected, setSelected] = React.useState<StyleShare | null>(null),
     [assets, setAssets] = React.useState<MediaAsset[]>([]),
-    [urls, setUrls] = React.useState<Record<string, string>>({}),
     [variant, setVariant] = React.useState("");
   const [title, setTitle] = React.useState(props.preset.name),
     [description, setDescription] = React.useState(""),
@@ -24,21 +24,10 @@ export function SharingPanel(props: Props) {
   React.useEffect(() => {
     void props.onRun(refresh);
   }, [props.api]);
-  React.useEffect(() => {
-    let cancel = false;
-    void Promise.allSettled(
-      assets.map(
-        async (a) =>
-          [a.id, await props.api.privateMedia(props.reduced && a.previewUrl ? a.previewUrl : a.url)] as const,
-      ),
-    ).then((result) => {
-      if (!cancel)
-        setUrls(Object.fromEntries(result.flatMap((r) => (r.status === "fulfilled" ? [r.value] : []))));
-    });
-    return () => {
-      cancel = true;
-    };
-  }, [assets, props.api, props.reduced]);
+  const { urls } = usePrivateMedia(
+    props.api,
+    assets.map((a) => [a.id, props.reduced && a.previewUrl ? a.previewUrl : a.url]),
+  );
   const chosen = selected?.variants.find((v) => v.revisionId === variant) ?? selected?.variants[0];
   return (
     <section>

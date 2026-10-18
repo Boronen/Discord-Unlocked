@@ -1,3 +1,4 @@
+import { usePrivateMedia } from "./usePrivateMedia.js";
 import { slotNames } from "./editor-labels.js";
 import { React } from "@webpack/common";
 import {
@@ -40,8 +41,7 @@ export function useEditorController({
     api.pendingPair?.userId === account.id ? api.pendingPair : null,
   );
   const [items, setItems] = React.useState<CatalogItem[]>([]);
-  const [urls, setUrls] = React.useState<Record<string, string>>({}),
-    [full, setFull] = React.useState(false),
+  const [full, setFull] = React.useState(false),
     [motion, setMotion] = React.useState(true);
   const [testId, setTestId] = React.useState("");
   const [confirmation, setConfirmation] = React.useState<{
@@ -56,7 +56,10 @@ export function useEditorController({
   }, [animationsStatic]);
   const [reviewId, setReviewId] = React.useState("");
   const [review, setReview] = React.useState<Awaited<ReturnType<StudioClient["review"]>> | null>(null);
-  const [reviewUrls, setReviewUrls] = React.useState<Record<string, string>>({});
+  const { urls: reviewUrls } = usePrivateMedia(
+    api,
+    (review?.assets ?? []).map((a) => [a.id, !motion && a.previewUrl ? a.previewUrl : a.url]),
+  );
   const [songInput, setSongInput] = React.useState("");
   const [picker, setPicker] = React.useState<VisualSlot | null>(null);
   const errorRef = React.useRef<HTMLDivElement>(null);
@@ -117,7 +120,6 @@ export function useEditorController({
         setConfirmation(null);
         setDevices([]);
         setReview(null);
-        setReviewUrls({});
         setConfig(structuredClone(DEFAULT_CONFIG));
         setDirty(false);
       }
@@ -135,7 +137,6 @@ export function useEditorController({
     if (connected) void run(() => load());
     else {
       setState(null);
-      setUrls({});
     }
   }, [connected, key]);
   React.useEffect(() => {
@@ -151,38 +152,13 @@ export function useEditorController({
   React.useEffect(() => {
     if (dirty) localDrafts.set(key, { config, version });
   }, [config, dirty, key, version]);
-  const selected = assetIds(config).join(",");
-  React.useEffect(() => {
-    let cancelled = false;
-    const assets =
-      state?.assets.filter(
-        (asset) => assetIds(configRef.current).includes(asset.id) && asset.status === "ready",
-      ) ?? [];
-    void Promise.allSettled(
-      assets.map(
-        async (asset) =>
-          [
-            asset.id,
-            await api.privateMedia(!motion && asset.previewUrl ? asset.previewUrl : asset.url),
-          ] as const,
-      ),
-    ).then((results) => {
-      if (cancelled) return;
-      setUrls(
-        Object.fromEntries(
-          results
-            .filter(
-              (item): item is PromiseFulfilledResult<readonly [string, string]> =>
-                item.status === "fulfilled",
-            )
-            .map((item) => item.value),
-        ),
-      );
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [selected, state?.assets, api, motion]);
+  const selected = new Set(assetIds(config));
+  const { urls } = usePrivateMedia(
+    api,
+    (state?.assets ?? [])
+      .filter((a) => a.status === "ready" && selected.has(a.id))
+      .map((a) => [a.id, !motion && a.previewUrl ? a.previewUrl : a.url]),
+  );
   function change(patch: Partial<ProfileConfig>) {
     setConfirmation(null);
     setConfig((previous) => ({ ...previous, ...patch }));
@@ -307,7 +283,6 @@ export function useEditorController({
     review,
     setReview,
     reviewUrls,
-    setReviewUrls,
     songInput,
     setSongInput,
     picker,

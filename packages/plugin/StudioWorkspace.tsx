@@ -1,3 +1,4 @@
+import { usePrivateMedia } from "./usePrivateMedia.js";
 import { WorkspaceMusicStyle, WorkspaceSongs } from "./workspace-music.js";
 import { React } from "@webpack/common";
 import type { StudioClient } from "./client.js";
@@ -14,22 +15,10 @@ import { ConfirmAction } from "./studio-dialogs.js";
 import { WorkspaceAppearance } from "./workspace-appearance.js";
 import { WorkspacePreview } from "./workspace-preview.js";
 function PresetThumbnail({ preset, state, api }: { preset: Preset; state: EditorState; api: StudioClient }) {
-  const [url, setUrl] = React.useState<string>();
-  React.useEffect(() => {
-    let canceled = false;
-    const id = preset.draft.banner ?? preset.draft.avatar;
-    const asset = state.assets.find((a) => a.id === id && a.status === "ready");
-    if (asset)
-      void api
-        .privateMedia(asset.previewUrl ?? asset.url)
-        .then((v) => {
-          if (!canceled) setUrl(v);
-        })
-        .catch(() => {});
-    return () => {
-      canceled = true;
-    };
-  }, [preset.id, preset.version, api]);
+  const id = preset.draft.banner ?? preset.draft.avatar;
+  const asset = state.assets.find((a) => a.id === id && a.status === "ready");
+  const { urls } = usePrivateMedia(api, asset ? [[asset.id, asset.previewUrl ?? asset.url]] : []);
+  const url = asset ? urls[asset.id] : undefined;
   return (
     <div
       className="ps-preset-thumbnail"

@@ -220,7 +220,6 @@ export function LegacyModeration({
     review,
     setReview,
     reviewUrls,
-    setReviewUrls,
     alive,
     run,
   } = controller;
@@ -241,16 +240,9 @@ export function LegacyModeration({
           onClick={() =>
             void run(async () => {
               const value = await api.review(reviewId);
-              const urls = await Promise.all(
-                value.assets.map(async (asset) => [
-                  asset.id,
-                  await api.privateMedia(!motion && asset.previewUrl ? asset.previewUrl : asset.url),
-                ]),
-              );
               if (!alive.current) return;
               setReview(value);
-              setReviewUrls(Object.fromEntries(urls));
-              setMessage("Submitted revision preview loaded. Use the bot to approve or reject it.");
+              setMessage("Submitted revision opened. Use the bot to approve or reject it.");
             })
           }
         >

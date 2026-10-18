@@ -34,7 +34,7 @@ function setup({ slot = "nameplate", custom = false }: { slot?: VisualSlot; cust
       config={DEFAULT_CONFIG}
       assets={[]}
       items={items}
-      api={{ privateMedia: vi.fn() } as unknown as StudioClient}
+      api={{ privateMedia: vi.fn(), subscribe: () => () => {} } as unknown as StudioClient}
       account={{ name: "Alice" }}
       reduced={false}
       canUseCustomTint={custom}
@@ -139,7 +139,7 @@ test("uploaded banners use authenticated preview loading and recover after failu
       ]}
       items={[]}
       account={{ name: "Alice" }}
-      api={{ privateMedia } as unknown as StudioClient}
+      api={{ privateMedia, subscribe: () => () => {} } as unknown as StudioClient}
       reduced
       onUse={onUse}
       onClose={() => {}}
@@ -148,6 +148,6 @@ test("uploaded banners use authenticated preview loading and recover after failu
   await waitFor(() => expect(screen.getByRole("alert")).toBeTruthy());
   fireEvent.click(screen.getByRole("button", { name: "Retry previews" }));
   await waitFor(() => expect(document.querySelector('img[src="blob:private-banner"]')).toBeTruthy());
-  expect(privateMedia).toHaveBeenCalledWith("/v1/media/private/preview");
+  expect(privateMedia).toHaveBeenCalledWith("/v1/media/private/preview", expect.any(AbortSignal));
   expect(onUse).not.toHaveBeenCalled();
 });
