@@ -346,3 +346,22 @@ test("small and full views use the same panel order with stable native identity 
     "Panel 5",
   ]);
 });
+
+test("independent scene layers follow cover swatches and restore their saved colors", () => {
+  const config = normalizeStudio(DEFAULT_CONFIG);
+  config.studio.base.layers = [newLayer("texture"), newLayer("texture")];
+  const scene = resolveScene(config, "small");
+  const saved = JSON.stringify(scene);
+  const view = render(
+    <SceneRenderer scene={scene} items={[]} urls={{}} reduced adaptivePalette={["#2255dd", "#dd3344"]} />,
+  );
+  const colors = () =>
+    [...document.querySelectorAll<HTMLElement>(".ps-scene-layer")].map((el) =>
+      el.style.getPropertyValue("--ps-effect-color"),
+    );
+  expect(colors()).toEqual(["#2255dd", "#dd3344"]);
+  expect(document.querySelectorAll("feColorMatrix")).toHaveLength(2);
+  view.rerender(<SceneRenderer scene={scene} items={[]} urls={{}} reduced />);
+  expect(colors()).toEqual(scene.layers.map((layer) => layer.color));
+  expect(JSON.stringify(scene)).toBe(saved);
+});

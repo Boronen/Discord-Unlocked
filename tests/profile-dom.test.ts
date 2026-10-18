@@ -70,3 +70,17 @@ test("artwork colors replace inner Discord theme owners and restore them on trac
   expect(inner.style.padding).toBe("6px");
   expect(inner.style.getPropertyValue("--profile-body-background-color")).toBe("");
 });
+
+test("transparent banners keep their image while the backing color follows artwork", () => {
+  const root = document.createElement("div");
+  const banner = root.appendChild(document.createElement("div"));
+  banner.className = "banner_test";
+  banner.style.backgroundImage = 'url("transparent.gif")';
+  banner.style.setProperty("background-color", "red", "important");
+  const restore = applyProfileColors(root, ["#123456", "#abcdef"]);
+  expect(banner.style.backgroundColor).toBe("rgb(18, 52, 86)");
+  expect(banner.style.backgroundImage).toContain("transparent.gif");
+  restore();
+  expect(banner.style.backgroundColor).toBe("red");
+  expect(banner.style.getPropertyPriority("background-color")).toBe("important");
+});

@@ -31,7 +31,8 @@ export function artworkPalette(pixels: Uint8ClampedArray | Uint8Array) {
     bucket.b += b * weight;
     buckets.set(key, bucket);
   }
-  const dominant = [...buckets.values()].sort((a, b) => b.count - a.count)[0];
+  const ranked = [...buckets.values()].sort((a, b) => b.count - a.count);
+  const dominant = ranked[0];
   if (!dominant) return null;
   const hex = (factor: number) =>
     "#" +
@@ -44,5 +45,20 @@ export function artworkPalette(pixels: Uint8ClampedArray | Uint8Array) {
       .join("");
   const background = hex(0.32),
     accent = hex(1);
-  return { background, accent, text: textOn(background) };
+  const swatches: string[] = [];
+  const channels: number[][] = [];
+  for (const bucket of ranked) {
+    const rgb = [bucket.r, bucket.g, bucket.b].map((v) => Math.round(v / bucket.count));
+    if (channels.some((other) => Math.hypot(...rgb.map((v, i) => v - other[i]!)) < 95)) continue;
+    channels.push(rgb);
+    swatches.push("#" + rgb.map((v) => v.toString(16).padStart(2, "0")).join(""));
+    if (swatches.length === 3) break;
+  }
+  return { background, accent, text: textOn(background), swatches };
+}
+
+/** Transient display colors; never written into the moderated profile. */
+export function artworkTint(colors: readonly string[] | undefined, index = 0) {
+  const color = colors?.length ? colors[index % colors.length] : undefined;
+  return color ? { color, intensity: 0.8 } : undefined;
 }

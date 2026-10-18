@@ -10,7 +10,7 @@ import {
 } from "./studio-model.js";
 import { TintSurface } from "./TintSurface.js";
 import { FavoriteSongCard } from "./FavoriteSong.js";
-import { artworkPalette } from "./palette.js";
+import { artworkPalette, artworkTint } from "./palette.js";
 import { SteamGameCard } from "./SteamGameCard.js";
 import { LiveMusicCard } from "./music-presentation.js";
 import type { LiveMusic } from "./music-surface.js";
@@ -208,6 +208,7 @@ export function SceneRenderer({
   onSelect,
   selected,
   lockedLayers,
+  adaptivePalette,
   onTransform,
 }: {
   scene: SceneConfig;
@@ -221,6 +222,7 @@ export function SceneRenderer({
   onSelect?: (id: string) => void;
   selected?: string;
   lockedLayers?: readonly string[];
+  adaptivePalette?: readonly string[];
   onTransform?: (id: string, transform: SceneLayer["transform"]) => void;
 }) {
   const own = React.useRef<HTMLDivElement>(null);
@@ -313,7 +315,7 @@ export function SceneRenderer({
           transform: `translate(${layer.transform.x * 100}%,${layer.transform.y * 100}%) rotate(${layer.transform.rotation}deg) scale(${layer.transform.scale})`,
           opacity: layer.transform.opacity,
           zIndex: (layer.plane === "front" ? 20 : 0) + index,
-          "--ps-effect-color": layer.color,
+          "--ps-effect-color": artworkTint(adaptivePalette, index)?.color ?? layer.color,
           "--ps-intensity": 1,
           "--ps-duration": "5s",
           mixBlendMode: layer.blend,
@@ -325,7 +327,7 @@ export function SceneRenderer({
             style={style}
           >
             <div className="ps-scene-depth">
-              <TintSurface tint={layer.tint}>
+              <TintSurface tint={artworkTint(adaptivePalette, index) ?? layer.tint}>
                 {layer.source === "media" && layer.assetId && urls[layer.assetId] && (
                   <img
                     className="ps-scene-image"
@@ -341,7 +343,10 @@ export function SceneRenderer({
                   />
                 )}
                 {layer.source === "texture" && (
-                  <div className={`ps-texture ps-texture-${layer.texture}`} style={{ color: layer.color }}>
+                  <div
+                    className={`ps-texture ps-texture-${layer.texture}`}
+                    style={{ color: artworkTint(adaptivePalette, index)?.color ?? layer.color }}
+                  >
                     <span />
                     <span />
                     <span />

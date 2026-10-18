@@ -17,7 +17,7 @@ export class DecorationTints {
       childList: true,
       subtree: true,
       attributes: true,
-      attributeFilter: ["src"],
+      attributeFilter: ["src", "data-ps-music-tint"],
     });
     this.refresh();
   }
@@ -37,8 +37,14 @@ export class DecorationTints {
   private scan() {
     const touched = new Set<HTMLImageElement>(),
       filters = new Set<string>();
-    for (const image of document.querySelectorAll<HTMLImageElement>('img[src*="ps-tint="]')) {
-      const match = image.src.match(/#ps-tint=([0-9a-f]{6})-(\d{1,3})$/);
+    for (const image of document.querySelectorAll<HTMLImageElement>(
+      'img[src*="ps-tint="], [data-ps-music-tint] img[class*="avatarDecoration"]',
+    )) {
+      const adaptive = image.closest<HTMLElement>("[data-ps-music-tint]")?.dataset.psMusicTint;
+      const match =
+        adaptive && /^[0-9a-f]{6}$/.test(adaptive)
+          ? ["", adaptive, "80"]
+          : image.src.match(/#ps-tint=([0-9a-f]{6})-(\d{1,3})$/);
       if (!match || Number(match[2]) > 100) continue;
       touched.add(image);
       const id = `ps-native-tint-${match[1]}-${match[2]}`;

@@ -1,3 +1,4 @@
+import { artworkTint } from "./palette.js";
 import { React } from "@webpack/common";
 import type { CatalogItem, EffectStyle, MusicStyle, ProfileConfig, ProfileAccount } from "./model.js";
 import { textOn } from "./palette.js";
@@ -194,6 +195,7 @@ export function ProfilePreview({
   const adaptiveColors =
     !!config.musicPriority || !!(scene?.albumBackground ?? config.albumBackground)?.enabled;
   const palette = useArtworkPalette(albumUrl ?? backgroundArt.url, adaptiveColors);
+  const adaptivePalette = config.musicPriority ? palette?.swatches : undefined;
   const selectedColors =
     priorityColors(palette, adaptiveColors) ??
     (scene ? scene.colors : config.colors) ??
@@ -221,7 +223,9 @@ export function ProfilePreview({
         url={albumUrl ?? backgroundArt.url}
         reduced={reduced}
       />
-      <div className="ps-banner">{banner && <img src={banner} alt="Banner preview" />}</div>
+      <div className="ps-banner" style={{ backgroundColor: palette?.background }}>
+        {banner && <img src={banner} alt="Banner preview" />}
+      </div>
       <div className="ps-avatar-wrap">
         <img
           className="ps-avatar"
@@ -229,7 +233,10 @@ export function ProfilePreview({
           alt={`${account.name}'s avatar`}
         />
         {decoration && (
-          <TintSurface tint={config.decorationTint} className="ps-decoration-tint">
+          <TintSurface
+            tint={artworkTint(adaptivePalette, 1) ?? config.decorationTint}
+            className="ps-decoration-tint"
+          >
             <img className="ps-decoration" src={decoration} alt="" />
           </TintSurface>
         )}
@@ -274,6 +281,7 @@ export function ProfilePreview({
       {scene ? (
         <SceneRenderer
           scene={scene}
+          adaptivePalette={adaptivePalette}
           items={items}
           urls={urls}
           reduced={reduced}
@@ -289,7 +297,7 @@ export function ProfilePreview({
         <EffectLayer
           effect={config.profileEffect}
           blend={config.effectBlend}
-          tint={config.effectTint}
+          tint={artworkTint(adaptivePalette) ?? config.effectTint}
           url={config.effect?.source === "media" ? get(config.effect.id) : undefined}
           item={effectItem}
           reduced={reduced}

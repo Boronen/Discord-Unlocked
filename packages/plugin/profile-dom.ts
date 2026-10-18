@@ -51,6 +51,8 @@ export function applyProfileColors(root: HTMLElement, colors: [string, string]) 
     '[style*="--profile-gradient-"],[style*="--profile-body-background-color"]',
   ))
     restore.push(applyProperties(element, values));
+  for (const banner of root.querySelectorAll<HTMLElement>('[class*="banner_"]'))
+    restore.push(applyProperties(banner, { "background-color": colors[0] }));
   return () => {
     for (const undo of restore.reverse()) undo();
   };

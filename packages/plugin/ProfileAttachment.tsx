@@ -21,7 +21,7 @@ import {
 } from "./runtime.js";
 import { settings } from "./settings.js";
 import { EffectLayer, effectStyle } from "./visuals.js";
-import { artworkPalette, textOn } from "./palette.js";
+import { artworkPalette, artworkTint, textOn } from "./palette.js";
 import type { PublicProfile } from "./model.js";
 import { profileRoot, applyProfileColors, applyProfileReadability } from "./profile-dom.js";
 import { findMusicSurface, isMusicActivity, musicCover } from "./music-surface.js";
@@ -148,6 +148,8 @@ export function ProfileAttachment({ userId }: { userId: string }) {
   );
   const adaptiveColors = !!profile?.config.musicPriority || !!scene?.albumBackground.enabled;
   const musicPalette = useArtworkPalette(album.url, adaptiveColors);
+  const adaptivePalette =
+    profile?.config.musicPriority && override.tint !== false ? musicPalette?.swatches : undefined;
   const profileColors =
     priorityColors(musicPalette, adaptiveColors && override.background !== false) ?? scene?.colors;
   const liveArt = useAlbumArtwork(
@@ -156,7 +158,7 @@ export function ProfileAttachment({ userId }: { userId: string }) {
     !!profile?.config.musicPriority && !!activityCover,
     loadAlbumArtwork,
   );
-  settings.use(["audio", "volume", "mutedUsers", "effects", "music", "colors", "banners"]);
+  settings.use(["audio", "volume", "mutedUsers", "effects", "music", "colors", "banners", "decorations"]);
   const anchor = React.useRef<HTMLSpanElement>(null),
     key = React.useRef(`${userId}:${Math.random()}`);
   const [root, setRoot] = React.useState<HTMLElement | null>(null),
@@ -258,6 +260,17 @@ export function ProfileAttachment({ userId }: { userId: string }) {
       else root.dataset.psCustomEffect = previous;
     };
   }, [root, profile, settings.store.effects, album.url]);
+  React.useEffect(() => {
+    if (!root || !active) return;
+    const previous = root.getAttribute("data-ps-music-tint");
+    const tint = settings.store.decorations ? artworkTint(adaptivePalette, 1) : undefined;
+    if (tint) root.setAttribute("data-ps-music-tint", tint.color.slice(1));
+    else root.removeAttribute("data-ps-music-tint");
+    return () => {
+      if (previous === null) root.removeAttribute("data-ps-music-tint");
+      else root.setAttribute("data-ps-music-tint", previous);
+    };
+  }, [root, adaptivePalette?.join(), settings.store.decorations]);
   const item =
     profile?.config.effect?.source === "discord" ? catalog.get(profile.config.effect.id) : undefined;
   return (
@@ -274,6 +287,7 @@ export function ProfileAttachment({ userId }: { userId: string }) {
             {settings.store.effects && scene ? (
               <SceneRenderer
                 scene={scene}
+                adaptivePalette={adaptivePalette}
                 items={[...catalog.values()]}
                 urls={Object.fromEntries(
                   Object.keys(profile.media).flatMap((id) => {
@@ -300,7 +314,7 @@ export function ProfileAttachment({ userId }: { userId: string }) {
                 >
                   <EffectLayer
                     effect={profile.config.profileEffect}
-                    tint={profile.config.effectTint}
+                    tint={artworkTint(adaptivePalette) ?? profile.config.effectTint}
                     item={item}
                     reduced={reduced}
                     url={

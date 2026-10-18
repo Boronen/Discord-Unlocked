@@ -20,7 +20,7 @@ export function WorkspaceSongs({
           label="Music priority"
           help={
             api.musicPrioritySupported
-              ? "Current Discord music replaces the favorite card and supplies the profile artwork and colors. Favorites return when playback stops. Save and submit this setting for approval."
+              ? "Current Discord music replaces the favorite card and supplies the profile artwork, banner backing, effect-layer colors and avatar-decoration tint. Favorites return when playback stops. Save and submit this setting for approval."
               : "The server must be updated before current-music priority can be saved."
           }
         >
