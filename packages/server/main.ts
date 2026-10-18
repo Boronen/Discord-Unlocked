@@ -2,6 +2,7 @@ import { runtime } from "./runtime.js";
 import { createApp } from "./app.js";
 import { publishMediaResult } from "./publisher.js";
 import { maintain } from "./maintenance.js";
+import { loadPrivacyNotice } from "./privacy-notice.js";
 const context = await runtime();
 const app = await createApp(
   context.service,
@@ -9,6 +10,7 @@ const app = await createApp(
   true,
   context.config.TRUST_PROXY,
   context.config.STUDIO_V2_ENABLED,
+  await loadPrivacyNotice(context.config.PRIVACY_NOTICE_FILE),
 );
 await maintain(context.service, context.files);
 await app.listen({ host: context.config.HOST, port: context.config.PORT });

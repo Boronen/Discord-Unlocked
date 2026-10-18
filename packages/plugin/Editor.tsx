@@ -19,6 +19,7 @@ import type { EditorProps } from "./editor-types.js";
 import { useEditorController } from "./useEditorController.js";
 import { Notice } from "./studio-notice.js";
 import { Effects } from "./legacy-effects.js";
+import { PrivacyPanel } from "./PrivacyPanel.js";
 export function Editor(props: EditorProps) {
   const controller = useEditorController(props);
   const {
@@ -103,6 +104,7 @@ export function Editor(props: EditorProps) {
         {busy && !pair && <Notice>Working…</Notice>}
       </div>
       <LegacyAccount controller={controller} context={props} />
+      <PrivacyPanel key={api.base} api={api} />
       {onAnimationMode && (
         <Field id="ps-viewer-motion" label="Animations on this computer">
           <Choice

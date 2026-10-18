@@ -1,8 +1,14 @@
 # Profile Studio: Windows client installation
 
-This package is for participants in the community beta. It contains plugin source, not a standalone Discord installer. Use the Windows desktop edition of Discord Stable. Vencord client modifications carry Discord account-policy risk.
+Use Windows Discord Stable. Vencord client modifications carry Discord account-policy risk.
 
-## Download prerequisites
+## Recommended: prebuilt participant package (no Git or Node)
+
+Get `ProfileStudio-Windows.zip` and its SHA-256 checksum from your trusted operator. Extract it, fully quit Discord including the tray process, then run `Install.cmd` as your normal Windows user. Follow its checked installer prompts and restart Discord. Do not disable antivirus or bypass a checksum failure. Enable **ProfileStudio**, configure the operator's API origin, read its privacy notice and pair with the bot. See [Getting started](USER-GUIDE.md) for the complete workflow and [Windows package details](WINDOWS-CLIENT-PACKAGE.md) for provenance and checks.
+
+Participants need no Git, Node, Docker, server source or bot token when using this package. The sections below are the **optional source-build path for developers**, not prerequisites for the prebuilt ZIP.
+
+## Optional source build: prerequisites
 
 - Discord for Windows: https://discord.com/download
 - Node.js 24 LTS, Windows x64 installer: https://nodejs.org/en/download

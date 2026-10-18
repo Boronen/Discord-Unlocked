@@ -46,12 +46,12 @@ Additional existing paths: remembered sessions and device revocation; authentica
 - Legacy `Editor`, v1 model/DTO projection and `legacyConfig`: compatibility paths until verified otherwise.
 - `packages/plugin/third-party/*`, licences and corresponding-source packaging: distribution obligations.
 
-## New work still planned
+## Refactor milestones (baseline plan; see current development record)
 
 - Move pure domain contracts to shared ownership; introduce scoped lint rules and component responsibility boundaries.
 - Shared/edge-driven animation scheduling, protected byte-accounted media cache and download concurrency.
 - Unified Discord-native editor design, at most two consolidated visual-review rounds.
-- Public operator-filled `GET /v1/privacy/notice`, available before pairing; it does not exist in the baseline.
+- Public operator-filled `GET /v1/privacy/notice`, available before pairing; absent in the baseline and now implemented in the documentation/privacy candidate.
 - Complete API contract coverage checks and a separate stable VitePress documentation build/GitHub Pages workflow.
 - Complete deployment-specific privacy/provider details, contributor guidance and owner-awarded Supporter policy.
 
@@ -62,3 +62,5 @@ Supporter is currently a server-verified role with retained 5/20 preset/collecti
 Authoritative implementation is in schemas/services, retention maintenance, secure backup/restore and `PRIVACY.md`. Input media is removed after processing; failed/rejected media is retained up to seven days; genuinely unused media/old versions up to 30 days, subject to active references; current publication until revocation/deletion. Security/moderation records are 30 days, sessions 90 days of inactivity, one-use codes five minutes, backups 30 days and recovery fences 31 days. Deletion revokes access immediately and removes active data within 24 hours. Do not shorten these safeguards merely to reduce disk use.
 
 These defaults need a truthful operator-facing notice and confirmation of provider locations. Current activity/hover history is not server-side analytics. Draft recovery, sessions, playback and blob caches must remain account-bound and clear on access loss/sign-out.
+
+Current implementation status: shared contracts, resource scheduling/cache ownership and editor consistency are complete locally; the documentation/privacy candidate adds public notice and route coverage. See [development record](../DEVELOPMENT-RECORD.md). Native Discord, Linux image/isolation, deployment-specific notice and final release gates remain distinct.

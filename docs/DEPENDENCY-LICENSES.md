@@ -1,0 +1,544 @@
+# Locked dependency licence inventory
+
+Generated from both committed lockfiles by `node scripts/docs-licenses.mjs --write`. These are declared package licences, not a legal compatibility determination. Retain each package's distributed notices and verify obligations when changing or redistributing it. See [Sources and licences](SOURCES-LICENSES.md) for native tools, Vencord and bundled code outside npm.
+
+## Application
+
+Lockfile: `package-lock.json`. Includes nested duplicates and optional packages; this is not a count of modules shipped to every platform.
+
+- [@asamuzakjp/css-color@5.1.11](https://www.npmjs.com/package/%40asamuzakjp%2Fcss-color/v/5.1.11) — MIT; development.
+- [@asamuzakjp/dom-selector@7.1.1](https://www.npmjs.com/package/%40asamuzakjp%2Fdom-selector/v/7.1.1) — MIT; development.
+- [@asamuzakjp/generational-cache@1.0.1](https://www.npmjs.com/package/%40asamuzakjp%2Fgenerational-cache/v/1.0.1) — MIT; development.
+- [@asamuzakjp/nwsapi@2.3.9](https://www.npmjs.com/package/%40asamuzakjp%2Fnwsapi/v/2.3.9) — MIT; development.
+- [@babel/code-frame@7.29.7](https://www.npmjs.com/package/%40babel%2Fcode-frame/v/7.29.7) — MIT; development.
+- [@babel/helper-validator-identifier@7.29.7](https://www.npmjs.com/package/%40babel%2Fhelper-validator-identifier/v/7.29.7) — MIT; development.
+- [@babel/runtime@7.29.10](https://www.npmjs.com/package/%40babel%2Fruntime/v/7.29.10) — MIT; development.
+- [@bramus/specificity@2.4.3](https://www.npmjs.com/package/%40bramus%2Fspecificity/v/2.4.3) — MIT; development.
+- [@csstools/color-helpers@6.1.2](https://www.npmjs.com/package/%40csstools%2Fcolor-helpers/v/6.1.2) — MIT-0; development.
+- [@csstools/css-calc@3.4.3](https://www.npmjs.com/package/%40csstools%2Fcss-calc/v/3.4.3) — MIT; development.
+- [@csstools/css-color-parser@4.2.6](https://www.npmjs.com/package/%40csstools%2Fcss-color-parser/v/4.2.6) — MIT; development.
+- [@csstools/css-parser-algorithms@4.0.2](https://www.npmjs.com/package/%40csstools%2Fcss-parser-algorithms/v/4.0.2) — MIT; development.
+- [@csstools/css-syntax-patches-for-csstree@1.1.15](https://www.npmjs.com/package/%40csstools%2Fcss-syntax-patches-for-csstree/v/1.1.15) — MIT-0; development.
+- [@csstools/css-tokenizer@4.0.2](https://www.npmjs.com/package/%40csstools%2Fcss-tokenizer/v/4.0.2) — MIT; development.
+- [@derhuerst/http-basic@8.2.4](https://www.npmjs.com/package/%40derhuerst%2Fhttp-basic/v/8.2.4) — MIT; development.
+- [@discordjs/builders@1.14.1](https://www.npmjs.com/package/%40discordjs%2Fbuilders/v/1.14.1) — Apache-2.0; runtime.
+- [@discordjs/collection@1.5.3](https://www.npmjs.com/package/%40discordjs%2Fcollection/v/1.5.3) — Apache-2.0; runtime.
+- [@discordjs/formatters@0.6.2](https://www.npmjs.com/package/%40discordjs%2Fformatters/v/0.6.2) — Apache-2.0; runtime.
+- [@discordjs/rest@2.6.3](https://www.npmjs.com/package/%40discordjs%2Frest/v/2.6.3) — Apache-2.0; runtime.
+- [@discordjs/collection@2.1.1](https://www.npmjs.com/package/%40discordjs%2Fcollection/v/2.1.1) — Apache-2.0; runtime.
+- [@discordjs/util@1.2.0](https://www.npmjs.com/package/%40discordjs%2Futil/v/1.2.0) — Apache-2.0; runtime.
+- [@discordjs/ws@1.2.3](https://www.npmjs.com/package/%40discordjs%2Fws/v/1.2.3) — Apache-2.0; runtime.
+- [@discordjs/collection@2.1.1](https://www.npmjs.com/package/%40discordjs%2Fcollection/v/2.1.1) — Apache-2.0; runtime.
+- [@electric-sql/pglite@0.5.10](https://www.npmjs.com/package/%40electric-sql%2Fpglite/v/0.5.10) — Apache-2.0; development.
+- [@emnapi/runtime@1.11.3](https://www.npmjs.com/package/%40emnapi%2Fruntime/v/1.11.3) — MIT; runtime; optional/platform-specific.
+- [@esbuild/aix-ppc64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Faix-ppc64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/android-arm@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fandroid-arm/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/android-arm64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fandroid-arm64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/android-x64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fandroid-x64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/darwin-arm64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fdarwin-arm64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/darwin-x64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fdarwin-x64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/freebsd-arm64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Ffreebsd-arm64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/freebsd-x64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Ffreebsd-x64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-arm@0.28.2](https://www.npmjs.com/package/%40esbuild%2Flinux-arm/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-arm64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Flinux-arm64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-ia32@0.28.2](https://www.npmjs.com/package/%40esbuild%2Flinux-ia32/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-loong64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Flinux-loong64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-mips64el@0.28.2](https://www.npmjs.com/package/%40esbuild%2Flinux-mips64el/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-ppc64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Flinux-ppc64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-riscv64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Flinux-riscv64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-s390x@0.28.2](https://www.npmjs.com/package/%40esbuild%2Flinux-s390x/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-x64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Flinux-x64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/netbsd-arm64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fnetbsd-arm64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/netbsd-x64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fnetbsd-x64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/openbsd-arm64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fopenbsd-arm64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/openbsd-x64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fopenbsd-x64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/openharmony-arm64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fopenharmony-arm64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/sunos-x64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fsunos-x64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/win32-arm64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fwin32-arm64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/win32-ia32@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fwin32-ia32/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@esbuild/win32-x64@0.28.2](https://www.npmjs.com/package/%40esbuild%2Fwin32-x64/v/0.28.2) — MIT; development; optional/platform-specific.
+- [@exodus/bytes@1.16.0](https://www.npmjs.com/package/%40exodus%2Fbytes/v/1.16.0) — MIT; development.
+- [@fastify/accept-negotiator@2.1.1](https://www.npmjs.com/package/%40fastify%2Faccept-negotiator/v/2.1.1) — MIT; runtime.
+- [@fastify/ajv-compiler@4.0.7](https://www.npmjs.com/package/%40fastify%2Fajv-compiler/v/4.0.7) — MIT; runtime.
+- [@fastify/busboy@3.2.3](https://www.npmjs.com/package/%40fastify%2Fbusboy/v/3.2.3) — MIT; runtime.
+- [@fastify/cors@11.3.1](https://www.npmjs.com/package/%40fastify%2Fcors/v/11.3.1) — MIT; runtime.
+- [@fastify/deepmerge@3.2.2](https://www.npmjs.com/package/%40fastify%2Fdeepmerge/v/3.2.2) — MIT; runtime.
+- [@fastify/error@4.2.1](https://www.npmjs.com/package/%40fastify%2Ferror/v/4.2.1) — MIT; runtime.
+- [@fastify/fast-json-stringify-compiler@5.1.1](https://www.npmjs.com/package/%40fastify%2Ffast-json-stringify-compiler/v/5.1.1) — MIT; runtime.
+- [@fastify/forwarded@3.1.1](https://www.npmjs.com/package/%40fastify%2Fforwarded/v/3.1.1) — MIT; runtime.
+- [@fastify/merge-json-schemas@0.2.2](https://www.npmjs.com/package/%40fastify%2Fmerge-json-schemas/v/0.2.2) — MIT; runtime.
+- [@fastify/multipart@10.1.4](https://www.npmjs.com/package/%40fastify%2Fmultipart/v/10.1.4) — MIT; runtime.
+- [@fastify/proxy-addr@5.1.2](https://www.npmjs.com/package/%40fastify%2Fproxy-addr/v/5.1.2) — MIT; runtime.
+- [@fastify/rate-limit@11.2.1](https://www.npmjs.com/package/%40fastify%2Frate-limit/v/11.2.1) — MIT; runtime.
+- [@fastify/send@4.1.2](https://www.npmjs.com/package/%40fastify%2Fsend/v/4.1.2) — MIT; runtime.
+- [@fastify/static@10.1.6](https://www.npmjs.com/package/%40fastify%2Fstatic/v/10.1.6) — MIT; runtime.
+- [@img/colour@1.1.0](https://www.npmjs.com/package/%40img%2Fcolour/v/1.1.0) — MIT; runtime.
+- [@img/sharp-darwin-arm64@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-darwin-arm64/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-darwin-x64@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-darwin-x64/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-freebsd-wasm32@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-freebsd-wasm32/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-libvips-darwin-arm64@1.3.4](https://www.npmjs.com/package/%40img%2Fsharp-libvips-darwin-arm64/v/1.3.4) — LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-libvips-darwin-x64@1.3.4](https://www.npmjs.com/package/%40img%2Fsharp-libvips-darwin-x64/v/1.3.4) — LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-libvips-linux-arm@1.3.4](https://www.npmjs.com/package/%40img%2Fsharp-libvips-linux-arm/v/1.3.4) — LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-libvips-linux-arm64@1.3.4](https://www.npmjs.com/package/%40img%2Fsharp-libvips-linux-arm64/v/1.3.4) — LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-libvips-linux-ppc64@1.3.4](https://www.npmjs.com/package/%40img%2Fsharp-libvips-linux-ppc64/v/1.3.4) — LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-libvips-linux-riscv64@1.3.4](https://www.npmjs.com/package/%40img%2Fsharp-libvips-linux-riscv64/v/1.3.4) — LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-libvips-linux-s390x@1.3.4](https://www.npmjs.com/package/%40img%2Fsharp-libvips-linux-s390x/v/1.3.4) — LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-libvips-linux-x64@1.3.4](https://www.npmjs.com/package/%40img%2Fsharp-libvips-linux-x64/v/1.3.4) — LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-libvips-linuxmusl-arm64@1.3.4](https://www.npmjs.com/package/%40img%2Fsharp-libvips-linuxmusl-arm64/v/1.3.4) — LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-libvips-linuxmusl-x64@1.3.4](https://www.npmjs.com/package/%40img%2Fsharp-libvips-linuxmusl-x64/v/1.3.4) — LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-linux-arm@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-linux-arm/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-linux-arm64@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-linux-arm64/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-linux-ppc64@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-linux-ppc64/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-linux-riscv64@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-linux-riscv64/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-linux-s390x@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-linux-s390x/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-linux-x64@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-linux-x64/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-linuxmusl-arm64@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-linuxmusl-arm64/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-linuxmusl-x64@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-linuxmusl-x64/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-wasm32@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-wasm32/v/0.35.5) — Apache-2.0 AND LGPL-3.0-or-later AND MIT; runtime; optional/platform-specific.
+- [@img/sharp-webcontainers-wasm32@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-webcontainers-wasm32/v/0.35.5) — Apache-2.0; runtime; optional/platform-specific.
+- [@img/sharp-win32-arm64@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-win32-arm64/v/0.35.5) — Apache-2.0 AND LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-win32-ia32@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-win32-ia32/v/0.35.5) — Apache-2.0 AND LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@img/sharp-win32-x64@0.35.5](https://www.npmjs.com/package/%40img%2Fsharp-win32-x64/v/0.35.5) — Apache-2.0 AND LGPL-3.0-or-later; runtime; optional/platform-specific.
+- [@jridgewell/resolve-uri@3.1.2](https://www.npmjs.com/package/%40jridgewell%2Fresolve-uri/v/3.1.2) — MIT; development.
+- [@jridgewell/sourcemap-codec@1.6.0](https://www.npmjs.com/package/%40jridgewell%2Fsourcemap-codec/v/1.6.0) — MIT; development.
+- [@jridgewell/trace-mapping@0.3.31](https://www.npmjs.com/package/%40jridgewell%2Ftrace-mapping/v/0.3.31) — MIT; development.
+- [@lukeed/ms@2.0.2](https://www.npmjs.com/package/%40lukeed%2Fms/v/2.0.2) — MIT; runtime.
+- [@oxc-project/types@0.154.0](https://www.npmjs.com/package/%40oxc-project%2Ftypes/v/0.154.0) — MIT; development.
+- [@oxlint/binding-android-arm-eabi@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-android-arm-eabi/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-android-arm64@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-android-arm64/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-darwin-arm64@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-darwin-arm64/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-darwin-x64@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-darwin-x64/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-freebsd-x64@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-freebsd-x64/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-linux-arm-gnueabihf@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-linux-arm-gnueabihf/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-linux-arm-musleabihf@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-linux-arm-musleabihf/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-linux-arm64-gnu@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-linux-arm64-gnu/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-linux-arm64-musl@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-linux-arm64-musl/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-linux-ppc64-gnu@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-linux-ppc64-gnu/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-linux-riscv64-gnu@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-linux-riscv64-gnu/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-linux-riscv64-musl@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-linux-riscv64-musl/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-linux-s390x-gnu@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-linux-s390x-gnu/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-linux-x64-gnu@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-linux-x64-gnu/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-linux-x64-musl@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-linux-x64-musl/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-openharmony-arm64@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-openharmony-arm64/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-win32-arm64-msvc@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-win32-arm64-msvc/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-win32-ia32-msvc@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-win32-ia32-msvc/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@oxlint/binding-win32-x64-msvc@1.88.0](https://www.npmjs.com/package/%40oxlint%2Fbinding-win32-x64-msvc/v/1.88.0) — MIT; development; optional/platform-specific.
+- [@pinojs/redact@0.4.0](https://www.npmjs.com/package/%40pinojs%2Fredact/v/0.4.0) — MIT; runtime.
+- [@rolldown/binding-android-arm-eabi@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-android-arm-eabi/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-android-arm64@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-android-arm64/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-darwin-arm64@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-darwin-arm64/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-darwin-x64@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-darwin-x64/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-freebsd-x64@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-freebsd-x64/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-linux-arm-gnueabihf@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-linux-arm-gnueabihf/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-linux-arm64-gnu@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-linux-arm64-gnu/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-linux-arm64-musl@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-linux-arm64-musl/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-linux-ppc64-gnu@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-linux-ppc64-gnu/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-linux-s390x-gnu@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-linux-s390x-gnu/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-linux-x64-gnu@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-linux-x64-gnu/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-linux-x64-musl@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-linux-x64-musl/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-openharmony-arm64@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-openharmony-arm64/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-win32-arm64-msvc@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-win32-arm64-msvc/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/binding-win32-x64-msvc@1.2.14](https://www.npmjs.com/package/%40rolldown%2Fbinding-win32-x64-msvc/v/1.2.14) — MIT; development; optional/platform-specific.
+- [@rolldown/pluginutils@1.0.1](https://www.npmjs.com/package/%40rolldown%2Fpluginutils/v/1.0.1) — MIT; development.
+- [@sapphire/async-queue@1.5.5](https://www.npmjs.com/package/%40sapphire%2Fasync-queue/v/1.5.5) — MIT; runtime.
+- [@sapphire/shapeshift@4.0.0](https://www.npmjs.com/package/%40sapphire%2Fshapeshift/v/4.0.0) — MIT; runtime.
+- [@sapphire/snowflake@3.5.5](https://www.npmjs.com/package/%40sapphire%2Fsnowflake/v/3.5.5) — MIT; runtime.
+- [@testing-library/dom@10.4.2](https://www.npmjs.com/package/%40testing-library%2Fdom/v/10.4.2) — MIT; development.
+- [@testing-library/react@16.3.3](https://www.npmjs.com/package/%40testing-library%2Freact/v/16.3.3) — MIT; development.
+- [@types/aria-query@5.0.4](https://www.npmjs.com/package/%40types%2Faria-query/v/5.0.4) — MIT; development.
+- [@types/chai@5.2.3](https://www.npmjs.com/package/%40types%2Fchai/v/5.2.3) — MIT; development.
+- [@types/deep-eql@4.0.2](https://www.npmjs.com/package/%40types%2Fdeep-eql/v/4.0.2) — MIT; development.
+- [@types/estree@1.0.9](https://www.npmjs.com/package/%40types%2Festree/v/1.0.9) — MIT; development.
+- [@types/node@26.6.5](https://www.npmjs.com/package/%40types%2Fnode/v/26.6.5) — MIT; runtime.
+- [@types/pg@8.23.1](https://www.npmjs.com/package/%40types%2Fpg/v/8.23.1) — MIT; development.
+- [@types/react@19.3.0](https://www.npmjs.com/package/%40types%2Freact/v/19.3.0) — MIT; development.
+- [@types/react-dom@19.3.0](https://www.npmjs.com/package/%40types%2Freact-dom/v/19.3.0) — MIT; development.
+- [@types/ws@8.18.2](https://www.npmjs.com/package/%40types%2Fws/v/8.18.2) — MIT; runtime.
+- [@typescript/typescript-aix-ppc64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-aix-ppc64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-darwin-arm64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-darwin-arm64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-darwin-x64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-darwin-x64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-freebsd-arm64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-freebsd-arm64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-freebsd-x64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-freebsd-x64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-linux-arm@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-linux-arm/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-linux-arm64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-linux-arm64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-linux-loong64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-linux-loong64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-linux-mips64el@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-linux-mips64el/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-linux-ppc64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-linux-ppc64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-linux-riscv64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-linux-riscv64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-linux-s390x@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-linux-s390x/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-linux-x64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-linux-x64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-netbsd-arm64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-netbsd-arm64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-netbsd-x64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-netbsd-x64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-openbsd-arm64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-openbsd-arm64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-openbsd-x64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-openbsd-x64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-sunos-x64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-sunos-x64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-win32-arm64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-win32-arm64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@typescript/typescript-win32-x64@7.0.2](https://www.npmjs.com/package/%40typescript%2Ftypescript-win32-x64/v/7.0.2) — Apache-2.0; development; optional/platform-specific.
+- [@vitejs/plugin-react@6.1.2](https://www.npmjs.com/package/%40vitejs%2Fplugin-react/v/6.1.2) — MIT; development.
+- [@vitest/mocker@5.0.5](https://www.npmjs.com/package/%40vitest%2Fmocker/v/5.0.5) — MIT; development.
+- [@vitest/spy@5.0.5](https://www.npmjs.com/package/%40vitest%2Fspy/v/5.0.5) — MIT; development.
+- [@vladfrangu/async_event_emitter@2.4.7](https://www.npmjs.com/package/%40vladfrangu%2Fasync_event_emitter/v/2.4.7) — MIT; runtime.
+- [abstract-logging@2.0.1](https://www.npmjs.com/package/abstract-logging/v/2.0.1) — MIT; runtime.
+- [agent-base@6.0.2](https://www.npmjs.com/package/agent-base/v/6.0.2) — MIT; development.
+- [ajv@8.20.0](https://www.npmjs.com/package/ajv/v/8.20.0) — MIT; runtime.
+- [ajv-formats@3.0.1](https://www.npmjs.com/package/ajv-formats/v/3.0.1) — MIT; runtime.
+- [fast-uri@3.1.8](https://www.npmjs.com/package/fast-uri/v/3.1.8) — BSD-3-Clause; runtime.
+- [ansi-regex@5.0.1](https://www.npmjs.com/package/ansi-regex/v/5.0.1) — MIT; development.
+- [ansi-styles@5.2.0](https://www.npmjs.com/package/ansi-styles/v/5.2.0) — MIT; development.
+- [aria-query@5.3.0](https://www.npmjs.com/package/aria-query/v/5.3.0) — Apache-2.0; development.
+- [assertion-error@2.0.1](https://www.npmjs.com/package/assertion-error/v/2.0.1) — MIT; development.
+- [atomic-sleep@1.0.0](https://www.npmjs.com/package/atomic-sleep/v/1.0.0) — MIT; runtime.
+- [avvio@9.3.1](https://www.npmjs.com/package/avvio/v/9.3.1) — MIT; runtime.
+- [balanced-match@4.0.4](https://www.npmjs.com/package/balanced-match/v/4.0.4) — MIT; runtime.
+- [bidi-js@1.1.0](https://www.npmjs.com/package/bidi-js/v/1.1.0) — MIT; development.
+- [brace-expansion@5.0.12](https://www.npmjs.com/package/brace-expansion/v/5.0.12) — MIT; runtime.
+- [buffer-from@1.1.2](https://www.npmjs.com/package/buffer-from/v/1.1.2) — MIT; development.
+- [caseless@0.12.0](https://www.npmjs.com/package/caseless/v/0.12.0) — Apache-2.0; development.
+- [chai@6.3.0](https://www.npmjs.com/package/chai/v/6.3.0) — MIT; development.
+- [concat-stream@2.0.0](https://www.npmjs.com/package/concat-stream/v/2.0.0) — MIT; development.
+- [content-disposition@3.0.0](https://www.npmjs.com/package/content-disposition/v/3.0.0) — MIT; runtime.
+- [cookie@2.0.1](https://www.npmjs.com/package/cookie/v/2.0.1) — MIT; runtime.
+- [css-tree@3.2.1](https://www.npmjs.com/package/css-tree/v/3.2.1) — MIT; development.
+- [csstype@3.2.3](https://www.npmjs.com/package/csstype/v/3.2.3) — MIT; development.
+- [data-urls@7.0.0](https://www.npmjs.com/package/data-urls/v/7.0.0) — MIT; development.
+- [debug@4.4.3](https://www.npmjs.com/package/debug/v/4.4.3) — MIT; development.
+- [decimal.js@10.6.0](https://www.npmjs.com/package/decimal.js/v/10.6.0) — MIT; development.
+- [depd@2.0.0](https://www.npmjs.com/package/depd/v/2.0.0) — MIT; runtime.
+- [dequal@2.0.3](https://www.npmjs.com/package/dequal/v/2.0.3) — MIT; runtime.
+- [detect-libc@2.1.2](https://www.npmjs.com/package/detect-libc/v/2.1.2) — Apache-2.0; runtime.
+- [discord-api-types@0.38.56](https://www.npmjs.com/package/discord-api-types/v/0.38.56) — MIT; runtime.
+- [discord.js@14.27.0](https://www.npmjs.com/package/discord.js/v/14.27.0) — Apache-2.0; runtime.
+- [dom-accessibility-api@0.5.16](https://www.npmjs.com/package/dom-accessibility-api/v/0.5.16) — MIT; development.
+- [dotenv@18.0.8](https://www.npmjs.com/package/dotenv/v/18.0.8) — BSD-2-Clause; runtime.
+- [entities@8.1.0](https://www.npmjs.com/package/entities/v/8.1.0) — BSD-2-Clause; development.
+- [env-paths@2.2.1](https://www.npmjs.com/package/env-paths/v/2.2.1) — MIT; development.
+- [es-module-lexer@2.3.2](https://www.npmjs.com/package/es-module-lexer/v/2.3.2) — MIT; development.
+- [esbuild@0.28.2](https://www.npmjs.com/package/esbuild/v/0.28.2) — MIT; development.
+- [escape-html@1.0.3](https://www.npmjs.com/package/escape-html/v/1.0.3) — MIT; runtime.
+- [estree-walker@3.0.3](https://www.npmjs.com/package/estree-walker/v/3.0.3) — MIT; development.
+- [expect-type@1.4.0](https://www.npmjs.com/package/expect-type/v/1.4.0) — Apache-2.0; development.
+- [fast-decode-uri-component@1.0.1](https://www.npmjs.com/package/fast-decode-uri-component/v/1.0.1) — MIT; runtime.
+- [fast-deep-equal@3.1.3](https://www.npmjs.com/package/fast-deep-equal/v/3.1.3) — MIT; runtime.
+- [fast-json-stringify@7.1.0](https://www.npmjs.com/package/fast-json-stringify/v/7.1.0) — MIT; runtime.
+- [fast-querystring@1.1.2](https://www.npmjs.com/package/fast-querystring/v/1.1.2) — MIT; runtime.
+- [fast-uri@4.2.2](https://www.npmjs.com/package/fast-uri/v/4.2.2) — BSD-3-Clause; runtime.
+- [fastify@5.12.7](https://www.npmjs.com/package/fastify/v/5.12.7) — MIT; runtime.
+- [fastify-plugin@6.0.1](https://www.npmjs.com/package/fastify-plugin/v/6.0.1) — MIT; runtime.
+- [fastq@1.20.3](https://www.npmjs.com/package/fastq/v/1.20.3) — ISC; runtime.
+- [fdir@6.5.0](https://www.npmjs.com/package/fdir/v/6.5.0) — MIT; development.
+- [fflate@0.8.3](https://www.npmjs.com/package/fflate/v/0.8.3) — MIT; development.
+- [ffmpeg-static@5.3.0](https://www.npmjs.com/package/ffmpeg-static/v/5.3.0) — GPL-3.0-or-later; development.
+- [ffprobe-static@3.1.0](https://www.npmjs.com/package/ffprobe-static/v/3.1.0) — MIT; development.
+- [find-my-way@9.10.0](https://www.npmjs.com/package/find-my-way/v/9.10.0) — MIT; runtime.
+- [fsevents@2.3.3](https://www.npmjs.com/package/fsevents/v/2.3.3) — MIT; development; optional/platform-specific.
+- [glob@13.0.6](https://www.npmjs.com/package/glob/v/13.0.6) — BlueOak-1.0.0; runtime.
+- [html-encoding-sniffer@6.0.0](https://www.npmjs.com/package/html-encoding-sniffer/v/6.0.0) — MIT; development.
+- [http-errors@2.0.1](https://www.npmjs.com/package/http-errors/v/2.0.1) — MIT; runtime.
+- [http-response-object@3.0.2](https://www.npmjs.com/package/http-response-object/v/3.0.2) — MIT; development.
+- [@types/node@10.17.60](https://www.npmjs.com/package/%40types%2Fnode/v/10.17.60) — MIT; development.
+- [https-proxy-agent@5.0.1](https://www.npmjs.com/package/https-proxy-agent/v/5.0.1) — MIT; development.
+- [inherits@2.0.4](https://www.npmjs.com/package/inherits/v/2.0.4) — ISC; runtime.
+- [ip-address@10.7.4](https://www.npmjs.com/package/ip-address/v/10.7.4) — MIT; runtime.
+- [ipaddr.js@2.5.0](https://www.npmjs.com/package/ipaddr.js/v/2.5.0) — MIT; runtime.
+- [is-potential-custom-element-name@1.0.1](https://www.npmjs.com/package/is-potential-custom-element-name/v/1.0.1) — MIT; development.
+- [js-tokens@4.0.0](https://www.npmjs.com/package/js-tokens/v/4.0.0) — MIT; development.
+- [jsdom@29.1.1](https://www.npmjs.com/package/jsdom/v/29.1.1) — MIT; development.
+- [undici@7.30.1](https://www.npmjs.com/package/undici/v/7.30.1) — MIT; development.
+- [json-schema-ref-resolver@3.0.1](https://www.npmjs.com/package/json-schema-ref-resolver/v/3.0.1) — MIT; runtime.
+- [json-schema-traverse@1.0.0](https://www.npmjs.com/package/json-schema-traverse/v/1.0.0) — MIT; runtime.
+- [light-my-request@6.8.0](https://www.npmjs.com/package/light-my-request/v/6.8.0) — BSD-3-Clause; runtime.
+- [lightningcss@1.33.0](https://www.npmjs.com/package/lightningcss/v/1.33.0) — MPL-2.0; development.
+- [lightningcss-android-arm64@1.33.0](https://www.npmjs.com/package/lightningcss-android-arm64/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lightningcss-darwin-arm64@1.33.0](https://www.npmjs.com/package/lightningcss-darwin-arm64/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lightningcss-darwin-x64@1.33.0](https://www.npmjs.com/package/lightningcss-darwin-x64/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lightningcss-freebsd-x64@1.33.0](https://www.npmjs.com/package/lightningcss-freebsd-x64/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lightningcss-linux-arm-gnueabihf@1.33.0](https://www.npmjs.com/package/lightningcss-linux-arm-gnueabihf/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lightningcss-linux-arm64-gnu@1.33.0](https://www.npmjs.com/package/lightningcss-linux-arm64-gnu/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lightningcss-linux-arm64-musl@1.33.0](https://www.npmjs.com/package/lightningcss-linux-arm64-musl/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lightningcss-linux-x64-gnu@1.33.0](https://www.npmjs.com/package/lightningcss-linux-x64-gnu/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lightningcss-linux-x64-musl@1.33.0](https://www.npmjs.com/package/lightningcss-linux-x64-musl/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lightningcss-win32-arm64-msvc@1.33.0](https://www.npmjs.com/package/lightningcss-win32-arm64-msvc/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lightningcss-win32-x64-msvc@1.33.0](https://www.npmjs.com/package/lightningcss-win32-x64-msvc/v/1.33.0) — MPL-2.0; development; optional/platform-specific.
+- [lodash@4.18.1](https://www.npmjs.com/package/lodash/v/4.18.1) — MIT; runtime.
+- [lodash.snakecase@4.1.1](https://www.npmjs.com/package/lodash.snakecase/v/4.1.1) — MIT; runtime.
+- [lru-cache@11.5.3](https://www.npmjs.com/package/lru-cache/v/11.5.3) — BlueOak-1.0.0; runtime.
+- [lz-string@1.5.0](https://www.npmjs.com/package/lz-string/v/1.5.0) — MIT; development.
+- [magic-bytes.js@1.13.1](https://www.npmjs.com/package/magic-bytes.js/v/1.13.1) — MIT; runtime.
+- [magic-string@1.4.3](https://www.npmjs.com/package/magic-string/v/1.4.3) — MIT; development.
+- [mdn-data@2.27.1](https://www.npmjs.com/package/mdn-data/v/2.27.1) — CC0-1.0; development.
+- [mime@3.0.0](https://www.npmjs.com/package/mime/v/3.0.0) — MIT; runtime.
+- [minimatch@10.2.6](https://www.npmjs.com/package/minimatch/v/10.2.6) — BlueOak-1.0.0; runtime.
+- [minipass@7.1.3](https://www.npmjs.com/package/minipass/v/7.1.3) — BlueOak-1.0.0; runtime.
+- [ms@2.1.3](https://www.npmjs.com/package/ms/v/2.1.3) — MIT; development.
+- [nanoid@3.3.20](https://www.npmjs.com/package/nanoid/v/3.3.20) — MIT; development.
+- [obug@3.0.0](https://www.npmjs.com/package/obug/v/3.0.0) — MIT; development.
+- [on-exit-leak-free@2.1.2](https://www.npmjs.com/package/on-exit-leak-free/v/2.1.2) — MIT; runtime.
+- [oxlint@1.88.0](https://www.npmjs.com/package/oxlint/v/1.88.0) — MIT; development.
+- [parse-cache-control@1.0.1](https://www.npmjs.com/package/parse-cache-control/v/1.0.1) — Not declared in lockfile; inspect the distributed package; development.
+- [parse5@8.0.1](https://www.npmjs.com/package/parse5/v/8.0.1) — MIT; development.
+- [path-scurry@2.0.2](https://www.npmjs.com/package/path-scurry/v/2.0.2) — BlueOak-1.0.0; runtime.
+- [pg@8.23.1](https://www.npmjs.com/package/pg/v/8.23.1) — MIT; runtime.
+- [pg-cloudflare@1.4.1](https://www.npmjs.com/package/pg-cloudflare/v/1.4.1) — MIT; runtime; optional/platform-specific.
+- [pg-connection-string@2.14.1](https://www.npmjs.com/package/pg-connection-string/v/2.14.1) — MIT; runtime.
+- [pg-int8@1.0.1](https://www.npmjs.com/package/pg-int8/v/1.0.1) — ISC; runtime.
+- [pg-pool@3.14.0](https://www.npmjs.com/package/pg-pool/v/3.14.0) — MIT; runtime.
+- [pg-protocol@1.16.1](https://www.npmjs.com/package/pg-protocol/v/1.16.1) — MIT; runtime.
+- [pg-types@2.2.0](https://www.npmjs.com/package/pg-types/v/2.2.0) — MIT; runtime.
+- [pgpass@1.0.5](https://www.npmjs.com/package/pgpass/v/1.0.5) — MIT; runtime.
+- [picocolors@1.1.1](https://www.npmjs.com/package/picocolors/v/1.1.1) — ISC; development.
+- [picomatch@4.0.7](https://www.npmjs.com/package/picomatch/v/4.0.7) — MIT; development.
+- [pino@10.4.0](https://www.npmjs.com/package/pino/v/10.4.0) — MIT; runtime.
+- [pino-abstract-transport@3.0.0](https://www.npmjs.com/package/pino-abstract-transport/v/3.0.0) — MIT; runtime.
+- [pino-std-serializers@7.1.0](https://www.npmjs.com/package/pino-std-serializers/v/7.1.0) — MIT; runtime.
+- [postcss@8.5.30](https://www.npmjs.com/package/postcss/v/8.5.30) — MIT; development.
+- [postgres-array@2.0.0](https://www.npmjs.com/package/postgres-array/v/2.0.0) — MIT; runtime.
+- [postgres-bytea@1.0.1](https://www.npmjs.com/package/postgres-bytea/v/1.0.1) — MIT; runtime.
+- [postgres-date@1.0.7](https://www.npmjs.com/package/postgres-date/v/1.0.7) — MIT; runtime.
+- [postgres-interval@1.2.0](https://www.npmjs.com/package/postgres-interval/v/1.2.0) — MIT; runtime.
+- [prettier@3.9.10](https://www.npmjs.com/package/prettier/v/3.9.10) — MIT; development.
+- [pretty-format@27.5.1](https://www.npmjs.com/package/pretty-format/v/27.5.1) — MIT; development.
+- [process-warning@5.1.1](https://www.npmjs.com/package/process-warning/v/5.1.1) — MIT; runtime.
+- [progress@2.0.3](https://www.npmjs.com/package/progress/v/2.0.3) — MIT; development.
+- [punycode@2.3.1](https://www.npmjs.com/package/punycode/v/2.3.1) — MIT; development.
+- [quick-format-unescaped@4.0.4](https://www.npmjs.com/package/quick-format-unescaped/v/4.0.4) — MIT; runtime.
+- [react@19.3.1](https://www.npmjs.com/package/react/v/19.3.1) — MIT; development.
+- [react-dom@19.3.1](https://www.npmjs.com/package/react-dom/v/19.3.1) — MIT; development.
+- [react-is@17.0.2](https://www.npmjs.com/package/react-is/v/17.0.2) — MIT; development.
+- [readable-stream@3.6.2](https://www.npmjs.com/package/readable-stream/v/3.6.2) — MIT; development.
+- [real-require@1.0.0](https://www.npmjs.com/package/real-require/v/1.0.0) — MIT; runtime.
+- [require-from-string@2.0.2](https://www.npmjs.com/package/require-from-string/v/2.0.2) — MIT; runtime.
+- [ret@0.5.0](https://www.npmjs.com/package/ret/v/0.5.0) — MIT; runtime.
+- [reusify@1.1.0](https://www.npmjs.com/package/reusify/v/1.1.0) — MIT; runtime.
+- [rfdc@1.4.1](https://www.npmjs.com/package/rfdc/v/1.4.1) — MIT; runtime.
+- [rolldown@1.2.14](https://www.npmjs.com/package/rolldown/v/1.2.14) — MIT; development.
+- [safe-buffer@5.2.1](https://www.npmjs.com/package/safe-buffer/v/5.2.1) — MIT; development.
+- [safe-regex2@5.1.2](https://www.npmjs.com/package/safe-regex2/v/5.1.2) — MIT; runtime.
+- [safe-stable-stringify@2.5.0](https://www.npmjs.com/package/safe-stable-stringify/v/2.5.0) — MIT; runtime.
+- [saxes@6.0.0](https://www.npmjs.com/package/saxes/v/6.0.0) — ISC; development.
+- [scheduler@0.28.0](https://www.npmjs.com/package/scheduler/v/0.28.0) — MIT; development.
+- [secure-json-parse@4.1.1](https://www.npmjs.com/package/secure-json-parse/v/4.1.1) — BSD-3-Clause; runtime.
+- [semver@7.8.5](https://www.npmjs.com/package/semver/v/7.8.5) — ISC; runtime.
+- [set-cookie-parser@3.1.3](https://www.npmjs.com/package/set-cookie-parser/v/3.1.3) — MIT; runtime.
+- [setprototypeof@1.2.0](https://www.npmjs.com/package/setprototypeof/v/1.2.0) — ISC; runtime.
+- [sharp@0.35.5](https://www.npmjs.com/package/sharp/v/0.35.5) — Apache-2.0; runtime.
+- [sonic-boom@4.2.1](https://www.npmjs.com/package/sonic-boom/v/4.2.1) — MIT; runtime.
+- [source-map-js@1.2.2](https://www.npmjs.com/package/source-map-js/v/1.2.2) — BSD-3-Clause; development.
+- [split2@4.2.0](https://www.npmjs.com/package/split2/v/4.2.0) — ISC; runtime.
+- [statuses@2.0.2](https://www.npmjs.com/package/statuses/v/2.0.2) — MIT; runtime.
+- [std-env@4.3.0](https://www.npmjs.com/package/std-env/v/4.3.0) — MIT; development.
+- [string_decoder@1.3.0](https://www.npmjs.com/package/string_decoder/v/1.3.0) — MIT; development.
+- [symbol-tree@3.2.4](https://www.npmjs.com/package/symbol-tree/v/3.2.4) — MIT; development.
+- [thread-stream@4.2.0](https://www.npmjs.com/package/thread-stream/v/4.2.0) — MIT; runtime.
+- [tinybench@6.2.2](https://www.npmjs.com/package/tinybench/v/6.2.2) — MIT; development.
+- [tinyexec@1.3.1](https://www.npmjs.com/package/tinyexec/v/1.3.1) — MIT; development.
+- [tinyglobby@0.2.17](https://www.npmjs.com/package/tinyglobby/v/0.2.17) — MIT; development.
+- [tldts@7.4.18](https://www.npmjs.com/package/tldts/v/7.4.18) — MIT; development.
+- [tldts-core@7.4.18](https://www.npmjs.com/package/tldts-core/v/7.4.18) — MIT; development.
+- [toad-cache@3.7.4](https://www.npmjs.com/package/toad-cache/v/3.7.4) — MIT; runtime.
+- [toidentifier@1.0.1](https://www.npmjs.com/package/toidentifier/v/1.0.1) — MIT; runtime.
+- [tough-cookie@6.0.2](https://www.npmjs.com/package/tough-cookie/v/6.0.2) — BSD-3-Clause; development.
+- [tr46@6.0.0](https://www.npmjs.com/package/tr46/v/6.0.0) — MIT; development.
+- [ts-mixer@6.0.4](https://www.npmjs.com/package/ts-mixer/v/6.0.4) — MIT; runtime.
+- [tslib@2.8.1](https://www.npmjs.com/package/tslib/v/2.8.1) — 0BSD; runtime.
+- [tsx@4.23.15](https://www.npmjs.com/package/tsx/v/4.23.15) — MIT; development.
+- [typedarray@0.0.6](https://www.npmjs.com/package/typedarray/v/0.0.6) — MIT; development.
+- [typescript@7.0.2](https://www.npmjs.com/package/typescript/v/7.0.2) — Apache-2.0; development.
+- [undici@6.29.1](https://www.npmjs.com/package/undici/v/6.29.1) — MIT; runtime.
+- [undici-types@8.9.0](https://www.npmjs.com/package/undici-types/v/8.9.0) — MIT; runtime.
+- [util-deprecate@1.0.2](https://www.npmjs.com/package/util-deprecate/v/1.0.2) — MIT; development.
+- [vite@8.3.4](https://www.npmjs.com/package/vite/v/8.3.4) — MIT; development.
+- [vitest@5.0.5](https://www.npmjs.com/package/vitest/v/5.0.5) — MIT; development.
+- [w3c-xmlserializer@5.0.0](https://www.npmjs.com/package/w3c-xmlserializer/v/5.0.0) — MIT; development.
+- [webidl-conversions@8.0.1](https://www.npmjs.com/package/webidl-conversions/v/8.0.1) — BSD-2-Clause; development.
+- [whatwg-mimetype@5.0.0](https://www.npmjs.com/package/whatwg-mimetype/v/5.0.0) — MIT; development.
+- [whatwg-url@16.0.1](https://www.npmjs.com/package/whatwg-url/v/16.0.1) — MIT; development.
+- [why-is-node-running@3.2.1](https://www.npmjs.com/package/why-is-node-running/v/3.2.1) — MIT; development.
+- [ws@8.22.0](https://www.npmjs.com/package/ws/v/8.22.0) — MIT; runtime.
+- [xml-name-validator@5.0.0](https://www.npmjs.com/package/xml-name-validator/v/5.0.0) — Apache-2.0; development.
+- [xmlchars@2.2.0](https://www.npmjs.com/package/xmlchars/v/2.2.0) — MIT; development.
+- [xtend@4.0.2](https://www.npmjs.com/package/xtend/v/4.0.2) — MIT; runtime.
+- [zod@4.6.7](https://www.npmjs.com/package/zod/v/4.6.7) — MIT; runtime.
+
+## Documentation tooling
+
+Lockfile: `docs-site/package-lock.json`. Includes nested duplicates and optional packages; this is not a count of modules shipped to every platform.
+
+- [@algolia/abtesting@1.26.0](https://www.npmjs.com/package/%40algolia%2Fabtesting/v/1.26.0) — MIT; development.
+- [@algolia/autocomplete-core@1.17.7](https://www.npmjs.com/package/%40algolia%2Fautocomplete-core/v/1.17.7) — MIT; development.
+- [@algolia/autocomplete-plugin-algolia-insights@1.17.7](https://www.npmjs.com/package/%40algolia%2Fautocomplete-plugin-algolia-insights/v/1.17.7) — MIT; development.
+- [@algolia/autocomplete-preset-algolia@1.17.7](https://www.npmjs.com/package/%40algolia%2Fautocomplete-preset-algolia/v/1.17.7) — MIT; development.
+- [@algolia/autocomplete-shared@1.17.7](https://www.npmjs.com/package/%40algolia%2Fautocomplete-shared/v/1.17.7) — MIT; development.
+- [@algolia/client-abtesting@5.60.0](https://www.npmjs.com/package/%40algolia%2Fclient-abtesting/v/5.60.0) — MIT; development.
+- [@algolia/client-analytics@5.60.0](https://www.npmjs.com/package/%40algolia%2Fclient-analytics/v/5.60.0) — MIT; development.
+- [@algolia/client-common@5.60.0](https://www.npmjs.com/package/%40algolia%2Fclient-common/v/5.60.0) — MIT; development.
+- [@algolia/client-insights@5.60.0](https://www.npmjs.com/package/%40algolia%2Fclient-insights/v/5.60.0) — MIT; development.
+- [@algolia/client-personalization@5.60.0](https://www.npmjs.com/package/%40algolia%2Fclient-personalization/v/5.60.0) — MIT; development.
+- [@algolia/client-query-suggestions@5.60.0](https://www.npmjs.com/package/%40algolia%2Fclient-query-suggestions/v/5.60.0) — MIT; development.
+- [@algolia/client-search@5.60.0](https://www.npmjs.com/package/%40algolia%2Fclient-search/v/5.60.0) — MIT; development.
+- [@algolia/ingestion@1.60.0](https://www.npmjs.com/package/%40algolia%2Fingestion/v/1.60.0) — MIT; development.
+- [@algolia/monitoring@1.60.0](https://www.npmjs.com/package/%40algolia%2Fmonitoring/v/1.60.0) — MIT; development.
+- [@algolia/recommend@5.60.0](https://www.npmjs.com/package/%40algolia%2Frecommend/v/5.60.0) — MIT; development.
+- [@algolia/requester-browser-xhr@5.60.0](https://www.npmjs.com/package/%40algolia%2Frequester-browser-xhr/v/5.60.0) — MIT; development.
+- [@algolia/requester-fetch@5.60.0](https://www.npmjs.com/package/%40algolia%2Frequester-fetch/v/5.60.0) — MIT; development.
+- [@algolia/requester-node-http@5.60.0](https://www.npmjs.com/package/%40algolia%2Frequester-node-http/v/5.60.0) — MIT; development.
+- [@babel/helper-string-parser@7.29.7](https://www.npmjs.com/package/%40babel%2Fhelper-string-parser/v/7.29.7) — MIT; development.
+- [@babel/helper-validator-identifier@7.29.7](https://www.npmjs.com/package/%40babel%2Fhelper-validator-identifier/v/7.29.7) — MIT; development.
+- [@babel/parser@7.29.9](https://www.npmjs.com/package/%40babel%2Fparser/v/7.29.9) — MIT; development.
+- [@babel/types@7.29.8](https://www.npmjs.com/package/%40babel%2Ftypes/v/7.29.8) — MIT; development.
+- [@docsearch/css@3.8.2](https://www.npmjs.com/package/%40docsearch%2Fcss/v/3.8.2) — MIT; development.
+- [@docsearch/js@3.8.2](https://www.npmjs.com/package/%40docsearch%2Fjs/v/3.8.2) — MIT; development.
+- [@docsearch/react@3.8.2](https://www.npmjs.com/package/%40docsearch%2Freact/v/3.8.2) — MIT; development.
+- [@esbuild/aix-ppc64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Faix-ppc64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/android-arm@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fandroid-arm/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/android-arm64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fandroid-arm64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/android-x64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fandroid-x64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/darwin-arm64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fdarwin-arm64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/darwin-x64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fdarwin-x64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/freebsd-arm64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Ffreebsd-arm64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/freebsd-x64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Ffreebsd-x64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-arm@0.25.12](https://www.npmjs.com/package/%40esbuild%2Flinux-arm/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-arm64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Flinux-arm64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-ia32@0.25.12](https://www.npmjs.com/package/%40esbuild%2Flinux-ia32/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-loong64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Flinux-loong64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-mips64el@0.25.12](https://www.npmjs.com/package/%40esbuild%2Flinux-mips64el/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-ppc64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Flinux-ppc64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-riscv64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Flinux-riscv64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-s390x@0.25.12](https://www.npmjs.com/package/%40esbuild%2Flinux-s390x/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/linux-x64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Flinux-x64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/netbsd-arm64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fnetbsd-arm64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/netbsd-x64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fnetbsd-x64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/openbsd-arm64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fopenbsd-arm64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/openbsd-x64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fopenbsd-x64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/openharmony-arm64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fopenharmony-arm64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/sunos-x64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fsunos-x64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/win32-arm64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fwin32-arm64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/win32-ia32@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fwin32-ia32/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@esbuild/win32-x64@0.25.12](https://www.npmjs.com/package/%40esbuild%2Fwin32-x64/v/0.25.12) — MIT; development; optional/platform-specific.
+- [@iconify-json/simple-icons@1.2.100](https://www.npmjs.com/package/%40iconify-json%2Fsimple-icons/v/1.2.100) — CC0-1.0; development.
+- [@iconify/types@2.0.0](https://www.npmjs.com/package/%40iconify%2Ftypes/v/2.0.0) — MIT; development.
+- [@jridgewell/sourcemap-codec@1.6.0](https://www.npmjs.com/package/%40jridgewell%2Fsourcemap-codec/v/1.6.0) — MIT; development.
+- [@napi-rs/lzma-linux-x64-gnu@1.5.1](https://www.npmjs.com/package/%40napi-rs%2Flzma-linux-x64-gnu/v/1.5.1) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-android-arm-eabi@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-android-arm-eabi/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-android-arm64@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-android-arm64/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-darwin-arm64@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-darwin-arm64/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-darwin-x64@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-darwin-x64/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-freebsd-arm64@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-freebsd-arm64/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-freebsd-x64@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-freebsd-x64/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-arm-gnueabihf@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-arm-gnueabihf/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-arm-musleabihf@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-arm-musleabihf/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-arm64-gnu@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-arm64-gnu/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-arm64-musl@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-arm64-musl/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-loong64-gnu@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-loong64-gnu/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-loong64-musl@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-loong64-musl/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-ppc64-gnu@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-ppc64-gnu/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-ppc64-musl@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-ppc64-musl/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-riscv64-gnu@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-riscv64-gnu/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-riscv64-musl@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-riscv64-musl/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-s390x-gnu@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-s390x-gnu/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-x64-gnu@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-x64-gnu/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-linux-x64-musl@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-linux-x64-musl/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-openbsd-x64@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-openbsd-x64/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-openharmony-arm64@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-openharmony-arm64/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-win32-arm64-msvc@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-win32-arm64-msvc/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-win32-ia32-msvc@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-win32-ia32-msvc/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-win32-x64-gnu@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-win32-x64-gnu/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@rollup/rollup-win32-x64-msvc@4.64.9](https://www.npmjs.com/package/%40rollup%2Frollup-win32-x64-msvc/v/4.64.9) — MIT; development; optional/platform-specific.
+- [@shikijs/core@2.5.0](https://www.npmjs.com/package/%40shikijs%2Fcore/v/2.5.0) — MIT; development.
+- [@shikijs/engine-javascript@2.5.0](https://www.npmjs.com/package/%40shikijs%2Fengine-javascript/v/2.5.0) — MIT; development.
+- [@shikijs/engine-oniguruma@2.5.0](https://www.npmjs.com/package/%40shikijs%2Fengine-oniguruma/v/2.5.0) — MIT; development.
+- [@shikijs/langs@2.5.0](https://www.npmjs.com/package/%40shikijs%2Flangs/v/2.5.0) — MIT; development.
+- [@shikijs/themes@2.5.0](https://www.npmjs.com/package/%40shikijs%2Fthemes/v/2.5.0) — MIT; development.
+- [@shikijs/transformers@2.5.0](https://www.npmjs.com/package/%40shikijs%2Ftransformers/v/2.5.0) — MIT; development.
+- [@shikijs/types@2.5.0](https://www.npmjs.com/package/%40shikijs%2Ftypes/v/2.5.0) — MIT; development.
+- [@shikijs/vscode-textmate@10.0.2](https://www.npmjs.com/package/%40shikijs%2Fvscode-textmate/v/10.0.2) — MIT; development.
+- [@types/estree@1.0.9](https://www.npmjs.com/package/%40types%2Festree/v/1.0.9) — MIT; development.
+- [@types/hast@3.0.5](https://www.npmjs.com/package/%40types%2Fhast/v/3.0.5) — MIT; development.
+- [@types/linkify-it@5.0.0](https://www.npmjs.com/package/%40types%2Flinkify-it/v/5.0.0) — MIT; development.
+- [@types/markdown-it@14.2.0](https://www.npmjs.com/package/%40types%2Fmarkdown-it/v/14.2.0) — MIT; development.
+- [@types/mdast@4.0.4](https://www.npmjs.com/package/%40types%2Fmdast/v/4.0.4) — MIT; development.
+- [@types/mdurl@2.0.0](https://www.npmjs.com/package/%40types%2Fmdurl/v/2.0.0) — MIT; development.
+- [@types/unist@3.0.3](https://www.npmjs.com/package/%40types%2Funist/v/3.0.3) — MIT; development.
+- [@types/web-bluetooth@0.0.21](https://www.npmjs.com/package/%40types%2Fweb-bluetooth/v/0.0.21) — MIT; development.
+- [@ungap/structured-clone@1.4.0](https://www.npmjs.com/package/%40ungap%2Fstructured-clone/v/1.4.0) — ISC; development.
+- [@vitejs/plugin-vue@5.2.4](https://www.npmjs.com/package/%40vitejs%2Fplugin-vue/v/5.2.4) — MIT; development.
+- [@vue/compiler-core@3.5.44](https://www.npmjs.com/package/%40vue%2Fcompiler-core/v/3.5.44) — MIT; development.
+- [@vue/compiler-dom@3.5.44](https://www.npmjs.com/package/%40vue%2Fcompiler-dom/v/3.5.44) — MIT; development.
+- [@vue/compiler-sfc@3.5.44](https://www.npmjs.com/package/%40vue%2Fcompiler-sfc/v/3.5.44) — MIT; development.
+- [@vue/compiler-ssr@3.5.44](https://www.npmjs.com/package/%40vue%2Fcompiler-ssr/v/3.5.44) — MIT; development.
+- [@vue/devtools-api@7.7.10](https://www.npmjs.com/package/%40vue%2Fdevtools-api/v/7.7.10) — MIT; development.
+- [@vue/devtools-kit@7.7.10](https://www.npmjs.com/package/%40vue%2Fdevtools-kit/v/7.7.10) — MIT; development.
+- [@vue/devtools-shared@7.7.10](https://www.npmjs.com/package/%40vue%2Fdevtools-shared/v/7.7.10) — MIT; development.
+- [@vue/reactivity@3.5.44](https://www.npmjs.com/package/%40vue%2Freactivity/v/3.5.44) — MIT; development.
+- [@vue/runtime-core@3.5.44](https://www.npmjs.com/package/%40vue%2Fruntime-core/v/3.5.44) — MIT; development.
+- [@vue/runtime-dom@3.5.44](https://www.npmjs.com/package/%40vue%2Fruntime-dom/v/3.5.44) — MIT; development.
+- [@vue/server-renderer@3.5.44](https://www.npmjs.com/package/%40vue%2Fserver-renderer/v/3.5.44) — MIT; development.
+- [@vue/shared@3.5.44](https://www.npmjs.com/package/%40vue%2Fshared/v/3.5.44) — MIT; development.
+- [@vueuse/core@12.8.2](https://www.npmjs.com/package/%40vueuse%2Fcore/v/12.8.2) — MIT; development.
+- [@vueuse/integrations@12.8.2](https://www.npmjs.com/package/%40vueuse%2Fintegrations/v/12.8.2) — MIT; development.
+- [@vueuse/metadata@12.8.2](https://www.npmjs.com/package/%40vueuse%2Fmetadata/v/12.8.2) — MIT; development.
+- [@vueuse/shared@12.8.2](https://www.npmjs.com/package/%40vueuse%2Fshared/v/12.8.2) — MIT; development.
+- [algoliasearch@5.60.0](https://www.npmjs.com/package/algoliasearch/v/5.60.0) — MIT; development.
+- [birpc@2.9.0](https://www.npmjs.com/package/birpc/v/2.9.0) — MIT; development.
+- [ccount@2.0.1](https://www.npmjs.com/package/ccount/v/2.0.1) — MIT; development.
+- [character-entities-html4@2.1.0](https://www.npmjs.com/package/character-entities-html4/v/2.1.0) — MIT; development.
+- [character-entities-legacy@3.0.0](https://www.npmjs.com/package/character-entities-legacy/v/3.0.0) — MIT; development.
+- [comma-separated-tokens@2.0.3](https://www.npmjs.com/package/comma-separated-tokens/v/2.0.3) — MIT; development.
+- [copy-anything@4.1.5](https://www.npmjs.com/package/copy-anything/v/4.1.5) — MIT; development.
+- [csstype@3.2.3](https://www.npmjs.com/package/csstype/v/3.2.3) — MIT; development.
+- [dequal@2.0.3](https://www.npmjs.com/package/dequal/v/2.0.3) — MIT; development.
+- [devlop@1.1.0](https://www.npmjs.com/package/devlop/v/1.1.0) — MIT; development.
+- [emoji-regex-xs@1.0.0](https://www.npmjs.com/package/emoji-regex-xs/v/1.0.0) — MIT; development.
+- [entities@7.0.1](https://www.npmjs.com/package/entities/v/7.0.1) — BSD-2-Clause; development.
+- [esbuild@0.25.12](https://www.npmjs.com/package/esbuild/v/0.25.12) — MIT; development.
+- [estree-walker@2.0.2](https://www.npmjs.com/package/estree-walker/v/2.0.2) — MIT; development.
+- [fdir@6.5.0](https://www.npmjs.com/package/fdir/v/6.5.0) — MIT; development.
+- [focus-trap@7.8.0](https://www.npmjs.com/package/focus-trap/v/7.8.0) — MIT; development.
+- [fsevents@2.3.3](https://www.npmjs.com/package/fsevents/v/2.3.3) — MIT; development; optional/platform-specific.
+- [hast-util-to-html@9.0.5](https://www.npmjs.com/package/hast-util-to-html/v/9.0.5) — MIT; development.
+- [hast-util-whitespace@3.0.0](https://www.npmjs.com/package/hast-util-whitespace/v/3.0.0) — MIT; development.
+- [hookable@5.5.3](https://www.npmjs.com/package/hookable/v/5.5.3) — MIT; development.
+- [html-void-elements@3.0.0](https://www.npmjs.com/package/html-void-elements/v/3.0.0) — MIT; development.
+- [magic-string@0.30.21](https://www.npmjs.com/package/magic-string/v/0.30.21) — MIT; development.
+- [mark.js@8.11.1](https://www.npmjs.com/package/mark.js/v/8.11.1) — MIT; development.
+- [mdast-util-to-hast@13.2.1](https://www.npmjs.com/package/mdast-util-to-hast/v/13.2.1) — MIT; development.
+- [micromark-util-character@2.1.1](https://www.npmjs.com/package/micromark-util-character/v/2.1.1) — MIT; development.
+- [micromark-util-encode@2.0.1](https://www.npmjs.com/package/micromark-util-encode/v/2.0.1) — MIT; development.
+- [micromark-util-sanitize-uri@2.0.1](https://www.npmjs.com/package/micromark-util-sanitize-uri/v/2.0.1) — MIT; development.
+- [micromark-util-symbol@2.0.1](https://www.npmjs.com/package/micromark-util-symbol/v/2.0.1) — MIT; development.
+- [micromark-util-types@2.0.3](https://www.npmjs.com/package/micromark-util-types/v/2.0.3) — MIT; development.
+- [minisearch@7.2.0](https://www.npmjs.com/package/minisearch/v/7.2.0) — MIT; development.
+- [mitt@3.0.1](https://www.npmjs.com/package/mitt/v/3.0.1) — MIT; development.
+- [nanoid@3.3.20](https://www.npmjs.com/package/nanoid/v/3.3.20) — MIT; development.
+- [oniguruma-to-es@3.1.1](https://www.npmjs.com/package/oniguruma-to-es/v/3.1.1) — MIT; development.
+- [perfect-debounce@1.0.0](https://www.npmjs.com/package/perfect-debounce/v/1.0.0) — MIT; development.
+- [picocolors@1.1.1](https://www.npmjs.com/package/picocolors/v/1.1.1) — ISC; development.
+- [picomatch@4.0.7](https://www.npmjs.com/package/picomatch/v/4.0.7) — MIT; development.
+- [postcss@8.5.30](https://www.npmjs.com/package/postcss/v/8.5.30) — MIT; development.
+- [preact@10.29.8](https://www.npmjs.com/package/preact/v/10.29.8) — MIT; development.
+- [property-information@7.2.0](https://www.npmjs.com/package/property-information/v/7.2.0) — MIT; development.
+- [regex@6.1.0](https://www.npmjs.com/package/regex/v/6.1.0) — MIT; development.
+- [regex-recursion@6.0.2](https://www.npmjs.com/package/regex-recursion/v/6.0.2) — MIT; development.
+- [regex-utilities@2.3.0](https://www.npmjs.com/package/regex-utilities/v/2.3.0) — MIT; development.
+- [rfdc@1.4.1](https://www.npmjs.com/package/rfdc/v/1.4.1) — MIT; development.
+- [rollup@4.64.9](https://www.npmjs.com/package/rollup/v/4.64.9) — MIT; development.
+- [search-insights@2.17.3](https://www.npmjs.com/package/search-insights/v/2.17.3) — MIT; development.
+- [shiki@2.5.0](https://www.npmjs.com/package/shiki/v/2.5.0) — MIT; development.
+- [source-map-js@1.2.2](https://www.npmjs.com/package/source-map-js/v/1.2.2) — BSD-3-Clause; development.
+- [space-separated-tokens@2.0.2](https://www.npmjs.com/package/space-separated-tokens/v/2.0.2) — MIT; development.
+- [speakingurl@14.0.1](https://www.npmjs.com/package/speakingurl/v/14.0.1) — BSD-3-Clause; development.
+- [stringify-entities@4.0.4](https://www.npmjs.com/package/stringify-entities/v/4.0.4) — MIT; development.
+- [superjson@2.2.6](https://www.npmjs.com/package/superjson/v/2.2.6) — MIT; development.
+- [tabbable@6.5.0](https://www.npmjs.com/package/tabbable/v/6.5.0) — MIT; development.
+- [tinyglobby@0.2.17](https://www.npmjs.com/package/tinyglobby/v/0.2.17) — MIT; development.
+- [trim-lines@3.0.1](https://www.npmjs.com/package/trim-lines/v/3.0.1) — MIT; development.
+- [unist-util-is@6.0.1](https://www.npmjs.com/package/unist-util-is/v/6.0.1) — MIT; development.
+- [unist-util-position@5.0.0](https://www.npmjs.com/package/unist-util-position/v/5.0.0) — MIT; development.
+- [unist-util-stringify-position@4.0.0](https://www.npmjs.com/package/unist-util-stringify-position/v/4.0.0) — MIT; development.
+- [unist-util-visit@5.1.0](https://www.npmjs.com/package/unist-util-visit/v/5.1.0) — MIT; development.
+- [unist-util-visit-parents@6.0.2](https://www.npmjs.com/package/unist-util-visit-parents/v/6.0.2) — MIT; development.
+- [vfile@6.0.3](https://www.npmjs.com/package/vfile/v/6.0.3) — MIT; development.
+- [vfile-message@4.0.3](https://www.npmjs.com/package/vfile-message/v/4.0.3) — MIT; development.
+- [vite@6.4.4](https://www.npmjs.com/package/vite/v/6.4.4) — MIT; development.
+- [vitepress@1.6.4](https://www.npmjs.com/package/vitepress/v/1.6.4) — MIT; development.
+- [vue@3.5.44](https://www.npmjs.com/package/vue/v/3.5.44) — MIT; development.
+- [zwitch@2.0.4](https://www.npmjs.com/package/zwitch/v/2.0.4) — MIT; development.

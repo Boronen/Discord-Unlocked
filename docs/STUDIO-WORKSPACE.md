@@ -26,7 +26,7 @@ Pair with the community bot. The new workspace appears when your connected serve
 22. **Catalog filters:** pickers support name, source, collection, color, theme and mood. Unclassified items remain available without filters. The owner manages labels and thumbnail-color analysis in Admin.
 23. **Media library:** rename, tag and organize uploads into virtual folders. Size, processing state and using presets are shown. Review affected presets before removal; security deletion also revokes associated copied uploads.
 24. **Transparency:** Inspect transparency offers checkerboard, light, dark and profile-color backgrounds, zoom, static/animated comparison and a local black-background-removal preview. Inspection never rewrites a file.
-25. **PNG:** Export PNG writes only the displayed owned card to a local file. Its native renderer blocks network, scripts, downloads and permissions. Audio is excluded. Very tall cards require the small view.
+25. **PNG:** Export PNG writes only the displayed owned card to a local file. Its native renderer blocks network, scripts, downloads and permissions. Audio is excluded. Tall cards are fitted to retain the complete card; see the GIF/PNG export section below.
 26. **Viewer preferences:** Profile display on this device hides another profile's background, effects, decoration, tint or depth locally. Preferences belong to the viewing account and do not edit the owner.
 27. **Moderation:** Review compares the submitted snapshot with the publication captured at submission. Inspect small/full view and individual animation phases, then decide on that exact revision. Shared styles have separate approval.
 

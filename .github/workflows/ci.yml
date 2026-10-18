@@ -16,7 +16,8 @@ jobs:
       - run: npm ci --ignore-scripts
       - run: npm run security:scan
       - run: npm run typecheck
-      - run: npm run lint && npm run format:domain && npm run format:editor && npm run format:resources && npm run format:ui
+      - run: npm run docs:check
+      - run: npm run lint && npm run format:domain && npm run format:editor && npm run format:resources && npm run format:ui && npm run format:docs
       - run: npm test
         env: { TEST_FFMPEG: /usr/bin/ffmpeg, TEST_FFPROBE: /usr/bin/ffprobe }
       - run: npm run build && npm run preview:build
@@ -28,4 +29,21 @@ jobs:
         with:
           name: reviewed-source-candidate
           path: dist/release/*
+          retention-days: 7
+  documentation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4.3.1
+        with: { persist-credentials: false }
+      - uses: actions/setup-node@49933ea5288caeca8642d1e84afbd3f7d6820020 # v4.4.0
+        with: { node-version: "24", cache: npm, cache-dependency-path: docs-site/package-lock.json }
+      - run: npm ci --prefix docs-site --ignore-scripts
+      - run: npm audit --prefix docs-site --audit-level=high
+      - run: npm run build --prefix docs-site
+        env: { DOCS_BASE: "/Discord-Unlocked/" }
+      - uses: actions/upload-artifact@ea165f8d65b6e75b540449e92b4886f43607fa02 # v4.6.2
+        with:
+          name: documentation-review-candidate
+          path: docs-site/.vitepress/dist
           retention-days: 7

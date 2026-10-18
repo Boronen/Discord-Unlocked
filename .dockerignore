@@ -41,3 +41,5 @@ dist
 backups
 test-results
 coverage
+docs-site
+docs/.vitepress

@@ -1,0 +1,457 @@
+{
+  "reviewedSources": {
+    "packages/server/app.ts": "6c6cb56bfce5876015e406803cdd4c15d6b9121500c04fe1a901e45c1323dafb",
+    "packages/server/studio-routes.ts": "9418af78af7c24427cfb6325c1565cc6670dd6cabd769171a0ddc31644af282e",
+    "packages/server/service.ts": "cdac08596c67bd4af1a89cf26c09cb500e75fe2bdefbdc14fd1b0e697fedf12c",
+    "packages/server/studio.ts": "34152c5b59a4a52f82d00544abb4704a792e865d1424c058b33487ecd26d9b7c",
+    "packages/shared/schema.ts": "c67a8d0c5271e4b797c1035a88b67d4297bb1cbecb33f249c9e958e167577bfd",
+    "packages/shared/studio-schema.ts": "95f6e461a516000725855e107da8e9a2c4098d924de88646b5cf54fb6bbc4ca1",
+    "packages/shared/domain/model.ts": "051eb96aaf419b39ffc46a5b83c725359170ce64b422320d6c146ce4d7d463e5",
+    "packages/shared/domain/studio-model.ts": "59837e8ee0652c8da8687be87afea0fb9b9444d96945eec31322588a076c00f8",
+    "packages/shared/domain/privacy-notice.ts": "1c745311b0e12a5e8970cdfbe2efeac34bda3d713bab6b6c94d649d73c39b5ce",
+    "packages/server/privacy-notice.ts": "0e1e078cc7dc88e48a0f9dd9e3de40cb3a090675c1a6772772d69a92451e423a"
+  },
+  "routes": {
+    "GET /health": {
+      "access": "Public; rate limited. Pairing still requires account-bound bot confirmation.",
+      "request": "None",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/privacy/notice": {
+      "access": "Public; rate limited. Pairing still requires account-bound bot confirmation.",
+      "request": "None",
+      "response": "PrivacyNotice, configured false if deployment facts are absent",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/music/resolve": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Query url: supported music link, max 1000 characters",
+      "response": "FavoriteSong",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/auth/pair": {
+      "access": "Public; rate limited. Pairing still requires account-bound bot confirmation.",
+      "request": "{userId:DiscordSnowflake}",
+      "response": "{id,code,pollSecret,expiresIn:300}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/auth/poll": {
+      "access": "Public; rate limited. Pairing still requires account-bound bot confirmation.",
+      "request": "{id:UUID,pollSecret:string(32..100)}",
+      "response": "{ready:false} or {ready:true,token,userId}; consumes once",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/auth/logout": {
+      "access": "Own valid session; available after community/role departure. No access to another account.",
+      "request": "None",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/auth/sessions": {
+      "access": "Own valid session; available after community/role departure. No access to another account.",
+      "request": "None",
+      "response": "DeviceSession[] with id,name,createdAt,lastSeenAt,expiresAt,current",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "DELETE /v1/auth/sessions/:id": {
+      "access": "Own valid session; available after community/role departure. No access to another account.",
+      "request": "Path id: own device UUID",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "DELETE /v1/auth/sessions": {
+      "access": "Own valid session; available after community/role departure. No access to another account.",
+      "request": "None",
+      "response": "{ok:true}; revokes all own sessions",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/privacy/export": {
+      "access": "Own valid session; available after community/role departure. No access to another account.",
+      "request": "None",
+      "response": "Own account export document, including v2 metadata and authenticated media manifest",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/privacy/media/:id": {
+      "access": "Own valid session; available after community/role departure. No access to another account.",
+      "request": "Path id: own ready media UUID",
+      "response": "Binary normalized media with its MIME type",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "DELETE /v1/privacy/account": {
+      "access": "Own valid session; available after community/role departure. No access to another account.",
+      "request": "{confirmation:\"DELETE MY ACCOUNT\"}",
+      "response": "{ok:true}; immediate access removal",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/me/publish-confirmation": {
+      "access": "Session + fresh community/beta check + owner only; immediate publication also needs unused, exact-version bot confirmation.",
+      "request": "{version:nonnegative integer}",
+      "response": "{id,code,expiresIn:300}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/profiles": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Query ids: comma-separated Discord IDs, max100 IDs /2200 characters",
+      "response": "{profiles:Record<DiscordSnowflake,PublicProfile or null>} with legacy-projected config",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/catalog": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Query after?: alphanumeric/underscore/hyphen cursor, max100",
+      "response": "{items:CatalogItem[],nextCursor:string or null}; up to250",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/me": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "None",
+      "response": "EditorState with legacy-projected configurations",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "PUT /v1/me/draft": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "{version:nonnegative integer,config:ProfileConfig}",
+      "response": "{version:number}; v2 overwrite blocked",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/me/submit": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "{version:nonnegative integer}",
+      "response": "ProfileRevision",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/me/publish": {
+      "access": "Session + fresh community/beta check + owner only; immediate publication also needs unused, exact-version bot confirmation.",
+      "request": "{version:nonnegative integer,confirmationId:UUID}",
+      "response": "ProfileRevision",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/me/media/:slot": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path slot:avatar/decoration/banner/effect/audio; multipart one file, max15MiB",
+      "response": "MediaAsset queued for processing",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/moderation/:id": {
+      "access": "Session + fresh community/beta/moderator check (owner accepted).",
+      "request": "Path id:revision UUID",
+      "response": "{revision:ProfileRevision,assets:MediaAsset[]}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/moderation/:id/decision": {
+      "access": "Session + fresh community/beta/moderator check (owner accepted).",
+      "request": "Path id:revision UUID; {action:approve or reject,reason?:string(max1000)}",
+      "response": "ProfileRevision; v2 decisions require updated route",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/moderation/:id/restore": {
+      "access": "Session + fresh community/beta/moderator check (owner accepted).",
+      "request": "Path id:approved revision UUID",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/moderation/users/:id/revoke": {
+      "access": "Session + fresh community/beta/moderator check (owner accepted).",
+      "request": "Path id:DiscordSnowflake; {reason:string(1..1000)}",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/moderation/media/:id/revoke": {
+      "access": "Session + fresh community/beta/moderator check (owner accepted).",
+      "request": "Path id:media UUID; {reason:string(1..1000)}",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/admin/catalog": {
+      "access": "Session + fresh community/beta check + owner only; immediate publication also needs unused, exact-version bot confirmation.",
+      "request": "CatalogItem validated against catalog schema and allowed Discord hosts",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "POST /v1/admin/catalog/batch": {
+      "access": "Session + fresh community/beta check + owner only; immediate publication also needs unused, exact-version bot confirmation.",
+      "request": "CatalogItem[] length1..100",
+      "response": "{ok:true,count:number}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/media/:id": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check. Unpublished file requires owner or moderator; published/reviewed-share media is visible to paired members.",
+      "request": "Path id:ready media UUID",
+      "response": "Binary normalized media with its MIME type",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v1/media/:id/preview": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check. Unpublished file requires owner or moderator; published/reviewed-share media is visible to paired members.",
+      "request": "Path id:ready media UUID",
+      "response": "Binary image/png preview",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v1 DTOs and schemas](API.md#v1-contracts)"
+    },
+    "GET /v2/capabilities": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "None",
+      "response": "{version:2,enabled:boolean,features:Record<string,boolean>}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/me": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "None",
+      "response": "EditorState including v2 configurations",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/me/workspace": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "None",
+      "response": "WorkspaceState",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/me/automation": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "None",
+      "response": "{enabled:boolean,rules:AutomationRule[],version:number}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/me/presets/:id/publish-confirmation": {
+      "access": "Session + fresh community/beta check + owner only; immediate publication also needs unused, exact-version bot confirmation.",
+      "request": "Path id:preset UUID; {version:nonnegative integer}",
+      "response": "{id,code,expiresIn:300}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/me/presets/:id/test-publication": {
+      "access": "Session + fresh community/beta check + owner only; immediate publication also needs unused, exact-version bot confirmation.",
+      "request": "Path id:preset UUID; {version:nonnegative integer,confirmationId:UUID}",
+      "response": "ProfileRevision",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/me/presets/:id": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:own preset UUID",
+      "response": "Preset including full v2 config",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/profiles": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Query ids: comma-separated Discord IDs, max100 IDs /2200 characters",
+      "response": "{profiles:Record<DiscordSnowflake,PublicProfile or null>} including v2 config",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/catalog": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Query after?: alphanumeric/underscore/hyphen cursor, max100",
+      "response": "{items:(CatalogItem with metadata)[],nextCursor:string or null}; up to250",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/me/presets": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "{name:string(1..64),sourceId?:own preset UUID}",
+      "response": "Preset",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "PUT /v2/me/presets/:id": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:own preset UUID; {version:nonnegative integer,config:ProfileConfigV2,name?:string(1..64)}",
+      "response": "{version:number}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/me/presets/:id/rename": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:own preset UUID; {name:string(1..64)}",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "DELETE /v2/me/presets/:id": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:own preset UUID",
+      "response": "{ok:true}; active/manual/pending protections apply",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/me/presets/:id/submit": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:own preset UUID; {version:nonnegative integer,activate:boolean}",
+      "response": "ProfileRevision",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/me/presets/:id/activate": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:own approved preset UUID",
+      "response": "{ok:true,revisionId:UUID}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "PUT /v2/me/library": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "{version:nonnegative integer,document:PersonalLibrary}",
+      "response": "{version:number}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "PUT /v2/me/media/:id": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:own media UUID; MediaMetadata document",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "DELETE /v2/me/media/:id": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:own media UUID",
+      "response": "{ok:true}; media use/provenance checks apply",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/styles": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "None",
+      "response": "{items:StyleShare[]}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/styles/:id": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:share UUID",
+      "response": "{share:StyleShare,assets:MediaAsset[]}; pending private to owner/moderator",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/styles": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "{title:string(1..64),description:string(max500),presetIds:UUID[1..8] unique,copyUploads:boolean}",
+      "response": "StyleShare pending separate review",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "DELETE /v2/styles/:id": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:own share UUID",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/styles/:id/import": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "Path id:share UUID; {revisionId:UUID,requestId:UUID,keep:{avatar:boolean,songs:boolean,panels:boolean},preservePresetId?:own UUID}",
+      "response": "Preset; requestId makes repeated import idempotent",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "PUT /v2/me/automation": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "{version:nonnegative integer,rules:AutomationRule[],enabled:boolean}",
+      "response": "{version:number}; claims current device controller",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/me/automation/activate": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "{presetId:own approved preset UUID}",
+      "response": "{ok:true,revisionId:UUID}; current controller only",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/me/automation/release": {
+      "access": "Session + current community/beta membership; mutations require a fresh Discord check.",
+      "request": "None",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/moderation/queue": {
+      "access": "Session + fresh community/beta/moderator check (owner accepted).",
+      "request": "None",
+      "response": "{profiles:ProfileRevision[],shares:StyleShare[]}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/moderation/:id": {
+      "access": "Session + fresh community/beta/moderator check (owner accepted).",
+      "request": "Path id:revision UUID",
+      "response": "{revision,assets,baseline:ProfileRevision or null,changes:configDiff entries}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/moderation/:id/decision": {
+      "access": "Session + fresh community/beta/moderator check (owner accepted).",
+      "request": "Path id:revision UUID; {action:approve or reject,reason?:string(max1000)}",
+      "response": "ProfileRevision",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/moderation/styles/:id/decision": {
+      "access": "Session + fresh community/beta/moderator check (owner accepted).",
+      "request": "Path id:share UUID; {action:approve or reject,reason?:string(max1000)}",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "PUT /v2/admin/catalog/:id": {
+      "access": "Session + fresh community/beta check + owner only; immediate publication also needs unused, exact-version bot confirmation.",
+      "request": "Path id:catalog identifier(1..100); CatalogMetadata document",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "GET /v2/admin/badges": {
+      "access": "Session + fresh community/beta check + owner only; immediate publication also needs unused, exact-version bot confirmation.",
+      "request": "None",
+      "response": "{items:StudioBadge[]}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/admin/badges": {
+      "access": "Session + fresh community/beta check + owner only; immediate publication also needs unused, exact-version bot confirmation.",
+      "request": "{id?:UUID,name:string(1..32),icon:star/heart/flask/crown/leaf/fire,description:string(max140)}",
+      "response": "{id:UUID}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    },
+    "POST /v2/admin/badges/:id/assignment": {
+      "access": "Session + fresh community/beta check + owner only; immediate publication also needs unused, exact-version bot confirmation.",
+      "request": "Path id:badge UUID; {userId:DiscordSnowflake,grant:boolean}",
+      "response": "{ok:true}",
+      "errors": "Standard error envelope; see API.md#errors. Auth/role errors apply according to Access; validation, conflict, not-found, quota and service errors depend on the operation.",
+      "contract": "[v2 DTOs and schemas](API.md#v2-contracts)"
+    }
+  }
+}

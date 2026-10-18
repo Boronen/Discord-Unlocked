@@ -7,6 +7,7 @@ import type {
   MediaAsset,
 } from "./model.js";
 import { MediaUrlCache } from "./media-cache.js";
+import type { PrivacyNotice } from "./privacy-notice.js";
 export interface WireResponse {
   status: number;
   body: string;
@@ -130,6 +131,17 @@ export class StudioClient {
     );
     this.pendingPair = { ...result, userId, expiresAt: Date.now() + result.expiresIn * 1000 };
     return this.pendingPair;
+  }
+  async privacyNotice(): Promise<PrivacyNotice> {
+    const base = this.base;
+    const response = await this.transport(base, "/v1/privacy/notice", "GET", undefined, undefined);
+    if (base !== this.base) throw new Error("The connection changed. Open the notice again.");
+    if (response.status !== 200)
+      throw new Error("The privacy notice is unavailable. Ask the operator before pairing.");
+    const notice = JSON.parse(response.body) as PrivacyNotice;
+    if (notice.version !== 1 || !Array.isArray(notice.sections))
+      throw new Error("The service returned an unsupported privacy notice.");
+    return notice;
   }
   async poll(id: string, pollSecret: string) {
     const result = await this.request<{ ready: boolean; token?: string; userId?: string }>(

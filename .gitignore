@@ -46,3 +46,11 @@ Thumbs.db
 Desktop.ini
 .vscode/
 .idea/
+# The documentation toolchain is independent of application dependencies.
+docs-site/node_modules/
+docs/.vitepress/cache/
+docs/.vitepress/dist/
+docs/.vitepress/.temp/
+docs-site/.vitepress/cache/
+docs-site/.vitepress/dist/
+docs-site/.vitepress/.temp/

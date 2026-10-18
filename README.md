@@ -6,6 +6,10 @@ A Windows Discord / Vencord userplugin for shared animated avatars, decorations,
 
 The repository contains an API, PostgreSQL migrations, a restricted offline decoder, a Discord upload/moderation bot and the Vencord editor. No cloud account, paid plan, GitHub publication or public endpoint is created by these scripts. Public launch is blocked by `secrets/readiness.json` until its checks are verified. Start with [the operations guide](docs/OPERATIONS.md), [security policy](SECURITY.md), [privacy notice](PRIVACY.md) and [acceptance checks](docs/ACCEPTANCE.md).
 
+## Documentation
+
+Start at the [documentation index](docs/index.md): user installation and feature walkthroughs, API contracts, configuration, development, sources/licences and contribution recognition. The searchable site builds separately with `npm ci --prefix docs-site --ignore-scripts` and `npm run build --prefix docs-site`; it is not automatically published. See [Configuration](docs/CONFIGURATION.md) to complete the public privacy notice before release. Target source repository: [Boronen/Discord-Unlocked](https://github.com/Boronen/Discord-Unlocked).
+
 ## Local server setup
 
 Requirements: Node.js 24, Docker Engine/Desktop with Linux containers and Compose v2.24.4+, and a Discord bot application. Keep the database and API on the isolated machine; never mount personal folders or the Docker socket into application containers.

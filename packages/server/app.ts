@@ -13,6 +13,7 @@ import { AccountLimits } from "./limits.js";
 import { StudioService } from "./studio.js";
 import { studioRoutes } from "./studio-routes.js";
 import { legacyConfig } from "../shared/domain/studio-model.js";
+import { privacyNotice } from "./privacy-notice.js";
 const versionBody = z.object({ version: z.number().int().min(0) }).strict();
 const reasonBody = z.object({ reason: z.string().trim().min(1).max(1000) }).strict();
 export async function createApp(
@@ -21,6 +22,7 @@ export async function createApp(
   logger = false,
   trustProxy: false | string = false,
   studioEnabled = true,
+  notice = privacyNotice(),
 ) {
   const app = Fastify({
     logger: logger
@@ -122,6 +124,7 @@ export async function createApp(
     await service.db.query("SELECT 1");
     return { ok: true };
   });
+  app.get("/v1/privacy/notice", async () => notice);
   app.get(
     "/v1/music/resolve",
     { config: { rateLimit: { max: 20, timeWindow: "1 minute" } } },

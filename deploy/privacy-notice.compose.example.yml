@@ -1,0 +1,8 @@
+# Optional override. First create and complete secrets/privacy-notice.json locally.
+# Add this file to the same Compose invocation after compose.yml and production.yml.
+services:
+  api:
+    environment:
+      PRIVACY_NOTICE_FILE: /run/profile-studio/privacy-notice.json
+    volumes:
+      - ./secrets/privacy-notice.json:/run/profile-studio/privacy-notice.json:ro

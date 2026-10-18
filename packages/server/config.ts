@@ -8,6 +8,7 @@ const envSchema = z.object({
   PORT: z.coerce.number().int().min(1).max(65535).default(3100),
   HOST: z.string().default("127.0.0.1"),
   MEDIA_ROOT: z.string().default("data/media"),
+  PRIVACY_NOTICE_FILE: z.string().min(1).optional(),
   STUDIO_V2_ENABLED: z
     .enum(["true", "false"])
     .default("true")

@@ -15,6 +15,7 @@ const paths = [
   "deploy",
   "preview",
   "docs",
+  "docs-site",
   "package.json",
   "package-lock.json",
   "tsconfig.json",
@@ -37,6 +38,7 @@ const paths = [
   "LICENSE",
   "SECURITY.md",
   "PRIVACY.md",
+  "CONTRIBUTING.md",
   ".github",
   "tests",
 ];
@@ -44,6 +46,12 @@ const files = {};
 async function add(path, prefix = "") {
   // This is a separate public website checkout, not application source.
   if (relative(root, path).replaceAll("\\", "/") === "docs/backup-oauth-site") return;
+  const publicPath = relative(root, path).replaceAll("\\", "/");
+  if (
+    publicPath === "docs-site/node_modules" ||
+    /^(?:docs|docs-site)\/\.vitepress\/(?:cache|dist|\.temp)(?:\/|$)/.test(publicPath)
+  )
+    return;
   if ((await lstat(path)).isSymbolicLink())
     throw new Error("Release packaging refuses symbolic links and junctions.");
   if (forbidden(relative(root, path).replaceAll("\\", "/"))) throw new Error("Forbidden release path.");

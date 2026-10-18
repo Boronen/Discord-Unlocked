@@ -1,0 +1,17 @@
+{
+  "updatedAt": "2026-10-18",
+  "operator": {
+    "name": "REPLACE with the responsible operator's public identity",
+    "email": "operator@example.invalid",
+    "country": "REPLACE with the operator's country"
+  },
+  "legalBasis": "REPLACE after assessing the legal basis for each processing purpose and applicable law.",
+  "providers": [
+    {
+      "name": "REPLACE with an actual provider",
+      "purpose": "REPLACE with what data this provider processes and why",
+      "location": "REPLACE with verified storage/processing location and any international transfer arrangements"
+    }
+  ],
+  "rights": "REPLACE with the contact and process for access, correction, export, deletion, objection and complaint to the applicable supervisory authority."
+}
