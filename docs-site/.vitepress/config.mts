@@ -60,6 +60,7 @@ export default {
           { text: "Discord alerts", link: "/DISCORD-ALERTS" },
           { text: "Acceptance and release", link: "/ACCEPTANCE" },
           { text: "Security policy", link: "/SECURITY" },
+          { text: "Privacy review draft", link: "/PRIVACY-REVIEW-DRAFT" },
         ],
       },
       {
