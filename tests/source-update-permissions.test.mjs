@@ -7,6 +7,35 @@ import { join, resolve, sep } from "node:path";
 
 const scriptPath =
   process.env.SOURCE_UPDATE_SCRIPT ?? new URL("../deploy/apply-source-update.sh", import.meta.url);
+
+test(
+  "source update validates an immutable reuse image before touching source",
+  { skip: process.platform !== "linux" },
+  async () => {
+    const source = await readFile(scriptPath, "utf8");
+    const prefix = source.slice(0, source.indexOf("archive=$(realpath"));
+    const candidate = "sha256:" + "a".repeat(64);
+    function run(args, image = candidate) {
+      return execFileSync(
+        "sh",
+        ["-c", `id() { echo 0; }; docker() { printf '%s\\n' '${image}'; }; ${prefix}`, "fixture", ...args],
+        { stdio: ["ignore", "pipe", "pipe"] },
+      );
+    }
+    run(["source.zip", "hash"]);
+    run(["source.zip", "hash", "--use-built-image", candidate]);
+    for (const args of [
+      ["source.zip", "hash", "--unknown", candidate],
+      ["source.zip", "hash", "--use-built-image", "profile-studio:local"],
+      ["source.zip", "hash", "--use-built-image"],
+    ])
+      assert.throws(() => run(args));
+    assert.throws(() =>
+      run(["source.zip", "hash", "--use-built-image", candidate], "sha256:" + "b".repeat(64)),
+    );
+    assert.match(source, /sh deploy\/update-studio-v2\.sh --use-built-image "\$reuse_image"/);
+  },
+);
 async function extractFixture(directory, files) {
   const script = await readFile(scriptPath, "utf8");
   const blocks = [...script.matchAll(/<<'JS'\r?\n([\s\S]*?)\r?\nJS/g)];

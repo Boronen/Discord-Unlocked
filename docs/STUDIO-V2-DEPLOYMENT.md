@@ -12,6 +12,10 @@ Use the existing isolated Linux VM. Preserve `secrets/`, the security journal, a
 
 ## Recovery
 
+### Reuse a rehearsed candidate
+
+The matching source updater accepts `source.zip sha256 --use-built-image sha256:image-id`. Use this only with the exact archive from which that immutable image was built and rehearsed. The image is checked before source extraction. Only the duplicate build is skipped: a fresh encrypted backup, full image scan, isolated restore/migration rehearsal and health checks still run. Retagging does not restart existing containers; their running image is retained for recovery. Keep the archive hash, image ID and backup path together in a private deployment record. Run the reviewed updater from the existing project's `updates/` directory so source extraction cannot replace the executing helper.
+
 ### Source updater compatibility
 
 The documentation/refactor release adds `docs-site/`, `CONTRIBUTING.md` and `.oxlintrc.json`. An older `apply-source-update.sh` rejects these before extraction. Before applying that release, the operator must stage the reviewed, checksum-verified matching updater itself through the existing private SSH channel; do not loosen validation on the VM or extract the archive manually to bypass it. The updated admission check allows only the docs package/lock/config files, rejects private/generated paths, and still preserves local secrets and data. Transfer and verify the release ZIP and updater separately before invoking it.

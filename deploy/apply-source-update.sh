@@ -2,7 +2,14 @@
 # Runs only when the operator explicitly invokes this prepared update with sudo.
 set -eu
 [ "$(id -u)" = 0 ] || { echo 'Run this prepared update with sudo sh.'; exit 1; }
-[ "$#" = 2 ] || { echo 'Usage: apply-source-update.sh source.zip sha256'; exit 1; }
+[ "$#" = 2 ] || [ "$#" = 4 ] || { echo 'Usage: apply-source-update.sh source.zip sha256 [--use-built-image sha256:image-id]'; exit 1; }
+reuse_image=
+if [ "$#" = 4 ]; then
+  [ "$3" = --use-built-image ] || { echo 'Unknown update option.'; exit 1; }
+  reuse_image=$4
+  printf '%s\n' "$reuse_image" | grep -Eq '^sha256:[a-f0-9]{64}$' || { echo 'An immutable local image ID is required.'; exit 1; }
+  [ "$(docker image inspect --format '{{.Id}}' "$reuse_image")" = "$reuse_image" ] || exit 1
+fi
 archive=$(realpath -- "$1")
 expected=$2
 case "$expected" in *[!a-f0-9]*|'') echo 'Invalid expected SHA-256.'; exit 1;; esac
@@ -70,6 +77,12 @@ flock -u 9
 exec 9>&-
 # Existing updater takes an encrypted consistent backup, keeps the previous image,
 # scans the candidate image and rehearses restoration before changing live services.
-sh deploy/update-studio-v2.sh
+if [ -n "$reuse_image" ]; then
+  # Retagging does not change running containers. The updater retains their image.
+  docker image tag "$reuse_image" profile-studio:local
+  sh deploy/update-studio-v2.sh --use-built-image "$reuse_image"
+else
+  sh deploy/update-studio-v2.sh
+fi
 curl -fsS --max-time 5 http://127.0.0.1:3100/health
 printf '\nUpdate complete. Reopen the editor in the matching Windows client and check Music priority.\n'
