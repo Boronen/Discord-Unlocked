@@ -70,7 +70,9 @@ export class ExportArtwork {
       try {
         await decoder.tracks.ready;
         asset.frames = decoder.tracks.selectedTrack?.frameCount ?? 1;
-        if (asset.frames > 500) throw new Error("An animated image has too many frames to export.");
+        // Source length is not export length. raster() reads duration metadata
+        // lazily only up to the requested four-second recording timestamp.
+        // Keep byte/pixel/decode budgets instead of rejecting long animations.
         if (asset.frames > 1 && !this.closed) asset.decoder = decoder;
         else decoder.close();
       } catch (error) {
