@@ -115,7 +115,11 @@ test("preview applies cover colors to decoration, separate layers and transparen
     drawImage() {},
     getImageData: () => ({ data }),
   } as unknown as CanvasRenderingContext2D);
-  const config = normalizeStudio({ ...DEFAULT_CONFIG, musicPriority: true });
+  const config = normalizeStudio({
+    ...DEFAULT_CONFIG,
+    musicPriority: false,
+    albumBackground: { enabled: true, opacity: 0.25, blur: 12 },
+  });
   config.studio.base.layers = [newLayer("texture"), newLayer("texture")];
   const props = {
     urls: {},
@@ -138,6 +142,20 @@ test("preview applies cover colors to decoration, separate layers and transparen
   ).toEqual(palette.swatches.slice(0, 2));
   expect(document.querySelector(".ps-banner img")?.getAttribute("src")).toBe("banner.gif");
   expect(document.querySelector<HTMLElement>(".ps-banner")?.style.backgroundColor).not.toBe("");
-  view.rerender(<ProfilePreview {...props} config={{ ...config, musicPriority: false }} />);
+  view.rerender(
+    <ProfilePreview
+      {...props}
+      config={{
+        ...config,
+        studio: {
+          ...config.studio,
+          base: {
+            ...config.studio.base,
+            albumBackground: { ...config.studio.base.albumBackground, enabled: false },
+          },
+        },
+      }}
+    />,
+  );
   expect(document.querySelector(".ps-decoration-tint feColorMatrix")).toBeNull();
 });

@@ -148,8 +148,7 @@ export function ProfileAttachment({ userId }: { userId: string }) {
   );
   const adaptiveColors = !!profile?.config.musicPriority || !!scene?.albumBackground.enabled;
   const musicPalette = useArtworkPalette(album.url, adaptiveColors);
-  const adaptivePalette =
-    profile?.config.musicPriority && override.tint !== false ? musicPalette?.swatches : undefined;
+  const adaptivePalette = adaptiveColors && override.tint !== false ? musicPalette?.swatches : undefined;
   const profileColors =
     priorityColors(musicPalette, adaptiveColors && override.background !== false) ?? scene?.colors;
   const liveArt = useAlbumArtwork(

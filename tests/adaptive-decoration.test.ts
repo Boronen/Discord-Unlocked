@@ -1,6 +1,6 @@
 // @vitest-environment jsdom
 import { expect, test, vi } from "vitest";
-import { DecorationTints } from "../packages/plugin/decoration-tints.js";
+import { DecorationTints, markDecoration } from "../packages/plugin/decoration-tints.js";
 
 test("native decoration follows its own profile cover and restores its saved tint", async () => {
   const frames: FrameRequestCallback[] = [];
@@ -40,6 +40,46 @@ test("native decoration follows its own profile cover and restores its saved tin
   } finally {
     tints.stop();
     root.remove();
+    vi.unstubAllGlobals();
+  }
+});
+
+test("untinted Studio decorations adapt without depending on Discord class names", async () => {
+  const frames: FrameRequestCallback[] = [];
+  vi.stubGlobal("requestAnimationFrame", (callback: FrameRequestCallback) => {
+    frames.push(callback);
+    return frames.length;
+  });
+  vi.stubGlobal("cancelAnimationFrame", () => {});
+  const root = document.createElement("div");
+  root.dataset.psMusicTint = "2255dd";
+  const image = root.appendChild(document.createElement("img"));
+  image.className = "unknown_discord_class";
+  image.src = markDecoration("https://cdn.discordapp.com/art.png?size=128");
+  const outside = document.createElement("img");
+  outside.src = image.src;
+  document.body.append(root, outside);
+  const tints = new DecorationTints();
+  const flush = async () => {
+    await Promise.resolve();
+    frames.splice(0).forEach((callback) => callback(0));
+  };
+  try {
+    expect(new URL(image.src).searchParams.get("size")).toBe("128");
+    expect(markDecoration("https://cdn.discordapp.com/art.png#ps-tint=ff0000-50")).toContain(
+      "#ps-tint=ff0000-50",
+    );
+    tints.start();
+    await flush();
+    expect(image.style.filter).toContain("2255dd-80");
+    expect(outside.style.filter).toBe("");
+    delete root.dataset.psMusicTint;
+    await flush();
+    expect(image.style.filter).toBe("");
+  } finally {
+    tints.stop();
+    root.remove();
+    outside.remove();
     vi.unstubAllGlobals();
   }
 });

@@ -41,7 +41,7 @@ import { profilePatches } from "./patches.js";
 import { tagAvatarSource } from "./profile-dom.js";
 import virtualMerge from "virtual-merge";
 import { NameplateRows } from "./nameplates.js";
-import { DecorationTints } from "./decoration-tints.js";
+import { DecorationTints, markDecoration } from "./decoration-tints.js";
 import { readViewerOverride } from "./viewer-overrides.js";
 import { tagDecorationTint, type TintStyle } from "./tint.js";
 import { HoverProfiles } from "./hover-profiles.js";
@@ -385,7 +385,7 @@ export default definePlugin({
   }) {
     if (!active || !settings.store.decorations || avatarDecoration?.skuId !== "profile-studio")
       return undefined;
-    return tagDecorationTint(avatarDecoration.asset, avatarDecoration.psTint);
+    return markDecoration(tagDecorationTint(avatarDecoration.asset, avatarDecoration.psTint));
   },
   bannerUrl({ displayProfile }: { displayProfile?: { userId: string } }) {
     if (!active || !settings.store.banners || !displayProfile?.userId) return undefined;

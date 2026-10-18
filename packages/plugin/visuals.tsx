@@ -195,7 +195,7 @@ export function ProfilePreview({
   const adaptiveColors =
     !!config.musicPriority || !!(scene?.albumBackground ?? config.albumBackground)?.enabled;
   const palette = useArtworkPalette(albumUrl ?? backgroundArt.url, adaptiveColors);
-  const adaptivePalette = config.musicPriority ? palette?.swatches : undefined;
+  const adaptivePalette = adaptiveColors ? palette?.swatches : undefined;
   const selectedColors =
     priorityColors(palette, adaptiveColors) ??
     (scene ? scene.colors : config.colors) ??

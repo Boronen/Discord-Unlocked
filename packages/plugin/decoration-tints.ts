@@ -1,4 +1,10 @@
 import { tintMatrix } from "./tint.js";
+/** Mark Studio-owned decoration images without changing the requested resource. */
+export function markDecoration(source: string) {
+  const url = new URL(source);
+  if (!url.hash.startsWith("#ps-tint=")) url.hash = "ps-decoration";
+  return url.toString();
+}
 /** Native decoration images keep their original animation, sizing and alpha. */
 export class DecorationTints {
   private observer?: MutationObserver;
@@ -38,7 +44,7 @@ export class DecorationTints {
     const touched = new Set<HTMLImageElement>(),
       filters = new Set<string>();
     for (const image of document.querySelectorAll<HTMLImageElement>(
-      'img[src*="ps-tint="], [data-ps-music-tint] img[class*="avatarDecoration"]',
+      'img[src*="ps-tint="], img[src$="#ps-decoration"], [data-ps-music-tint] img[class*="avatarDecoration"]',
     )) {
       const adaptive = image.closest<HTMLElement>("[data-ps-music-tint]")?.dataset.psMusicTint;
       const match =
