@@ -42,6 +42,22 @@
           }
         ]
       }
+    },
+    {
+      "files": [
+        "packages/plugin/Editor.tsx",
+        "packages/plugin/StudioWorkspace.tsx",
+        "packages/plugin/use*Controller.ts",
+        "packages/plugin/community/**/*.ts*",
+        "packages/plugin/workspace-*.ts*",
+        "packages/plugin/legacy-*.tsx",
+        "packages/plugin/editor-*.ts",
+        "packages/plugin/studio-dialogs.tsx",
+        "packages/plugin/studio-notice.tsx"
+      ],
+      "rules": {
+        "no-unused-vars": "error"
+      }
     }
   ]
 }

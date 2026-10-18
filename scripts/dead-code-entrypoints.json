@@ -1,0 +1,43 @@
+{
+  "entrypoints": [
+    {
+      "path": "packages/plugin/index.tsx",
+      "reason": "Vencord registration, dynamic webpack patches and lifecycle."
+    },
+    {
+      "path": "packages/plugin/native.ts",
+      "reason": "Named exports are invoked through the generated native bridge, not normal renderer imports."
+    },
+    {
+      "path": "packages/plugin/patches.ts",
+      "reason": "Discord code-string patches resolve callbacks dynamically."
+    },
+    { "path": "packages/server/main.ts", "reason": "API container command." },
+    { "path": "packages/server/worker.ts", "reason": "Isolated decoder container command." },
+    { "path": "packages/server/migrate.ts", "reason": "Migration process command." },
+    { "path": "packages/bot/main.ts", "reason": "Bot process command and event routing." }
+  ],
+  "protectedPatterns": [
+    { "pattern": "migrations/*.sql", "reason": "Historical database migrations and restore compatibility." },
+    { "pattern": "deploy/**", "reason": "Operator, Docker, systemd and Windows installer entrypoints." },
+    {
+      "pattern": "scripts/*.mjs",
+      "reason": "Package, recovery, backup, integrity and operator CLI commands."
+    },
+    {
+      "pattern": "packages/plugin/third-party/**",
+      "reason": "Vendored encoder and retained licence notices."
+    },
+    { "pattern": "preview/**", "reason": "Manual and isolated test fixture entrypoints." }
+  ],
+  "compatibilityExports": [
+    { "path": "packages/plugin/Editor.tsx", "exports": ["Editor", "Notice"] },
+    { "path": "packages/plugin/StudioWorkspace.tsx", "exports": ["StudioWorkspace", "ConfirmAction"] },
+    { "path": "packages/plugin/studio-community.tsx", "exports": ["StudioCommunity", "StudioDialog"] },
+    { "path": "packages/plugin/model.ts", "exports": ["*"] },
+    { "path": "packages/plugin/studio-model.ts", "exports": ["*"] },
+    { "path": "packages/plugin/tint.ts", "exports": ["*"] },
+    { "path": "packages/plugin/music-links.ts", "exports": ["*"] },
+    { "path": "packages/plugin/export-zip.ts", "exports": ["*"] }
+  ]
+}
