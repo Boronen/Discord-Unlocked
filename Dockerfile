@@ -2,7 +2,7 @@ FROM caddy:2-alpine AS proxy
 RUN chown -R 1000:1000 /data /config
 USER 1000:1000
 
-FROM node:24-bookworm-slim AS build
+FROM node:26-bookworm-slim AS build
 WORKDIR /app
 COPY package.json package-lock.json ./
 RUN npm ci --ignore-scripts
@@ -10,13 +10,13 @@ COPY tsconfig*.json ./
 COPY packages ./packages
 RUN npm run build && npm prune --omit=dev --ignore-scripts
 
-FROM node:24-bookworm-slim AS netguard
+FROM node:26-bookworm-slim AS netguard
 RUN apt-get update && apt-get install -y --no-install-recommends iptables && rm -rf /var/lib/apt/lists/*
 COPY deploy/netguard.mjs /netguard.mjs
 RUN chmod 0444 /netguard.mjs
 CMD ["node","/netguard.mjs"]
 
-FROM node:24-bookworm-slim AS app
+FROM node:26-bookworm-slim AS app
 RUN apt-get update && apt-get install -y --no-install-recommends ffmpeg ca-certificates && rm -rf /var/lib/apt/lists/*
 WORKDIR /app
 COPY --from=build /app/package.json ./package.json
