@@ -61,7 +61,7 @@ export default {
           { text: "Acceptance and release", link: "/ACCEPTANCE" },
           { text: "GitHub publication", link: "/GITHUB-RELEASE" },
           { text: "Security policy", link: "/SECURITY" },
-          { text: "Privacy review draft", link: "/PRIVACY-REVIEW-DRAFT" },
+          { text: "Privacy review history", link: "/PRIVACY-REVIEW-DRAFT" },
         ],
       },
       {

@@ -2,6 +2,16 @@
 
 Do not mark real-account, offsite or infrastructure checks passed merely because unit tests are green. Record date, tested image/Vencord commit, tester and evidence privately without tokens or raw private profile data. Move 5 → 20 → 50 only after the current stage remains healthy and its measured load fits free capacity. No public launch is performed by this repository.
 
+## Recorded beta status — 19 October 2026
+
+These results describe the current operator's installation, not an automatic acceptance of another deployment. Detailed evidence and rollback paths remain private.
+
+- **Notice:** the operator reports that a targeted consultation accepted the current wording and consumer-service setup unchanged. The reviewed notice was activated after an encrypted consistent snapshot; the public health and configured notice were independently checked. The rollout also verified the approved file and adjacent anonymous-access fences. This is not independent legal certification.
+- **Recovery and isolation:** an isolated PostgreSQL/media restore, synthetic deletion fence and global session invalidation passed. Operator-supplied worker isolation probes passed for DB-only connectivity and restricted mounted storage. These bounded checks do not establish every incident or production-size recovery scenario.
+- **Windows clients:** the operator accepted the requested two-account round covering appearance, privileged UI visibility, editing/review/publication/reactivation, complete-profile animated GIF export, Studio sign-out/re-pairing and beta-role removal/restoration. This is operator-reported evidence, not a claim that every real-client case below was exercised.
+- **Capacity:** the five-person load test is explicitly deferred by the operator. It is not passed; no measured five-, twenty- or fifty-viewer capacity is claimed. Do not expand admission based on these results.
+- **Outstanding:** the manual support/rights-request workflow still needs operational rehearsal. Other unverified gates below retain their individual status. Notice activation does not enable a public release, GitHub Pages or readiness flags automatically.
+
 ## Automated gates
 
 - Typecheck, server/preview/plugin builds and all meaningful tests.

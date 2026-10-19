@@ -1,6 +1,6 @@
 # Deployment privacy notice — operator review draft
 
-Prepared on 18 October 2026. **Draft: not approved for deployment.** This supplements the implemented-data description in [Privacy and your data](PRIVACY.md); it does not turn the API notice into a configured notice. Review the decisions below before copying approved wording into the private deployment configuration.
+**Historical working draft, prepared 18 October 2026.** The operator subsequently reported a targeted consultation accepting the current wording, bases, gallery/copying and personal Gmail/Drive setup without changes on 19 October 2026. The current operator-reviewed text is [Privacy and your data](PRIVACY.md). The open decisions and proposed wording below are retained as development history, not the current approval checklist. This record is not an independent legal opinion. The reviewed notice was activated on 19 October 2026; operational request rehearsal remains a separate operating step. See the dated status in [Acceptance](ACCEPTANCE.md).
 
 ## Confirmed deployment facts
 
