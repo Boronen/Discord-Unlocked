@@ -6,6 +6,8 @@ The planned company/brand name is **Boronen Games**; the current operator remain
 
 **Local refactor candidate:** source features and automated checks exist; a browser preview is not proof of native Discord compatibility or production readiness. The current release gates are listed in [Acceptance](ACCEPTANCE.md) and the [development record](DEVELOPMENT-RECORD.md). No public repository or live deployment is created by building these docs.
 
+[Join Discord Unlocked](https://discord.gg/S42hjgbcCk) · Request the **Beta Tester** role in `beta-access` after reading `rules` (18+, owner-approved).
+
 - **Joining a friend's community?** Start with [Windows installation](INSTALL-WINDOWS.md), then [pairing and everyday use](USER-GUIDE.md).
 - **Editing a profile?** See the [complete editor walkthrough](STUDIO-WORKSPACE.md).
 - **Running the server?** Read [operations](OPERATIONS.md), [configuration](CONFIGURATION.md), [privacy](PRIVACY.md) and [security](SECURITY.md) before admitting users.

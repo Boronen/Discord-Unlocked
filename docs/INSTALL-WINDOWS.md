@@ -50,7 +50,7 @@ Wait for a successful installation before reopening Discord. A build alone does 
 
 1. Open Discord Settings, Vencord, Plugins. Find and enable **ProfileStudio**. Restart Discord if prompted.
 2. Open the ProfileStudio settings and set **API URL** to `https://profilestudio.taile85078.ts.net`.
-3. Join the operator's Discord community and ask for its beta role. Installing the plugin alone does not grant access.
+3. [Join Discord Unlocked](https://discord.gg/S42hjgbcCk), read `rules` and post a short request in `beta-access`. The owner manually assigns **Beta Tester** to admitted adults (18+). Do not post a birth date, identity document or pairing code. Installing the plugin alone does not grant access.
 4. Start pairing in the plugin editor. Use `/profile connect` with the one-time code in the community server, then return to the editor.
 5. Open another participant's profile to view their approved appearance. Changes you submit remain private until approved.
 

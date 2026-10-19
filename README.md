@@ -10,6 +10,8 @@ The planned company/brand name is **Boronen Games**. The current operator is an 
 
 ## Documentation
 
+[Join Discord Unlocked](https://discord.gg/S42hjgbcCk) · Read `rules` and request admission in `beta-access`. The owner manually assigns **Beta Tester** to admitted adults (18+); joining or installing does not automatically grant access.
+
 Download the prebuilt Windows client from [GitHub Releases](https://github.com/Boronen/Discord-Unlocked/releases). The [searchable documentation site](https://boronen.github.io/Discord-Unlocked/) is published separately from application releases.
 
 Start at the [documentation index](docs/index.md): user installation and feature walkthroughs, API contracts, configuration, development, sources/licences and contribution recognition. The searchable site builds separately with `npm ci --prefix docs-site --ignore-scripts` and `npm run build --prefix docs-site`; it is not automatically published. See [Configuration](docs/CONFIGURATION.md) to complete the public privacy notice before release. Target source repository: [Boronen/Discord-Unlocked](https://github.com/Boronen/Discord-Unlocked).
