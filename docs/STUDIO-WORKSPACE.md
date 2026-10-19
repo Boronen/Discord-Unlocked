@@ -2,6 +2,14 @@
 
 Pair with the community bot. The new workspace appears when your connected server advertises v2; older servers retain the previous editor. See [deployment](STUDIO-V2-DEPLOYMENT.md) before updating the server.
 
+## Banner layers and music colors
+
+On a compatible server, Appearance → Banner layers supports up to three uploaded banner images. Select a named row, then Choose layer image. Use selection commits the candidate to your local draft; Cancel/Escape discards the picker candidate. Add/remove layers, move them up/down, and adjust offset, size, rotation and opacity with numeric fields. Later rows paint on top. Use original Discord banner clears the Studio stack. Banner layers are shared by small and full profiles and remain clipped to the header.
+
+Each banner and effect layer has **Follow music colors**. Disable it on any layer that should retain its original colors or manual tint; other layers continue following different colors from the music artwork palette. Manual banner tint is the fallback if no palette is available. Animated transparent images retain their transparency. These changes use normal draft saving and profile moderation. Existing banners keep their original colors until you explicitly change the option. The new controls appear only after the server advertises `bannerLayers`; install the compatible server before distributing the new client.
+
+## Workspace features
+
 1. **Saved presets:** choose a named preset or Browse saved presets for thumbnails. New, Duplicate, rename and Delete affect private presets. Save preset stores a draft; Submit freezes a review snapshot; Activate approved preset reuses approval. The checkbox records whether approval also activates the preset.
 2. **Recovery and undo:** edits are saved after 500 ms of inactivity in Windows encrypted storage, separately by account, API and preset. Restore local draft offers a choice when the server version changed. Undo/Redo retains 100 session steps. Local recovery never publishes anything.
 3. **Positioning:** Layers provides dragging, a resize handle, arrow-key movement, numeric position, scale, rotation, opacity and Reset. Decorative artwork is clipped to the profile boundary.
@@ -59,7 +67,6 @@ With an album-artwork background enabled, the resolved cover also supplies the p
 In **Music → Music priority**, select **Current Discord music first**, then save and submit the preset. After approval, the current Discord music activity replaces favorites in Studio music blocks and its cover supplies the profile colors/artwork. When activity stops, saved favorites return. The album-background controls retain opacity/blur control; missing artwork preserves configured colors. Native Discord music is hidden while the Studio block shows the same current track and restored when it no longer replaces it. No music stream or listening history is stored, and audio never starts from this setting or hover.
 
 The preference is disabled until the API advertises `musicPriority`. Upgrade the server before distributing the matching Windows client. Existing profiles without the field retain their previous behavior until an explicit priority choice is saved.
-
 
 ### Music colors on decorative layers
 

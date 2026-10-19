@@ -5,6 +5,8 @@ import { FileStore } from "./media.js";
 import { assetIds } from "../shared/domain/model.js";
 function withoutAsset(value: any, id: string) {
   const config = structuredClone(value);
+  if (config.studio?.bannerLayers)
+    config.studio.bannerLayers = config.studio.bannerLayers.filter((l: any) => l.assetId !== id);
   for (const slot of ["avatar", "banner", "audio"]) if (config[slot] === id) config[slot] = null;
   for (const slot of ["decoration", "effect"])
     if (config[slot]?.source === "media" && config[slot].id === id) config[slot] = null;

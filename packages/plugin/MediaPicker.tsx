@@ -1,6 +1,7 @@
 import { StudioSearch, StudioTabs } from "./studio-controls.js";
 import { usePrivateMedia } from "./usePrivateMedia.js";
 import { React } from "@webpack/common";
+import { assetIds } from "./model.js";
 import { Button } from "@components/Button";
 import type { CatalogItem, MediaAsset, MediaSlot, ProfileConfig } from "./model.js";
 import type { StudioClient } from "./client.js";
@@ -46,6 +47,7 @@ export function MediaPicker({
   onClose,
   library,
   onLibraryChange,
+  previewConfig,
 }: {
   slot: VisualSlot;
   config: ProfileConfig;
@@ -60,6 +62,7 @@ export function MediaPicker({
   onClose: () => void;
   library?: PersonalLibrary;
   onLibraryChange?: (value: PersonalLibrary) => void;
+  previewConfig?: (value: string) => ProfileConfig;
 }) {
   const dialog = React.useRef<HTMLDialogElement>(null);
   const tintKey = slot === "effect" ? "effectTint" : slot === "decoration" ? "decorationTint" : null;
@@ -154,14 +157,7 @@ export function MediaPicker({
       ...assets
         .filter(
           (asset) =>
-            asset.status === "ready" &&
-            [
-              config.avatar,
-              config.banner,
-              config.effect?.source === "media" ? config.effect.id : null,
-              config.decoration?.source === "media" ? config.decoration.id : null,
-              candidateOption?.asset?.id,
-            ].includes(asset.id),
+            asset.status === "ready" && [...assetIds(config), candidateOption?.asset?.id].includes(asset.id),
         )
         .map((asset) => asset.id),
     ]),
@@ -174,7 +170,7 @@ export function MediaPicker({
       .map((a) => [a.id, !reduced && a.id === candidateOption?.asset?.id ? a.url : (a.previewUrl ?? a.url)]),
     attempt,
   );
-  const preview = {
+  const preview = previewConfig?.(candidate) ?? {
     ...legacyConfig(config),
     ...visualPatch(slot, candidate),
     ...(tintKey ? { [tintKey]: compareOriginal ? null : tint } : {}),

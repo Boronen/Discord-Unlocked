@@ -1,4 +1,5 @@
 import { artworkTint } from "./palette.js";
+import { BannerLayers } from "./BannerLayers.js";
 import { React } from "@webpack/common";
 import type { CatalogItem, EffectStyle, MusicStyle, ProfileConfig, ProfileAccount } from "./model.js";
 import { textOn } from "./palette.js";
@@ -9,7 +10,7 @@ import { TintSurface } from "./TintSurface.js";
 import type { TintStyle } from "./tint.js";
 import { AlbumBackground, useAlbumArtwork } from "./album-art.js";
 import { SceneRenderer, StudioBlocks, StudioBadges, type PerformanceMode } from "./scene-renderer.js";
-import { resolveScene, type SceneLayer } from "./studio-model.js";
+import { resolveScene, resolveBannerLayers, type SceneLayer } from "./studio-model.js";
 import type { LiveMusic } from "./music-surface.js";
 import { useArtworkPalette, priorityColors } from "./music-presentation.js";
 export function effectStyle(effect: EffectStyle): React.CSSProperties {
@@ -224,7 +225,17 @@ export function ProfilePreview({
         reduced={reduced}
       />
       <div className="ps-banner" style={{ backgroundColor: palette?.background }}>
-        {banner && <img src={banner} alt="Banner preview" />}
+        {config.studio?.bannerLayers?.some((l) => l.assetId) ? (
+          <BannerLayers
+            layers={resolveBannerLayers(config)}
+            urls={urls}
+            palette={adaptivePalette}
+            background={palette?.background}
+            reduced={reduced}
+          />
+        ) : (
+          banner && <img src={banner} alt="Banner preview" />
+        )}
       </div>
       <div className="ps-avatar-wrap">
         <img

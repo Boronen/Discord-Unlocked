@@ -54,6 +54,7 @@ export function diagnosticOrigin(value: string) {
 export class StudioClient {
   studioV2 = false;
   musicPrioritySupported = false;
+  bannerLayersSupported = false;
   token: string | undefined;
   userId: string | undefined;
   pendingPair: PendingPair | undefined;
@@ -229,6 +230,7 @@ export class StudioClient {
   }
   disconnect() {
     this.musicPrioritySupported = false;
+    this.bannerLayersSupported = false;
     this.studioV2 = false;
     ++this.sessionGeneration;
     this.restoring = undefined;
@@ -377,11 +379,13 @@ export class StudioClient {
       const value = await this.request<import("./studio-model.js").Capabilities>("/v2/capabilities");
       this.studioV2 = value.version === 2 && value.enabled === true;
       this.musicPrioritySupported = this.studioV2 && value.features?.musicPriority === true;
+      this.bannerLayersSupported = this.studioV2 && value.features?.bannerLayers === true;
       return this.studioV2 ? value : null;
     } catch (error) {
       if (error instanceof ApiError && error.status === 404) {
         this.studioV2 = false;
         this.musicPrioritySupported = false;
+        this.bannerLayersSupported = false;
         return null;
       }
       throw error;

@@ -1,4 +1,5 @@
 import { React } from "@webpack/common";
+import { BannerLayerEditor } from "./BannerLayerEditor.js";
 import { visualNames, type VisualSlot } from "./MediaPicker.js";
 import { StudioField as Field, StudioAction as Action, StudioChoice as Choice } from "./studio-controls.js";
 import { albumStatus } from "./album-art.js";
@@ -62,7 +63,14 @@ export function WorkspaceAppearance({
           Refresh uploads and status
         </Action>
         <div className="ps-appearance-choices">
-          {(["avatar", "decoration", "banner", "nameplate"] as VisualSlot[]).map((slot) => (
+          {(
+            [
+              "avatar",
+              "decoration",
+              ...(context.api.bannerLayersSupported ? [] : ["banner"]),
+              "nameplate",
+            ] as VisualSlot[]
+          ).map((slot) => (
             <div key={slot} className="ps-appearance-choice">
               <strong>{visualNames[slot]}</strong>
               <Action variant="secondary" onClick={() => setPicker(slot)}>
@@ -71,6 +79,7 @@ export function WorkspaceAppearance({
             </div>
           ))}
         </div>
+        <BannerLayerEditor controller={controller} context={context} />
         <fieldset className="ps-album-controls">
           <legend>Album artwork background</legend>
           <label className="ps-checkbox">

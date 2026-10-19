@@ -638,6 +638,37 @@
 .ps-profile-full .ps-profile-body {
   min-height: 390px;
 }
+.ps-banner-host {
+  background-image: none !important;
+}
+.ps-banner-host > img {
+  visibility: hidden;
+}
+.ps-banner-layers {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+  border-radius: inherit;
+  isolation: isolate;
+}
+.ps-banner-layer {
+  position: absolute;
+  inset: 0;
+}
+.ps-banner-layer-thumb {
+  width: 32px;
+  height: 18px;
+  object-fit: cover;
+  vertical-align: middle;
+  margin-inline-end: 8px;
+  border-radius: 2px;
+}
+.ps-banner-layers img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 .ps-banner {
   height: 106px;
   background: var(--ps-input, var(--background-tertiary, #1e1f22));

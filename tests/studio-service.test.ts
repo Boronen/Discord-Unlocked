@@ -11,8 +11,46 @@ import { normalizeStudio, EMPTY_LIBRARY } from "../packages/plugin/studio-model.
 import { DEFAULT_CONFIG } from "../packages/plugin/model.js";
 import { maintain } from "../packages/server/maintenance.js";
 import { SecurityJournal } from "../packages/server/journal.js";
-import { newLayer } from "../packages/plugin/studio-model.js";
+import { newLayer, newBannerLayer, legacyConfig } from "../packages/plugin/studio-model.js";
 const cleanup: (() => Promise<unknown>)[] = [];
+
+test("all banner layers enforce ownership, media slot and tint rights before saving", async () => {
+  const c = await context(),
+    p = await c.studio.createPreset(ALICE, "Banner composition");
+  const config = normalizeStudio(DEFAULT_CONFIG);
+  const a = randomUUID(),
+    b = randomUUID();
+  for (const id of [a, b])
+    await c.db.query(
+      "INSERT INTO media(id,owner_id,slot,status,original_name,input_key,output_key,mime,output_bytes) VALUES($1,$2,'banner','ready','banner',$3,$4,'image/webp',16)",
+      [id, ALICE, `quarantine/${id}.bin`, `processed/${id}.webp`],
+    );
+  config.studio.bannerLayers = [newBannerLayer(a), newBannerLayer(b)];
+  const canonical = { ...legacyConfig(config), configVersion: 2 as const, studio: config.studio };
+  await c.db.query("UPDATE media SET owner_id=$1 WHERE id=$2", [BOB, b]);
+  await expect(c.studio.savePreset(ALICE, p.id, 0, canonical)).rejects.toMatchObject({
+    code: "INVALID_ASSET",
+  });
+  await c.db.query("UPDATE media SET owner_id=$1,slot='effect' WHERE id=$2", [ALICE, b]);
+  await expect(c.studio.savePreset(ALICE, p.id, 0, canonical)).rejects.toMatchObject({
+    code: "INVALID_ASSET",
+  });
+  await c.db.query("UPDATE media SET slot='banner' WHERE id=$1", [b]);
+  config.studio.bannerLayers[1]!.tint = { color: "#123456", intensity: 0.5 };
+  await expect(c.studio.savePreset(ALICE, p.id, 0, canonical)).rejects.toMatchObject({
+    code: "SUPPORTER_REQUIRED",
+  });
+  c.permissions.canUseCustomTint = async () => true;
+  await c.studio.savePreset(ALICE, p.id, 0, canonical);
+  const revision = await c.studio.submitPreset(ALICE, p.id, 1, true);
+  await c.service.decide(MOD, revision.id, "approve");
+  const published = (await c.service.publicProfiles([ALICE]))[ALICE]!;
+  expect(Object.keys(published.media)).toEqual(expect.arrayContaining([a, b]));
+  expect(published.config.studio?.bannerLayers?.[1]?.tint?.color).toBe("#123456");
+  c.permissions.canUseCustomTint = async () => false;
+  await c.studio.savePreset(ALICE, p.id, 1, canonical);
+  expect(c.studio.restrictCustom(canonical, false).studio.bannerLayers?.[1]?.tint?.color).not.toBe("#123456");
+});
 
 test("music priority survives preset save, immutable moderation and publication without listening metadata", async () => {
   const c = await context();
@@ -159,6 +197,7 @@ test("approved sharing copies only consented uploads, counts bytes, is idempoten
     [asset, ALICE, `quarantine/${asset}.bin`, `processed/${asset}.webp`],
   );
   const config = normalizeStudio({ ...DEFAULT_CONFIG, banner: asset });
+  config.studio.bannerLayers = [newBannerLayer(asset)];
   await c.studio.savePreset(ALICE, p.id, 0, config);
   const r = await c.studio.submitPreset(ALICE, p.id, 1, false);
   await c.service.decide(MOD, r.id, "approve");
@@ -172,6 +211,7 @@ test("approved sharing copies only consented uploads, counts bytes, is idempoten
     panels: true,
   });
   expect(copied.draft.banner).not.toBe(asset);
+  expect(copied.draft.studio?.bannerLayers?.[0]?.assetId).toBe(copied.draft.banner);
   expect(
     (await c.studio.importStyle(BOB, share.id, r.id, request, { avatar: true, songs: true, panels: true }))
       .id,
@@ -188,6 +228,7 @@ test("approved sharing copies only consented uploads, counts bytes, is idempoten
     panels: false,
   });
   expect(stripped.draft.banner).toBeNull();
+  expect(stripped.draft.studio?.bannerLayers).toEqual([]);
   for (let i = 0; i < 9; i++)
     await c.db.query("INSERT INTO upload_events(id,user_id) VALUES($1,$2)", [randomUUID(), BOB]);
   await expect(

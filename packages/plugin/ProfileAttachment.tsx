@@ -1,4 +1,5 @@
 import { CardExportControls } from "./CardExportControls.js";
+import { BannerLayers, useBannerHost } from "./BannerLayers.js";
 import {
   React,
   ReactDOM,
@@ -30,7 +31,7 @@ import { FavoriteSongCard } from "./FavoriteSong.js";
 import { AlbumBackground, useAlbumArtwork } from "./album-art.js";
 import { albumArtworkCache } from "./artwork-cache.js";
 import { SceneRenderer, StudioBlocks, StudioBadges } from "./scene-renderer.js";
-import { resolveScene, applyViewerOverride, type Surface } from "./studio-model.js";
+import { resolveScene, resolveBannerLayers, applyViewerOverride, type Surface } from "./studio-model.js";
 import { readViewerOverride, writeViewerOverride } from "./viewer-overrides.js";
 import { useArtworkPalette, priorityColors } from "./music-presentation.js";
 export const localTests = new Map<string, PublicProfile>();
@@ -203,8 +204,24 @@ export function ProfileAttachment({ userId }: { userId: string }) {
     !!profile?.config.musicPriority && !!liveMusic && !!scene?.blocks.some((block) => block.kind === "music"),
   );
   const banner = profile?.config.banner ? mediaUrl(profile, profile.config.banner, reduced) : undefined;
+  const hasBannerLayers =
+    profile?.config.studio?.bannerLayers !== undefined &&
+    !!profile.config.studio.bannerLayers.some((l) => l.assetId);
+  const bannerHost = useBannerHost(root, active && settings.store.banners && hasBannerLayers);
+  const mediaUrls = React.useMemo(
+    () =>
+      Object.fromEntries(
+        Object.keys(profile?.media ?? {}).flatMap((id) => {
+          if (!profile) return [];
+          const url = mediaUrl(profile, id, reduced),
+            still = mediaUrl(profile, id, true);
+          return [...(url ? [[id, url]] : []), ...(still ? [[`${id}:static`, still]] : [])];
+        }),
+      ),
+    [profile, reduced],
+  );
   React.useEffect(() => {
-    if (!root || !banner || !settings.store.banners || !active) return;
+    if (!root || !banner || hasBannerLayers || !settings.store.banners || !active) return;
     const element = root.querySelector<HTMLElement>('[class*="banner_"]');
     if (!element) return;
     const previous = element.style.backgroundImage;
@@ -212,7 +229,7 @@ export function ProfileAttachment({ userId }: { userId: string }) {
     return () => {
       element.style.backgroundImage = previous;
     };
-  }, [root, banner, settings.store.banners]);
+  }, [root, banner, hasBannerLayers, settings.store.banners]);
   const muted = isMuted(userId),
     audio =
       !profile?.config.favoriteSong && profile?.config.audio
@@ -276,6 +293,18 @@ export function ProfileAttachment({ userId }: { userId: string }) {
   return (
     <>
       <span ref={anchor} className="ps-profile-anchor" />
+      {bannerHost &&
+        profile &&
+        ReactDOM.createPortal(
+          <BannerLayers
+            layers={resolveBannerLayers(profile.config)}
+            urls={mediaUrls}
+            palette={adaptivePalette}
+            background={musicPalette?.background}
+            reduced={reduced}
+          />,
+          bannerHost,
+        )}
       {root &&
         profile &&
         active &&
@@ -289,13 +318,7 @@ export function ProfileAttachment({ userId }: { userId: string }) {
                 scene={scene}
                 adaptivePalette={adaptivePalette}
                 items={[...catalog.values()]}
-                urls={Object.fromEntries(
-                  Object.keys(profile.media).flatMap((id) => {
-                    const url = mediaUrl(profile, id, reduced);
-                    const still = mediaUrl(profile, id, true);
-                    return [...(url ? [[id, url]] : []), ...(still ? [[`${id}:static`, still]] : [])];
-                  }),
-                )}
+                urls={mediaUrls}
                 reduced={reduced}
                 mode={settings.store.performanceMode}
                 sessionKey={`${userId}:${key.current}`}
