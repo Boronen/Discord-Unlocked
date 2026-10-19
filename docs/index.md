@@ -9,6 +9,7 @@ The planned company/brand name is **Boronen Games**; the current operator remain
 [Join Discord Unlocked](https://discord.gg/S42hjgbcCk) · Request the **Beta Tester** role in `beta-access` after reading `rules` (18+, owner-approved).
 
 - **Joining a friend's community?** Start with [Windows installation](INSTALL-WINDOWS.md), then [pairing and everyday use](USER-GUIDE.md).
+- **Fedora + Discord Flatpak?** See the [experimental Linux package](INSTALL-LINUX.md), its keyring requirements and desktop acceptance limits.
 - **Editing a profile?** See the [complete editor walkthrough](STUDIO-WORKSPACE.md).
 - **Running the server?** Read [operations](OPERATIONS.md), [configuration](CONFIGURATION.md), [privacy](PRIVACY.md) and [security](SECURITY.md) before admitting users.
 - **Building or contributing?** Read [development](DEVELOPMENT.md), [architecture](ARCHITECTURE.md), [API](API.md), [sources and licences](SOURCES-LICENSES.md), and [contribution policy](CONTRIBUTING.md).
