@@ -4,7 +4,7 @@ Use Windows Discord Stable. Vencord client modifications carry Discord account-p
 
 ## Recommended: prebuilt participant package (no Git or Node)
 
-Get `ProfileStudio-Windows.zip` and its SHA-256 checksum from your trusted operator. Extract it, fully quit Discord including the tray process, then run `Install.cmd` as your normal Windows user. Follow its checked installer prompts and restart Discord. Do not disable antivirus or bypass a checksum failure. Enable **ProfileStudio**, configure the operator's API origin, read its privacy notice and pair with the bot. See [Getting started](USER-GUIDE.md) for the complete workflow and [Windows package details](WINDOWS-CLIENT-PACKAGE.md) for provenance and checks.
+Get the `ProfileStudio-Windows-<build>.zip` asset and `SHA256SUMS.txt` from the [official GitHub Releases](https://github.com/Boronen/Discord-Unlocked/releases), or obtain the matching package from your trusted operator. The automatically generated GitHub source archives are for developers, not the Windows installer. Extract it, fully quit Discord including the tray process, then run `Install.cmd` as your normal Windows user. Follow its checked installer prompts and restart Discord. Do not disable antivirus or bypass a checksum failure. Enable **ProfileStudio**, configure the operator's API origin, read its privacy notice and pair with the bot. See [Getting started](USER-GUIDE.md) for the complete workflow and [Windows package details](WINDOWS-CLIENT-PACKAGE.md) for provenance and checks.
 
 Participants need no Git, Node, Docker, server source or bot token when using this package. The sections below are the **optional source-build path for developers**, not prerequisites for the prebuilt ZIP.
 
