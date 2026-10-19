@@ -36,6 +36,7 @@ export default {
   themeConfig: {
     search: { provider: "local" },
     nav: [
+      { text: "Join Discord", link: "https://discord.gg/S42hjgbcCk" },
       { text: "Start", link: "/" },
       { text: "User guide", link: "/USER-GUIDE" },
       { text: "Operate", link: "/OPERATIONS" },
@@ -56,6 +57,7 @@ export default {
         items: [
           { text: "Operations", link: "/OPERATIONS" },
           { text: "Configuration", link: "/CONFIGURATION" },
+          { text: "Discord community setup", link: "/DISCORD-COMMUNITY" },
           { text: "Encrypted Drive backups", link: "/DRIVE-BACKUPS" },
           { text: "Discord alerts", link: "/DISCORD-ALERTS" },
           { text: "Acceptance and release", link: "/ACCEPTANCE" },

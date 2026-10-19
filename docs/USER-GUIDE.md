@@ -6,6 +6,8 @@ A Windows computer with Discord Stable, a trusted operator's Windows ZIP/checksu
 
 The community uses a custom Vencord build. It does not grant Discord Nitro or purchases, and other people need the same plugin plus pairing to see Studio appearances. Discord's client-modification policy still applies. Never disable antivirus or bypass a checksum failure to install it.
 
+[Join Discord Unlocked](https://discord.gg/S42hjgbcCk) → read `rules` → request admission in `beta-access`. The owner assigns **Beta Tester** manually; this invited beta is 18+. For contributions and **Supporter**, read the [contribution policy](CONTRIBUTING.md). Supporter does not grant beta admission or staff access.
+
 ## Install and pair
 
 1. Get `ProfileStudio-Windows.zip` and its checksum from your trusted operator. Extract the ZIP; close Discord completely, including the tray process. Run `Install.cmd` as your normal Windows account. This changes the Discord/Vencord installation, so follow the included installer prompts.
