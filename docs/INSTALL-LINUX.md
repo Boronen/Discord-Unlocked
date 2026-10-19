@@ -1,6 +1,6 @@
 # Experimental Fedora Linux client
 
-This client package targets **Fedora x86-64 with Discord Flatpak** (`com.discordapp.Discord`). It contains the same pinned standalone Vencord/plugin build and corresponding source. It is an experimental client package, not an RPM or a replacement Flatpak. A real Fedora desktop/pairing/animation/export acceptance pass is still required. Headless installer and integrity checks do not establish desktop compatibility or SELinux behavior.
+This client package targets **Fedora x86-64 with Discord Flatpak** (`com.discordapp.Discord`). It contains the same pinned standalone Vencord/plugin build and corresponding source. It is an experimental client package, not an RPM or a replacement Flatpak. The operator reports working pairing and profile display on Fedora. The matching beta.2 build adds the current banner editor; its banner animation/export and protected-keyring restart persistence still need dedicated desktop acceptance. Headless installer and integrity checks do not establish complete desktop compatibility or SELinux behavior.
 
 ## Requirements
 
