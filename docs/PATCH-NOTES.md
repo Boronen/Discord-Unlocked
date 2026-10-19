@@ -17,11 +17,11 @@ No further release is scheduled. Prepared version notes below do not establish a
 ### Compatibility
 
 - Updated Windows Discord Stable package; the pinned Vencord version is unchanged. Update the self-hosted API before the client to enable banner controls. No database table migration is required.
-- The previous experimental Fedora Flatpak download remains available in beta.1; it has not been updated or accepted for this release.
+- A matching experimental Fedora x64 Discord Flatpak package includes the beta.2 editor and banner controls. Use its separate Linux checksums and manifest; Windows downloads are unchanged.
 
 ### Known limitations
 
-- A reported Fedora API connection failure remains under investigation.
+- The operator reports Fedora pairing and profile display working. The new Linux build's banner/export behavior and protected-keyring restart persistence still need dedicated desktop acceptance.
 - Five-person load testing remains deferred. This release does not establish additional tested capacity.
 
 ## v0.1.0-beta.1
