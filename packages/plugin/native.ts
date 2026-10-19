@@ -3,6 +3,7 @@ import type { IpcMainInvokeEvent } from "electron";
 import { RendererSettings } from "@main/settings";
 import { DATA_DIR } from "@main/utils/constants";
 import { safeStorage, BrowserWindow, dialog } from "electron";
+import { protectedStorageAvailable } from "./secret-storage";
 import { songLink, providerName, providerArtwork } from "./music-links";
 import { readFile, mkdir, writeFile, unlink, rename } from "node:fs/promises";
 import { join } from "node:path";
@@ -26,14 +27,15 @@ function sessionPath(userId: string, base: string) {
 }
 export async function saveSession(_: IpcMainInvokeEvent, userId: string, base: string, token: string) {
   const path = sessionPath(userId, base);
-  if (!safeStorage.isEncryptionAvailable()) throw new Error("Windows encrypted storage is unavailable.");
+  if (!protectedStorageAvailable(process.platform, safeStorage))
+    throw new Error("OS encrypted storage is unavailable. On Linux, unlock GNOME Keyring or KWallet.");
   if (!/^[a-zA-Z0-9_-]{32,100}$/.test(token)) throw new Error("Invalid session.");
   await mkdir(join(DATA_DIR, "profile-studio-sessions"), { recursive: true });
   await writeFile(path, safeStorage.encryptString(token), { mode: 0o600 });
 }
 export async function loadSession(_: IpcMainInvokeEvent, userId: string, base: string) {
   const path = sessionPath(userId, base);
-  if (!safeStorage.isEncryptionAvailable()) return null;
+  if (!protectedStorageAvailable(process.platform, safeStorage)) return null;
   try {
     const data = await readFile(path);
     if (data.length > 4096) return null;
@@ -70,7 +72,8 @@ export async function saveDraftBackup(_: IpcMainInvokeEvent, value: DraftBackup)
     throw new Error("Invalid draft backup.");
   const text = JSON.stringify(value);
   if (text.length > 256 * 1024) throw new Error("The local draft exceeds its size limit.");
-  if (!safeStorage.isEncryptionAvailable()) throw new Error("Windows encrypted storage is unavailable.");
+  if (!protectedStorageAvailable(process.platform, safeStorage))
+    throw new Error("OS encrypted storage is unavailable. On Linux, unlock GNOME Keyring or KWallet.");
   await mkdir(join(DATA_DIR, "profile-studio-sessions"), { recursive: true });
   const temporary = `${path}.${randomUUID()}.partial`;
   try {
@@ -87,7 +90,7 @@ export async function loadDraftBackup(
   preset: string,
 ): Promise<DraftBackup | null> {
   const path = draftPath(user, base, preset);
-  if (!safeStorage.isEncryptionAvailable()) return null;
+  if (!protectedStorageAvailable(process.platform, safeStorage)) return null;
   try {
     const data = await readFile(path);
     if (data.length > 512 * 1024) return null;

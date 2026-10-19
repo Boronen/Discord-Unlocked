@@ -47,6 +47,7 @@ async function add(path, prefix = "") {
   // This is a separate public website checkout, not application source.
   if (relative(root, path).replaceAll("\\", "/") === "docs/backup-oauth-site") return;
   const publicPath = relative(root, path).replaceAll("\\", "/");
+  if (publicPath.split("/").includes("__pycache__") || /\.py[co]$/.test(publicPath)) return;
   if (
     publicPath === "docs-site/node_modules" ||
     /^(?:docs|docs-site)\/\.vitepress\/(?:cache|dist|\.temp)(?:\/|$)/.test(publicPath)

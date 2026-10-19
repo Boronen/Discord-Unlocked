@@ -47,6 +47,7 @@ export default {
         text: "Use Discord Unlocked",
         items: [
           { text: "Install on Windows", link: "/INSTALL-WINDOWS" },
+          { text: "Fedora Flatpak (experimental)", link: "/INSTALL-LINUX" },
           { text: "Get started and troubleshoot", link: "/USER-GUIDE" },
           { text: "All editor features", link: "/STUDIO-WORKSPACE" },
           { text: "Privacy and your data", link: "/PRIVACY" },
