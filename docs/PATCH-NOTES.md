@@ -4,13 +4,25 @@ Every update has an English, user-facing change summary here. Published release 
 
 ## Unreleased
 
-### In development
+No further release is scheduled. Prepared version notes below do not establish availability: download only from a published GitHub release.
 
-- Banner image layers with independent positioning and color controls.
-- Per-layer choice to follow music colors or retain original/manual colors.
-- Shared patch notes and a release announcement command using the DcU bot.
+## v0.1.0-beta.2
 
-These features are not yet part of a downloadable release. Fedora Flatpak installation remains experimental; a reported API connection failure is under investigation.
+### Added
+
+- Compose your banner from up to three uploaded images, with independent order, position, size, rotation, opacity and manual tint.
+- Choose Follow music colors separately for each banner and profile-effect layer. Existing banners keep their original colors until you change the option.
+- Shared English patch notes and duplicate-protected release announcements from DcU, with download links and no automatic pings.
+
+### Compatibility
+
+- Updated Windows Discord Stable package; the pinned Vencord version is unchanged. Update the self-hosted API before the client to enable banner controls. No database table migration is required.
+- The previous experimental Fedora Flatpak download remains available in beta.1; it has not been updated or accepted for this release.
+
+### Known limitations
+
+- A reported Fedora API connection failure remains under investigation.
+- Five-person load testing remains deferred. This release does not establish additional tested capacity.
 
 ## v0.1.0-beta.1
 
