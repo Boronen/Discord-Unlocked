@@ -36,12 +36,12 @@ Confirm that the pushed branch and GitHub's configured default branch are `main`
 
 Verify the target branch, enforcement state, required checks and bypass list after saving. Branch rulesets for public repositories are available on GitHub Free. A **push ruleset** is a different feature from secret-scanning **push protection**; this checklist does not require a plan upgrade. See [GitHub branch rulesets](https://docs.github.com/en/repositories/configuring-branches-and-merges-in-your-repository/managing-rulesets/creating-rulesets-for-a-repository).
 
-The checked-in CI uses pinned Actions and read-only repository permissions without deployment secrets. Retain those boundaries; passing CI does not authorize production deployment or a public release.
+The verification CI uses pinned Actions and read-only repository permissions without deployment secrets. The separate owner-authorized Pages workflow grants only its deployment job `pages:write` and `id-token:write`; it publishes static documentation from `main`. Passing verification does not itself authorize an application deployment or release.
 
 ## 4. Review artifacts and publish separately
 
 Before creating a release, verify the selected commit, matching Windows ZIP, manifest and published checksums. State supported Windows/Vencord versions, installation/update instructions, self-hosting requirements and known limitations. Do not describe unmeasured CPU/memory gains or untested capacity as established results.
 
-The documentation build is separate from the plugin/server. Build it with `DOCS_BASE=/Discord-Unlocked/` for the repository Pages path. A successful build does not enable or publish GitHub Pages; review that deployment separately. Do not upload private screenshots or work-accounting reports.
+The documentation build is separate from the plugin/server. Build it with `DOCS_BASE=/Discord-Unlocked/` for the repository Pages path. A successful verification build does not publish Pages. Enable GitHub Actions as the Pages source, then use the separate `Publish documentation` workflow for authorized publication from `main`. Do not upload private screenshots or work-accounting reports.
 
 Record the final commit, artifact hashes, check results, effective repository protections, outstanding limitations and owner release decision in private release evidence. Never mark an unmet gate as passed simply to populate a readiness file. If publication reveals a secret, follow the [incident procedure](OPERATIONS.md#incidents): revoke the credential before relying on history cleanup.
