@@ -389,6 +389,14 @@ export default definePlugin({
   },
   bannerUrl({ displayProfile }: { displayProfile?: { userId: string } }) {
     if (!active || !settings.store.banners || !displayProfile?.userId) return undefined;
+    if (
+      readViewerOverride(
+        settings.store.viewerOverrides,
+        UserStore.getCurrentUser()?.id ?? "",
+        displayProfile.userId,
+      ).background === false
+    )
+      return undefined;
     const profile = current(displayProfile.userId);
     return profile?.config.banner ? mediaFor(displayProfile.userId, profile.config.banner) : undefined;
   },

@@ -49,6 +49,7 @@ const layer = z
       .strict(),
     tint,
     blend: z.enum(["normal", "screen"]),
+    followMusicColors: z.boolean().optional(),
   })
   .strict()
   .superRefine((value, context) => {
@@ -83,6 +84,21 @@ export const profileV2Schema: z.ZodType<ProfileConfigV2> = legacyProfileObject
     configVersion: z.literal(2),
     studio: z
       .object({
+        bannerLayers: z
+          .array(
+            z
+              .object({
+                id,
+                assetId: uuid.nullable(),
+                transform: layer.shape.transform,
+                tint,
+                followMusicColors: z.boolean(),
+              })
+              .strict(),
+          )
+          .max(3)
+          .refine(uniqueIds, "Banner layer IDs must be unique.")
+          .optional(),
         base: sceneSchema,
         small: sceneSchema.partial(),
         full: sceneSchema.partial(),

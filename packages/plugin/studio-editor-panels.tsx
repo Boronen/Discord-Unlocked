@@ -30,6 +30,7 @@ export function LayerEditor({
   albumUrl,
   library,
   onLibraryChange,
+  musicColorsSupported = false,
 }: {
   scene: SceneConfig;
   onChange: (scene: SceneConfig, key?: string) => void;
@@ -47,6 +48,7 @@ export function LayerEditor({
   albumUrl?: string;
   library?: PersonalLibrary;
   onLibraryChange?: (doc: PersonalLibrary) => void;
+  musicColorsSupported?: boolean;
 }) {
   const [browse, setBrowse] = React.useState(false),
     [source, setSource] = React.useState<SceneLayer["source"]>("discord");
@@ -248,6 +250,16 @@ export function LayerEditor({
               </Field>
             ))}
           </div>
+          {musicColorsSupported && (
+            <label className="ps-checkbox">
+              <input
+                type="checkbox"
+                checked={layer.followMusicColors !== false}
+                onChange={(e) => update({ followMusicColors: e.target.checked })}
+              />
+              Follow music colors
+            </label>
+          )}
           <Action variant="secondary" onClick={() => update({ transform: { ...DEFAULT_TRANSFORM } })}>
             Reset position and size
           </Action>

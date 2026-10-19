@@ -147,6 +147,7 @@ export function assetIds(config: ProfileConfig): string[] {
       [
         config.avatar,
         config.banner,
+        ...(config.studio?.bannerLayers ?? []).map((layer) => layer.assetId),
         config.audio,
         config.decoration?.source === "media" ? config.decoration.id : null,
         config.effect?.source === "media" ? config.effect.id : null,

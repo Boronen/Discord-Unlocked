@@ -55,6 +55,28 @@ const state: EditorState = {
   published: null,
   assets: [],
 };
+// Opt-in, synthetic header images for repeatable banner composition checks.
+const bannerFixtures = new URLSearchParams(location.search).has("banners")
+  ? ["#834ada", "#12b8bd", "#f03052"].map((color, index) => ({
+      id: `33333333-3333-4333-8333-33333333333${index}`,
+      svg: `<svg xmlns="http://www.w3.org/2000/svg" width="600" height="212"><path d="M${index * 150} 0h180l120 212H${index * 150}z" fill="${color}" opacity=".8"/></svg>`,
+    }))
+  : [];
+state.assets = bannerFixtures.map(({ id }) => ({
+  id,
+  ownerId: userId,
+  slot: "banner",
+  status: "ready",
+  mime: "image/svg+xml",
+  animated: false,
+  duration: null,
+  width: 600,
+  height: 212,
+  url: `http://localhost:3100/v1/media/${id}`,
+  previewUrl: null,
+  error: null,
+  createdAt: new Date().toISOString(),
+}));
 const v2fixture = studioFixture(state, previewCatalog);
 let fail = false,
   delay = 0;
@@ -68,6 +90,8 @@ const client = new StudioClient("http://localhost:3100", async (_base, path, met
         message: "Simulated server error. Your local draft is preserved.",
       }),
     };
+  const bannerFixture = bannerFixtures.find((image) => path === `/v1/media/${image.id}`);
+  if (bannerFixture) return { status: 200, mime: "image/svg+xml", body: btoa(bannerFixture.svg) };
   const v2response = v2fixture(path, method, body);
   if (v2response) return v2response;
   if (path === "/v1/me" && method === "GET") return { status: 200, body: JSON.stringify(state) };

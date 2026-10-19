@@ -8,6 +8,8 @@ Get the `ProfileStudio-Windows-<build>.zip` asset and `SHA256SUMS.txt` from the 
 
 Participants need no Git, Node, Docker, server source or bot token when using this package. The sections below are the **optional source-build path for developers**, not prerequisites for the prebuilt ZIP.
 
+For beta.2 banner layering, the operator must update the compatible API first. The client exposes the new controls only after the server advertises `bannerLayers`. Save your local Studio draft before closing Discord for an update. See [Patch notes](PATCH-NOTES.md) for the changes and known limitations; the older Fedora package is a separate experimental download.
+
 ## Optional source build: prerequisites
 
 - Discord for Windows: https://discord.com/download

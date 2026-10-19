@@ -42,6 +42,8 @@ The verification CI uses pinned Actions and read-only repository permissions wit
 
 Before creating a release, verify the selected commit, matching Windows ZIP, manifest and published checksums. State supported Windows/Vencord versions, installation/update instructions, self-hosting requirements and known limitations. Do not describe unmeasured CPU/memory gains or untested capacity as established results.
 
+Every update includes a reviewed version section in [Patch notes](PATCH-NOTES.md). Reuse that exact section in the GitHub release body. After the matching downloads are public and applicable deployment checks pass, use the [release announcement command](UPDATE-ANNOUNCEMENTS.md) to post the summary and download link through DcU in the community's announcements channel. Retain its delivery receipt to prevent repeat posts. Draft builds and bot restarts do not trigger announcements.
+
 The documentation build is separate from the plugin/server. Build it with `DOCS_BASE=/Discord-Unlocked/` for the repository Pages path. A successful verification build does not publish Pages. Enable GitHub Actions as the Pages source, then use the separate `Publish documentation` workflow for authorized publication from `main`. Do not upload private screenshots or work-accounting reports.
 
 Record the final commit, artifact hashes, check results, effective repository protections, outstanding limitations and owner release decision in private release evidence. Never mark an unmet gate as passed simply to populate a readiness file. If publication reveals a secret, follow the [incident procedure](OPERATIONS.md#incidents): revoke the credential before relying on history cleanup.

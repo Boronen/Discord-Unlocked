@@ -4,11 +4,50 @@ import {
   normalizeStudio,
   resolveScene,
   newLayer,
+  newBannerLayer,
+  resolveBannerLayers,
+  tintEntries,
   legacyConfig,
   applyViewerOverride,
   configDiff,
 } from "../packages/plugin/studio-model.js";
 import { profileV2Schema } from "../packages/shared/studio-schema.js";
+
+test("banner stacks preserve legacy appearance, validate limits and participate in references and overrides", () => {
+  const a = "11111111-1111-4111-8111-111111111111",
+    b = "22222222-2222-4222-8222-222222222222";
+  const old = normalizeStudio({ ...DEFAULT_CONFIG, banner: a });
+  expect(old.studio).not.toHaveProperty("bannerLayers");
+  expect(resolveBannerLayers(old)[0]).toMatchObject({
+    id: "legacy-banner",
+    assetId: a,
+    followMusicColors: false,
+  });
+  old.studio.bannerLayers = [
+    newBannerLayer(a),
+    { ...newBannerLayer(b), tint: { color: "#123456", intensity: 0.5 }, followMusicColors: false },
+  ];
+  expect(profileV2Schema.safeParse(old).success).toBe(true);
+  expect(legacyConfig(old).banner).toBe(a);
+  expect(assetIds(old)).toEqual(expect.arrayContaining([a, b]));
+  expect(tintEntries(old)).toContainEqual([
+    `banner:${old.studio.bannerLayers[1]!.id}`,
+    { color: "#123456", intensity: 0.5 },
+  ]);
+  expect(applyViewerOverride(old, { background: false }).studio?.bannerLayers).toEqual([]);
+  expect(
+    applyViewerOverride(old, { tint: false }).studio?.bannerLayers?.every(
+      (l) => !l.tint && !l.followMusicColors,
+    ),
+  ).toBe(true);
+  const invalid = structuredClone(old);
+  invalid.studio.bannerLayers = [old.studio.bannerLayers[0]!, old.studio.bannerLayers[0]!];
+  expect(profileV2Schema.safeParse(invalid).success).toBe(false);
+  invalid.studio.bannerLayers = Array.from({ length: 4 }, () => newBannerLayer(a));
+  expect(profileV2Schema.safeParse(invalid).success).toBe(false);
+  old.studio.bannerLayers = [];
+  expect(legacyConfig(old).banner).toBeNull();
+});
 import { DraftHistory } from "../packages/plugin/draft-history.js";
 import { AutomationController, matchRule } from "../packages/plugin/automation.js";
 import { colorProposals, nearestBasic } from "../packages/plugin/color-proposals.js";

@@ -367,6 +367,7 @@ export function StudioWorkspace(props: WorkspaceProps) {
               <WorkspaceAppearance controller={controller} context={props} />
               {tab === "layers" && (
                 <LayerEditor
+                  musicColorsSupported={api.bannerLayersSupported}
                   scene={scene}
                   onChange={changeScene}
                   selected={selectedLayer}

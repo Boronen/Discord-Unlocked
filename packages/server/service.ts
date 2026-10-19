@@ -440,6 +440,7 @@ export class ProfileService {
     const slots: [string | null, string][] = [
       [config.avatar, "avatar"],
       [config.banner, "banner"],
+      ...(config.studio?.bannerLayers ?? []).map((l) => [l.assetId, "banner"] as [string | null, string]),
       [config.audio, "audio"],
       [config.decoration?.source === "media" ? config.decoration.id : null, "decoration"],
       [config.effect?.source === "media" ? config.effect.id : null, "effect"],

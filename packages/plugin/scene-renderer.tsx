@@ -311,11 +311,13 @@ export function SceneRenderer({
         if (!visible) return null;
         if (motion.level > 0 && layer.source === "texture" && !motion.static) return null;
         const item = layer.source === "discord" ? items.find((i) => i.id === layer.assetId) : undefined;
+        const adaptiveTint =
+          layer.followMusicColors === false ? undefined : artworkTint(adaptivePalette, index);
         const style = {
           transform: `translate(${layer.transform.x * 100}%,${layer.transform.y * 100}%) rotate(${layer.transform.rotation}deg) scale(${layer.transform.scale})`,
           opacity: layer.transform.opacity,
           zIndex: (layer.plane === "front" ? 20 : 0) + index,
-          "--ps-effect-color": artworkTint(adaptivePalette, index)?.color ?? layer.color,
+          "--ps-effect-color": adaptiveTint?.color ?? layer.color,
           "--ps-intensity": 1,
           "--ps-duration": "5s",
           mixBlendMode: layer.blend,
@@ -327,7 +329,7 @@ export function SceneRenderer({
             style={style}
           >
             <div className="ps-scene-depth">
-              <TintSurface tint={artworkTint(adaptivePalette, index) ?? layer.tint}>
+              <TintSurface tint={adaptiveTint ?? layer.tint}>
                 {layer.source === "media" && layer.assetId && urls[layer.assetId] && (
                   <img
                     className="ps-scene-image"
@@ -345,7 +347,7 @@ export function SceneRenderer({
                 {layer.source === "texture" && (
                   <div
                     className={`ps-texture ps-texture-${layer.texture}`}
-                    style={{ color: artworkTint(adaptivePalette, index)?.color ?? layer.color }}
+                    style={{ color: adaptiveTint?.color ?? layer.color }}
                   >
                     <span />
                     <span />

@@ -568,6 +568,8 @@ export class StudioService {
     for (const scene of [next.studio.base, next.studio.small, next.studio.full])
       for (const l of scene.layers ?? [])
         if (l.tint && !isBasicTint(l.tint.color)) l.tint.color = nearest(l.tint.color);
+    for (const l of next.studio.bannerLayers ?? [])
+      if (l.tint && !isBasicTint(l.tint.color)) l.tint.color = nearest(l.tint.color);
     if (next.decorationTint && !isBasicTint(next.decorationTint.color))
       next.decorationTint.color = nearest(next.decorationTint.color);
     return { ...legacyConfig(next), configVersion: 2 as const, studio: next.studio };
@@ -701,6 +703,10 @@ export class StudioService {
           !id ? null : assetIds(original).includes(id) ? id : (mapping.get(id) ?? null);
         config.avatar = replace(config.avatar);
         config.banner = replace(config.banner);
+        if (config.studio.bannerLayers)
+          config.studio.bannerLayers = config.studio.bannerLayers
+            .filter((l) => !l.assetId || !!replace(l.assetId))
+            .map((l) => ({ ...l, assetId: replace(l.assetId) }));
         config.audio = replace(config.audio);
         for (const key of ["effect", "decoration"] as const)
           if (config[key]?.source === "media") {

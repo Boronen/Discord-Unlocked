@@ -33,6 +33,14 @@ export interface SceneLayer {
   transform: LayerTransform;
   tint: TintStyle | null;
   blend: "normal" | "screen";
+  followMusicColors?: boolean;
+}
+export interface BannerLayer {
+  id: string;
+  assetId: string | null;
+  transform: LayerTransform;
+  tint: TintStyle | null;
+  followMusicColors: boolean;
 }
 export interface StudioBlock {
   id: string;
@@ -50,6 +58,7 @@ export interface SceneConfig {
   parallax: { enabled: boolean; amount: number };
 }
 export interface StudioDocument {
+  bannerLayers?: BannerLayer[];
   base: SceneConfig;
   small: Partial<SceneConfig>;
   full: Partial<SceneConfig>;
@@ -134,6 +143,7 @@ export interface Capabilities {
   features: Record<string, boolean>;
 }
 export const FEATURE_GROUPS = [
+  "bannerLayers",
   "presets",
   "library",
   "scenes",
@@ -146,6 +156,32 @@ export const FEATURE_GROUPS = [
 ] as const;
 export const EMPTY_LIBRARY: PersonalLibrary = { favorites: [], recent: [], collections: [] };
 export const DEFAULT_TRANSFORM: LayerTransform = { x: 0, y: 0, scale: 1, rotation: 0, opacity: 1 };
+export function newBannerLayer(assetId: string | null = null): BannerLayer {
+  return {
+    id: crypto.randomUUID(),
+    assetId,
+    transform: { ...DEFAULT_TRANSFORM },
+    tint: null,
+    followMusicColors: true,
+  };
+}
+/** Old banners retain their original colors until the owner explicitly edits their layers. */
+export function resolveBannerLayers(config: ProfileConfig): BannerLayer[] {
+  return (
+    config.studio?.bannerLayers ??
+    (config.banner
+      ? [
+          {
+            id: "legacy-banner",
+            assetId: config.banner,
+            transform: { ...DEFAULT_TRANSFORM },
+            tint: null,
+            followMusicColors: false,
+          },
+        ]
+      : [])
+  );
+}
 export function newLayer(source: SceneLayer["source"] = "texture"): SceneLayer {
   return {
     id: crypto.randomUUID(),
@@ -222,6 +258,10 @@ export function legacyConfig(config: ProfileConfig): ProfileConfig {
   const preset = scene.layers.find((l) => l.source === "preset");
   return {
     ...base,
+    banner:
+      _studio.bannerLayers === undefined
+        ? base.banner
+        : (_studio.bannerLayers.find((l) => l.assetId)?.assetId ?? null),
     colors: scene.colors,
     albumBackground: scene.albumBackground,
     favoriteSong: _studio.songs[0] ?? null,
@@ -237,6 +277,8 @@ export function tintEntries(config: ProfileConfig): [string, TintStyle][] {
   const entries: [string, TintStyle][] = config.decorationTint ? [["decoration", config.decorationTint]] : [];
   if (config.effectTint) entries.push(["legacyEffect", config.effectTint]);
   const doc = normalizeStudio(config).studio;
+  for (const layer of doc.bannerLayers ?? [])
+    if (layer.tint) entries.push([`banner:${layer.id}`, layer.tint]);
   for (const [surface, scene] of [
     ["base", doc.base],
     ["small", doc.small],
@@ -267,9 +309,16 @@ export function applyViewerOverride(config: ProfileConfig, override: ViewerOverr
   const next = normalizeStudio(config);
   if (override.background === false) {
     next.banner = null;
+    if (next.studio.bannerLayers) next.studio.bannerLayers = [];
     next.colors = null;
   }
   if (override.tint === false) next.effectTint = null;
+  if (override.tint === false && next.studio.bannerLayers)
+    next.studio.bannerLayers = next.studio.bannerLayers.map((l) => ({
+      ...l,
+      tint: null,
+      followMusicColors: false,
+    }));
   for (const scene of [next.studio.base, next.studio.small, next.studio.full]) {
     if (override.background === false) {
       scene.albumBackground = { enabled: false, opacity: 0.25, blur: 12 };
