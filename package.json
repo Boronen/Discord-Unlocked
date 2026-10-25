@@ -40,7 +40,7 @@
     "@fastify/cors": "^11.3.1",
     "@fastify/multipart": "^10.1.4",
     "@fastify/rate-limit": "^11.2.1",
-    "@fastify/static": "^10.1.6",
+    "@fastify/static": "^10.1.7",
     "discord.js": "^14.27.0",
     "dotenv": "^18.0.8",
     "fastify": "^5.12.7",
